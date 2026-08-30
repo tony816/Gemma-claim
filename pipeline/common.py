@@ -116,6 +116,7 @@ class Record:
     target: str                         # assistant target text
     record_id: str
     raw_keys: list[str] = field(default_factory=list)
+    placeholders_injected: bool = False
 
 
 def _content_to_parts(content: Any) -> list[dict[str, Any]]:
@@ -182,6 +183,26 @@ def normalise_record(raw: dict[str, Any], idx: int, split: str, pkg_root: Path) 
         raw_images = [raw_images]
     images = [(pkg_root / str(p)).resolve() for p in raw_images]
 
+    # This release carries images only in the top-level `images` array; the
+    # message content is plain text with no placeholders. Materialise one
+    # placeholder per image, in array order, at the head of the first user turn
+    # so the processor consumes every image in the order the contract fixes.
+    # A record that already carries placeholders is left untouched -- a
+    # mismatch there is a real contract violation and preflight fails on it.
+    injected = False
+    if images and not any(_count_images(m["content"]) for m in norm):
+        for m in norm:
+            if m["role"] == "user":
+                m["content"] = [{"type": "image"} for _ in images] + m["content"]
+                injected = True
+                break
+        if not injected:
+            die(
+                "DATASET_SCHEMA_UNEXPECTED",
+                f"{split}[{idx}] references {len(images)} image(s) but has no user "
+                "turn to attach them to.",
+            )
+
     rid = str(
         raw.get("id")
         or raw.get("record_id")
@@ -196,6 +217,7 @@ def normalise_record(raw: dict[str, Any], idx: int, split: str, pkg_root: Path) 
         target=target,
         record_id=rid,
         raw_keys=sorted(raw),
+        placeholders_injected=injected,
     )
 
 

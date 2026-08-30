@@ -66,6 +66,10 @@ def check_images(recs: list[Record], pkg: Path, report: dict) -> None:
             )
     report["missing_images"] = missing
     report["image_placeholder_mismatch"] = order_mismatch
+    report["records_with_injected_placeholders"] = sum(
+        1 for r in recs if r.placeholders_injected
+    )
+    report["total_images_referenced"] = sum(len(r.images) for r in recs)
     if missing:
         die("MISSING_IMAGE", f"{len(missing)} referenced image(s) absent: {missing[:10]}")
     if order_mismatch:

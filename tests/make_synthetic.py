@@ -34,9 +34,9 @@ for split, count in COUNTS.items():
                 rel = f"images/{fam}_p{j}.png"
                 Image.new("RGB", (64, 80), (240, 240, 240)).save(ROOT / rel)
                 imgs.append(rel)
-            content = [{"type": "image"} for _ in imgs]
-            content.append({"type": "text",
-                            "text": "Draft one independent apparatus claim from these pages."})
+            # The frozen release carries images only in the top-level array and
+            # keeps message content as plain text, so mirror that exactly.
+            content = "Draft one independent apparatus claim from these pages."
             fh.write(json.dumps({
                 "id": f"{fam}__c1",
                 "images": imgs,
