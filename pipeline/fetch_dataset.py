@@ -47,7 +47,8 @@ def download() -> None:
         return
 
     log(f"Downloading Drive file {DRIVE_FILE_ID} with gdown.")
-    rc, out = _run([sys.executable, "-m", "gdown", "--id", DRIVE_FILE_ID,
+    # gdown dropped the --id flag; the id is a positional argument now.
+    rc, out = _run([sys.executable, "-m", "gdown", DRIVE_FILE_ID,
                     "-O", str(ZIP_PATH)])
     if rc != 0:
         blocked = any(
