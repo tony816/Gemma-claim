@@ -58,7 +58,7 @@ PY
 }
 
 wait_for_dataset() {
-  local deadline=$(( SECONDS + ${DATASET_WAIT_SECONDS:-7200} ))
+  local deadline=$(( SECONDS + ${DATASET_WAIT_SECONDS:-1800} ))
   local attempt=0
   while :; do
     attempt=$((attempt + 1))
@@ -73,7 +73,7 @@ wait_for_dataset() {
       return 1
     fi
     if [ $SECONDS -ge $deadline ]; then
-      echo "[fetch] DATASET_WAIT_TIMEOUT after ${DATASET_WAIT_SECONDS:-7200}s"
+      echo "[fetch] DATASET_WAIT_TIMEOUT after ${DATASET_WAIT_SECONDS:-1800}s"
       return 1
     fi
     echo "[fetch] dataset not reachable yet; retrying in 60s"
@@ -118,9 +118,39 @@ main() {
   echo "PIPELINE_STATUS=SUCCESS"
 }
 
+# Hard spend ceiling. An unattended GPU pod is the expensive failure mode, so a
+# watchdog kills PID 1 after MAX_RUNTIME_SECONDS no matter what the pipeline is
+# doing. Billing stops when the container exits.
+watchdog() {
+  local limit="${MAX_RUNTIME_SECONDS:-18000}"
+  sleep "$limit"
+  echo "### WATCHDOG_TIMEOUT after ${limit}s - killing container to stop GPU billing"
+  kill -9 1 2>/dev/null || true
+}
+watchdog &
+
+# Restart-loop guard: a container that exits is restarted by Runpod, and a
+# bootstrap that can never succeed would bill in a loop. Three attempts without
+# reaching the training stage is treated as unrecoverable.
+BOOTS="$OUT_DIR/.boot_count"
+count=$(( $(cat "$BOOTS" 2>/dev/null || echo 0) + 1 ))
+echo "$count" > "$BOOTS"
+echo "[boot] attempt $count"
+if [ "$count" -gt 3 ] && [ ! -f "$MARK/train.done" ]; then
+  echo "### BOOTSTRAP_LOOP_ABORT: $count boots without reaching training. Exiting so billing stops."
+  exit 3
+fi
+
 main
 rc=$?
 echo "PIPELINE_EXIT=$rc"
 echo "PIPELINE_DONE_MARKER"
-# Stay alive so the run can be inspected and stages re-driven via a restart.
-sleep infinity
+
+# On failure hold briefly so the logs can be pulled, then exit -- never idle
+# indefinitely on a paid GPU. On success exit immediately.
+if [ $rc -ne 0 ]; then
+  echo "Holding ${FAILURE_HOLD_SECONDS:-300}s for log retrieval, then exiting."
+  sleep "${FAILURE_HOLD_SECONDS:-300}"
+fi
+echo "PIPELINE_CONTAINER_EXITING rc=$rc"
+exit $rc
