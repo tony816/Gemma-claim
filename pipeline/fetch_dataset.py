@@ -72,6 +72,8 @@ def verify() -> str:
     log(f"sha256={actual}")
     log(f"expect={EXPECTED_SHA256}")
     if actual != EXPECTED_SHA256:
+        OUT.mkdir(parents=True, exist_ok=True)
+        (OUT / ".hash_mismatch").write_text(actual, encoding="utf-8")
         die(
             "DATASET_ZIP_HASH_MISMATCH",
             f"Expected {EXPECTED_SHA256}\nActual   {actual}\n"

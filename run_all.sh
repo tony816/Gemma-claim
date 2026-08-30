@@ -57,6 +57,31 @@ print("gpu", p.name, round(p.total_memory / 2**30, 1), "GiB")
 PY
 }
 
+wait_for_dataset() {
+  local deadline=$(( SECONDS + ${DATASET_WAIT_SECONDS:-7200} ))
+  local attempt=0
+  while :; do
+    attempt=$((attempt + 1))
+    echo "[fetch] attempt $attempt"
+    if python "$CODE_DIR/pipeline/fetch_dataset.py"; then
+      return 0
+    fi
+    # A hash mismatch means the wrong bytes, not a permission problem: never
+    # sit in a retry loop on it.
+    if [ -f "$OUT_DIR/.hash_mismatch" ]; then
+      echo "[fetch] hash mismatch - not retrying"
+      return 1
+    fi
+    if [ $SECONDS -ge $deadline ]; then
+      echo "[fetch] DATASET_WAIT_TIMEOUT after ${DATASET_WAIT_SECONDS:-7200}s"
+      return 1
+    fi
+    echo "[fetch] dataset not reachable yet; retrying in 60s"
+    echo "DATASET_ACCESS_PENDING"
+    sleep 60
+  done
+}
+
 main() {
   banner "ENVIRONMENT"
   nvidia-smi || true
@@ -64,7 +89,15 @@ main() {
   free -g || true
 
   run_stage setup     setup                                        || return 1
-  run_stage fetch     python "$CODE_DIR/pipeline/fetch_dataset.py"  || return 1
+
+  # 62.5 GB of weights is the long pole and is needed regardless of when the
+  # dataset becomes reachable, so warm the cache before waiting on Drive.
+  run_stage prefetch  python "$CODE_DIR/pipeline/prefetch_model.py" || return 1
+
+  # The dataset ZIP may still be private when the pod starts. Rather than dying
+  # on a permission denial, poll until the owner makes it link-readable, so the
+  # run continues by itself the moment access is granted.
+  run_stage fetch     wait_for_dataset                             || return 1
   run_stage preflight python "$CODE_DIR/pipeline/preflight.py"      || return 1
   run_stage audit     python "$CODE_DIR/pipeline/token_audit.py"    || return 1
   run_stage train     python "$CODE_DIR/pipeline/train.py"          || return 1
