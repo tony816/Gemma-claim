@@ -1,0 +1,14 @@
+# Pinned at pod build time; see outputs/environment.txt for the resolved set.
+transformers>=5.5.0
+accelerate>=1.10.0
+peft>=0.17.0
+datasets>=3.6.0
+safetensors>=0.4.5
+sentencepiece>=0.2.0
+pillow>=10.4.0
+huggingface_hub>=0.34.0
+gdown>=5.2.0
+rouge-score>=0.1.2
+sacrebleu>=2.4.3
+numpy>=1.26.0
+pyyaml>=6.0.2
