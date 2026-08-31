@@ -6,3 +6,7 @@ data/
 .env
 
 # packaged skill is a build artifact of skills/runpod-ops/
+
+# description-optimisation run outputs; trigger-eval.json is the input and is kept
+skills/*-workspace/report.html
+skills/*-workspace/[0-9]*_[0-9]*/

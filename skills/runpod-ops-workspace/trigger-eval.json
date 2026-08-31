@@ -1,0 +1,23 @@
+[
+  {"should_trigger": true,  "query": "데이터셋 라벨링이 이번 주에 끝날 것 같은데, 끝나면 바로 RunPod에서 gemma 파인튜닝 다시 돌리려고 해. 지난번에 삽질을 좀 해서 이번엔 좀 깔끔하게 가고 싶은데 뭐부터 준비하면 될까"},
+  {"should_trigger": true,  "query": "my serverless endpoint has 5 workers and all of them show UNHEALTHY. the job just sits IN_QUEUE forever. i pulled the worker logs and there's literally nothing from the container, just \"start container\" over and over from the system side. endpoint id is e5yib... if that matters"},
+  {"should_trigger": true,  "query": "이번달 GPU 비용이 예상보다 3배 나왔어. 파드는 다 껐다고 생각했는데 뭘 놓친 건지 확인 좀 해줄래?"},
+  {"should_trigger": true,  "query": "ok so training finished overnight. val loss went 3.5 -> 1.8 and eval loss dropped too. rougeL went up a bit. am i good to ship this adapter or is there something else i should look at first"},
+  {"should_trigger": true,  "query": "우리 팀이 7B 모델로 사내 문서 QA를 돌릴 건데, 하루에 한 20~30번 정도 호출할 것 같아. 파드를 계속 띄워두는 게 나아 아니면 서버리스가 나아? 비용 차이가 얼마나 날지 궁금해"},
+  {"should_trigger": true,  "query": "every first request to my vllm endpoint takes like 5-6 minutes before anything comes back, then subsequent ones are fast. the model is a 19gb int4 quant. is there any way to make that first hit less painful without paying for an always-on worker"},
+  {"should_trigger": true,  "query": "I have a LoRA adapter I trained against meta-llama/Llama-3.1-8B-Instruct and I want to serve it on top of an AWQ 4-bit quant of the same model to save VRAM. planning to pass it via LORA_MODULES. any gotchas before i wire this up?"},
+  {"should_trigger": true,  "query": "어제 학습 끝나고 정리한다고 네트워크 볼륨을 지웠는데 그 뒤로 추론 엔드포인트 워커가 전부 죽어. 볼륨이랑 엔드포인트는 상관없는 거 아니었어?"},
+  {"should_trigger": true,  "query": "i'm sending {\"messages\": [...], \"sampling_params\": {\"temperature\": 0}} with max_tokens 96 to my runpod endpoint and it keeps returning like 700 tokens. also the model field in the response isn't the one i asked for. what am i doing wrong"},
+  {"should_trigger": true,  "query": "before I kick off this training job on a rented A100 — it's a 13B model, roughly 400 examples, 3 epochs — can you sanity check my setup? I'd rather not burn the GPU hours finding out something's broken"},
+
+  {"should_trigger": false, "query": "LoRA랑 QLoRA 차이가 정확히 뭐야? rank하고 alpha가 실제로 무슨 역할을 하는지 수식 수준까지는 아니어도 직관적으로 이해하고 싶어"},
+  {"should_trigger": false, "query": "we're budgeting for next quarter and I need to estimate what our Claude API spend will look like if we go from ~2M input tokens/day to ~8M. does prompt caching change that math much?"},
+  {"should_trigger": false, "query": "이 PyTorch DataLoader에서 num_workers를 4로 올리면 가끔 멈춰. 코드 좀 봐줄래? collate_fn에서 뭔가 잘못한 것 같은데 못 찾겠어. src/data/loader.py 파일이야"},
+  {"should_trigger": false, "query": "how do I use transformers' pipeline() for zero-shot classification? I want to pass my own candidate labels and get scores back as a dict rather than the default list format"},
+  {"should_trigger": false, "query": "허깅페이스 Space 무료 티어에서 CPU basic으로 gradio 앱 돌리면 몇 시간 안 쓰면 잠드는 걸로 아는데, 비공개 Space도 무료로 만들 수 있어? 팀원 3명만 접근하게 하고 싶어"},
+  {"should_trigger": false, "query": "our customer support bot keeps apologizing too much and hedging on simple factual questions. here's the current system prompt — can you tighten it up so it's more direct without being rude?"},
+  {"should_trigger": false, "query": "사내 쿠버네티스 클러스터에서 팀별로 GPU 쿼터를 나누려고 하는데, ResourceQuota랑 device plugin 설정을 어떻게 잡아야 해? RBAC은 이미 팀 단위로 되어 있어"},
+  {"should_trigger": false, "query": "we're deciding between buying two RTX 6000 Ada cards for the office vs one A100 80GB. mostly inference on 30B-ish models, occasional LoRA training. which makes more sense for a 3 year horizon?"},
+  {"should_trigger": false, "query": "our S3 bill jumped after we turned on versioning. what's the right lifecycle policy to expire noncurrent versions after 30 days but keep the current ones forever? terraform if possible"},
+  {"should_trigger": false, "query": "데이터 라벨링 툴 추천 좀. 특허 도면에 바운딩 박스 치고 부호 번호를 텍스트로 다는 작업인데, 작업자 3명이 동시에 쓸 수 있고 결과를 jsonl로 뽑을 수 있으면 좋겠어"}
+]
