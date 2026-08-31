@@ -48,7 +48,7 @@ SYSTEM_PROMPT = (
     "- No markdown: no headings, no bold, no bullet points, no horizontal rules.\n"
     "- No 'Claim 1:' label.\n"
     "- No drafting notes, rationale, or commentary after the claim.\n"
-    "- No reference numerals in parentheses.\n"
+    "- No reference numerals anywhere, with or without parentheses.\n"
     "\n"
     "Begin with an article ('A' or 'An'). Name the apparatus, then write "
     "'comprising:' followed by the elements. Use one sentence. End with a "
@@ -66,6 +66,10 @@ _CLAIM_START = re.compile(r"(?ms)^[ \t]*(?:A|An)\s+.*?\b(?:comprising|consisting
 _ARTICLE_LINE = re.compile(r"(?m)^[ \t]*(?:A|An)\s+\S")
 # Only cut on a marker that FOLLOWS the claim - the base model also emits a
 # horizontal rule before it.
+_NUMERAL = re.compile(
+    r"\s+\d{1,4}\b(?!\.\d)(?=\s*(?:[;,.]|and\b|the\b|to\b|such\b|wherein\b|is\b|are\b"
+    r"|that\b|which\b|for\b|in\b|of\b|connected\b|disposed\b|extending\b|having\b))"
+)
 _NOTES = re.compile(
     r"\n\s*(?:\*{3,}|-{3,}|_{3,}|#{1,6}\s|Drafting\s+Notes|Notes\s*&|Rationale\b|Notes\s*:)",
     re.IGNORECASE,
@@ -109,6 +113,15 @@ def sanitise(text: str) -> tuple[str, list[str]]:
     if "**" in out or "__" in out:
         out = out.replace("**", "").replace("__", "")
         removed.append("emphasis markers")
+
+    # The model complies with "no reference numerals in parentheses" by writing
+    # them bare ("a housing 10"), so strip a bare integer only where a numeral
+    # can appear: directly before punctuation or a structural word. A real
+    # quantity is followed by its unit ("100 pL") and is left alone.
+    stripped = _NUMERAL.sub("", out)
+    if stripped != out:
+        out = stripped
+        removed.append("reference numerals")
 
     return out.strip(), removed
 
