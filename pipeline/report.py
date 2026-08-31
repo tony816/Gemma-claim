@@ -52,7 +52,8 @@ def main() -> None:
     present = [a for a in REQUIRED_ARTIFACTS if (OUT / a).exists()]
     missing = [a for a in REQUIRED_ARTIFACTS if not (OUT / a).exists()]
     # FINAL_TRAINING_REPORT.md is written by this script, so do not require it of itself.
-    artifacts_ready = not [m for m in missing if m != "FINAL_TRAINING_REPORT.md"]
+    shown_missing = [m for m in missing if m != "FINAL_TRAINING_REPORT.md"]
+    artifacts_ready = not shown_missing
 
     status = {
         "DATA_DOWNLOAD_VERIFIED": bool(dl.get("DATA_DOWNLOAD_VERIFIED")),
@@ -129,7 +130,7 @@ tower is frozen; LoRA is applied to the language tower only, so visual features
 are not perturbed by 91 examples.
 
 - LoRA rank {cfg.get('lora_r')}, alpha {cfg.get('lora_alpha')}, dropout {cfg.get('lora_dropout')}
-- Target modules: {cfg.get('lora_target_modules')}
+- Target modules: {cfg.get('lora_target_module_count', '?')} language-tower projections, suffixes {cfg.get('lora_target_suffixes')}\n  (exact module list in the adapter's `adapter_config.json`)
 - Trainable parameters: {trainable_line}
 
 ## Data
@@ -176,7 +177,7 @@ adapter enabled and disabled, under identical decoding settings
 All under `{OUT}`:
 
 {chr(10).join('- `' + a + '`' for a in present)}
-{('' if not missing else chr(10).join('- MISSING: `' + a + '`' for a in missing))}
+{('' if not shown_missing else chr(10).join('- MISSING: `' + a + '`' for a in shown_missing))}
 
 ## Reproduce
 
