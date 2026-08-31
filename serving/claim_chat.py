@@ -11,6 +11,7 @@ tony816/Gemma 의 gemma_chat.py 를 Gemma-claim 용으로 맞춘 것입니다.
 
 준비 (최초 1회):
     pip install openai
+    pip install pillow      # 클립보드 이미지 첨부를 쓸 때만
 
     # RunPod 사용 시 (기본값)
     export RUNPOD_API_KEY='런팟_키'
@@ -32,6 +33,9 @@ RunPod은 GPU를 시간당 빌리는 방식이라 토큰이 아니라 '깨어 �
 대화 중 명령어:
     /help          명령어 목록
     /image <경로...>  도면 첨부. 여러 장이면 figure 순서대로 나열
+    /image         경로 없이 쓰면 클립보드의 이미지를 첨부
+    /clip, /v      클립보드의 이미지를 첨부
+    (경로만 입력)  터미널에 도면을 끌어다 놓으면 그대로 첨부
     /paste         여러 줄 붙여넣기 (긴 청구항 등)
     /new           대화 초기화
     /undo          마지막 주고받기 취소
@@ -46,6 +50,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import io
 import json
 import mimetypes
 import os
@@ -109,6 +114,14 @@ C_OFF = "\033[0m"
 
 if os.name == "nt" and not os.environ.get("WT_SESSION"):
     C_DIM = C_USER = C_BOT = C_WARN = C_OFF = ""
+
+# 한국어 콘솔은 출력 인코딩이 cp949 라, 표현 못 하는 글자 하나에 프로그램이
+# 통째로 죽습니다. 인코딩은 콘솔 것을 그대로 두고 실패만 흘려보냅니다.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(errors="replace")
+    except (AttributeError, OSError, ValueError):
+        pass
 
 
 class Chat:
@@ -260,6 +273,9 @@ class Chat:
 
 HELP = """
   /image <경로> [질문]   이미지 첨부해서 질문 (도면·그래프·스크린샷)
+  /image          경로 없이 쓰면 클립보드의 이미지를 첨부
+  /clip [질문]    클립보드의 이미지를 첨부 (/v 도 같음)
+  (경로만 입력)   터미널에 파일을 끌어다 놓으면 그대로 첨부
   /paste          여러 줄 붙여넣기 — 다 붙인 뒤 마지막 줄에 . 만 입력
   /new            대화 초기화 (비용 누적도 리셋)
   /undo           마지막 질문과 답변 취소
@@ -292,23 +308,104 @@ def load_image(path_str: str) -> str | None:
     return f"data:{mime};base64,{b64}"
 
 
+def strip_quotes(tok: str) -> str:
+    """드롭한 경로를 감싼 따옴표를 걷어냅니다."""
+    tok = tok.strip()
+    if len(tok) >= 2 and tok[0] == tok[-1] and tok[0] in "\"'":
+        tok = tok[1:-1]
+    return tok
+
+
+def split_tokens(arg: str) -> list[str]:
+    """터미널이 떨어뜨린 줄을 토큰으로 가릅니다.
+
+    드래그앤드롭 형식이 플랫폼마다 다릅니다. Windows Terminal 은 공백이 든
+    경로를 따옴표로 감싸고, macOS·Linux 터미널은 공백을 역슬래시로 이스케이프
+    합니다. posix 모드를 플랫폼에 맞춰야 둘 다 제대로 풀립니다 — Windows 에서
+    posix=True 로 파싱하면 경로 구분자인 역슬래시를 이스케이프로 먹어버립니다.
+    """
+    posix = os.name != "nt"
+    try:
+        tokens = shlex.split(arg, posix=posix)
+    except ValueError:
+        tokens = arg.split()
+    return [strip_quotes(t) for t in tokens if t.strip()]
+
+
+def dnd_paths(raw: str) -> list[str]:
+    """줄 전체가 이미지 경로뿐이면 그 경로들을, 아니면 빈 목록을 돌려줍니다.
+
+    터미널에 도면을 끌어다 놓으면 경로만 적힌 줄이 됩니다. /image 를 앞에
+    붙이지 않아도 첨부로 받기 위한 판별입니다. 한 토큰이라도 실제 이미지
+    파일이 아니면 일반 질문으로 넘깁니다.
+    """
+    def is_image(tok: str) -> bool:
+        path = Path(tok).expanduser()
+        return path.suffix.lower() in IMAGE_EXTS and path.exists()
+
+    tokens = split_tokens(raw)
+    if tokens and all(is_image(t) for t in tokens):
+        return tokens
+
+    # 공백이 든 경로를 따옴표 없이 떨어뜨리는 터미널도 있습니다. 토큰으로
+    # 갈랐을 때 안 맞으면 줄 전체를 경로 하나로 보고 다시 봅니다.
+    whole = strip_quotes(raw)
+    return [whole] if is_image(whole) else []
+
+
+def clipboard_images() -> list[str]:
+    """클립보드에 든 이미지를 data URI 목록으로. 없으면 빈 목록.
+
+    터미널은 이미지 붙여넣기를 글자로 받지 못하므로, 붙여넣는 대신 이 함수가
+    클립보드를 직접 읽습니다. 캡처한 비트맵과 탐색기에서 복사한 파일 둘 다
+    들어올 수 있어 갈라서 처리합니다.
+    """
+    try:
+        from PIL import ImageGrab
+    except ImportError:
+        print(f"{C_WARN}  클립보드를 읽으려면 pillow 가 필요합니다.  pip install pillow{C_OFF}")
+        return []
+
+    try:
+        grabbed = ImageGrab.grabclipboard()
+    except Exception as exc:  # Linux 는 xclip/wl-paste 가 있어야 합니다.
+        print(f"{C_WARN}  클립보드를 읽지 못했습니다: {exc}{C_OFF}")
+        return []
+
+    if grabbed is None:
+        print(f"{C_WARN}  클립보드에 이미지가 없습니다. 캡처하거나 파일을 복사한 뒤 다시 시도하세요.{C_OFF}")
+        return []
+
+    if isinstance(grabbed, list):  # 탐색기에서 복사한 파일 — 경로로 옵니다.
+        return [u for u in (load_image(p) for p in grabbed) if u]
+
+    # 캡처 비트맵. Windows 클립보드는 알파가 0으로 채워져 오는 경우가 있어
+    # 알파를 버리고 RGB 로 눕힙니다. 그대로 두면 전부 투명한 그림이 됩니다.
+    img = grabbed.convert("RGB") if grabbed.mode not in ("RGB", "L") else grabbed
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    data = buf.getvalue()
+    mb = len(data) / 1024 / 1024
+    if mb > MAX_IMAGE_MB:
+        print(f"{C_WARN}  클립보드 이미지가 너무 큽니다: {mb:.1f}MB (최대 {MAX_IMAGE_MB}MB){C_OFF}")
+        return []
+    print(f"{C_DIM}  첨부: 클립보드 이미지 {img.width}x{img.height} ({mb:.1f}MB){C_OFF}")
+    return ["data:image/png;base64," + base64.b64encode(data).decode()]
+
+
 def split_image_args(arg: str) -> tuple[list[str], str]:
     """앞쪽에 이어지는 이미지 파일들을 경로로, 나머지를 질문으로 가릅니다.
 
     도면은 figure 순서가 의미를 가지므로 적힌 순서를 그대로 유지합니다.
     """
-    try:
-        tokens = shlex.split(arg, posix=False)
-    except ValueError:
-        tokens = arg.split()
+    tokens = split_tokens(arg)
 
     paths: list[str] = []
     rest: list[str] = []
     for i, tok in enumerate(tokens):
-        clean = tok.strip('"').strip("'")
-        cand = Path(clean).expanduser()
+        cand = Path(tok).expanduser()
         if cand.suffix.lower() in IMAGE_EXTS and cand.exists():
-            paths.append(clean)
+            paths.append(tok)
         else:
             rest = tokens[i:]
             break
@@ -322,6 +419,22 @@ def split_image_args(arg: str) -> tuple[list[str], str]:
         if cand and Path(cand).expanduser().exists():
             return [cand], arg[sep:].strip()
     return [], arg.strip()
+
+
+def ask_with_images(chat: Chat, urls: list[str], question: str) -> None:
+    """첨부한 이미지와 함께 질문합니다. 질문이 비어 있으면 한 번 더 물어봅니다."""
+    if not urls:
+        return
+    if not question:
+        try:
+            question = input(f"{C_USER}질문{C_OFF}  ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            return
+    default_ask = ("이 도면들에 나타난 발명에 대한 독립항을 작성해줘."
+                   if chat.system else "이 이미지를 설명해줘.")
+    chat.ask(question or default_ask, images=urls)
+    print()
 
 
 def read_paste() -> str:
@@ -459,6 +572,7 @@ def main() -> None:
     print(f"\n{C_BOT}Gemma 4 31B{C_OFF} {C_DIM}· {prov['label']} · {mode} · /help 로 명령어 보기{C_OFF}")
     if claim_mode:
         print(f"{C_DIM}도면 여러 장은 figure 순서대로: /image 도면1.png 도면2.png{C_OFF}")
+        print(f"{C_DIM}터미널에 끌어다 놓거나, 캡처해서 /clip 으로도 첨부됩니다.{C_OFF}")
     if chat.turns:
         print(f"{C_DIM}이어가기: {chat.turns}턴{C_OFF}")
     print()
@@ -473,6 +587,18 @@ def main() -> None:
         if not raw:
             continue
 
+        # 터미널에 도면을 끌어다 놓으면 경로만 적힌 줄이 됩니다. 명령어를 앞에
+        # 붙이지 않아도 첨부로 받습니다. POSIX 경로가 /로 시작하므로 아래
+        # 명령어 분기보다 먼저 봐야 합니다.
+        dropped = dnd_paths(raw)
+        if dropped:
+            urls = [u for u in (load_image(p) for p in dropped) if u]
+            if len(urls) != len(dropped):
+                print(f"{C_WARN}  일부 도면을 읽지 못해 중단합니다.{C_OFF}\n")
+                continue
+            ask_with_images(chat, urls, "")
+            continue
+
         if raw.startswith("/"):
             if raw == "/paste":
                 pasted = read_paste()
@@ -480,10 +606,16 @@ def main() -> None:
                     chat.ask(pasted)
                     print()
                 continue
+            head, _, rest = raw.partition(" ")
+            if head in ("/clip", "/v"):
+                ask_with_images(chat, clipboard_images(), rest.strip())
+                continue
             if raw.startswith("/image"):
                 arg = raw[len("/image"):].strip()
                 if not arg:
-                    print(f"{C_WARN}  경로를 적어주세요. 예: /image 도면1.png 도면2.png{C_OFF}\n")
+                    # 경로가 없으면 클립보드를 봅니다. 터미널은 이미지 붙여넣기를
+                    # 글자로 받지 못하므로 클립보드를 직접 읽는 수밖에 없습니다.
+                    ask_with_images(chat, clipboard_images(), "")
                     continue
                 img_paths, question = split_image_args(arg)
                 if not img_paths:
@@ -493,17 +625,7 @@ def main() -> None:
                 if len(urls) != len(img_paths):
                     print(f"{C_WARN}  일부 도면을 읽지 못해 중단합니다.{C_OFF}\n")
                     continue
-                if urls:
-                    if not question:
-                        try:
-                            question = input(f"{C_USER}질문{C_OFF}  ").strip()
-                        except (EOFError, KeyboardInterrupt):
-                            print()
-                            continue
-                    default_ask = ("이 도면들에 나타난 발명에 대한 독립항을 작성해줘."
-                                   if chat.system else "이 이미지를 설명해줘.")
-                    chat.ask(question or default_ask, images=urls)
-                    print()
+                ask_with_images(chat, urls, question)
                 continue
             try:
                 if handle_command(chat, raw):
