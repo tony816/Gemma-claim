@@ -10,6 +10,7 @@ already has are not disturbed by 91 examples.
 """
 from __future__ import annotations
 
+import inspect
 import json
 import math
 import os
@@ -134,6 +135,7 @@ class JsonlLogger:
 
 
 def main() -> None:
+    import transformers
     from peft import LoraConfig, get_peft_model
     from transformers import (
         AutoProcessor,
@@ -204,7 +206,7 @@ def main() -> None:
                 if isinstance(v, float) and (math.isnan(v) or math.isinf(v)):
                     die("NAN_OR_INF_LOSS", f"{k}={v} at step {state.global_step}")
 
-    args = TrainingArguments(
+    wanted = dict(
         output_dir=str(CKPT_DIR),
         seed=SEED, data_seed=SEED,
         num_train_epochs=CFG["num_train_epochs"],
@@ -231,6 +233,62 @@ def main() -> None:
         dataloader_num_workers=0,
         label_names=["labels"],
     )
+
+    # TrainingArguments has been reshaped across transformers releases: v5 drops
+    # or renames several long-standing arguments. Adapt to the signature that is
+    # actually installed rather than pinning one, and be explicit in the log and
+    # the run config about anything that could not be honoured -- a silently
+    # dropped argument would change training without showing up in the report.
+    accepted = set(inspect.signature(TrainingArguments.__init__).parameters)
+    aliases = {
+        "eval_strategy": ("evaluation_strategy",),
+        "evaluation_strategy": ("eval_strategy",),
+    }
+    kwargs: dict = {}
+    dropped: list[str] = []
+    for key, value in wanted.items():
+        if key in accepted:
+            kwargs[key] = value
+            continue
+        alt = next((a for a in aliases.get(key, ()) if a in accepted), None)
+        if alt:
+            log(f"[train] TrainingArguments: '{key}' -> '{alt}' on this release")
+            kwargs[alt] = value
+        else:
+            dropped.append(key)
+
+    # Warmup is a training decision, not a formatting detail: if the ratio form
+    # is gone, express the same intent in steps rather than losing the warmup.
+    if "warmup_ratio" in dropped and "warmup_steps" in accepted:
+        steps = max(1, round(CFG["warmup_ratio"] * CFG["total_optimizer_steps"]))
+        kwargs["warmup_steps"] = steps
+        dropped.remove("warmup_ratio")
+        log(f"[train] TrainingArguments: warmup_ratio={CFG['warmup_ratio']} expressed "
+            f"as warmup_steps={steps} of {CFG['total_optimizer_steps']}")
+        CFG["warmup_steps"] = steps
+
+    # Losing any of these would change what is trained or how the checkpoint is
+    # chosen, so an incompatible release has to stop the run rather than quietly
+    # train something else.
+    essential = {
+        "bf16", "gradient_checkpointing", "remove_unused_columns", "label_names",
+        "eval_strategy", "save_strategy", "load_best_model_at_end",
+        "metric_for_best_model", "learning_rate", "num_train_epochs",
+        "per_device_train_batch_size", "gradient_accumulation_steps", "seed",
+        "output_dir", "max_grad_norm", "weight_decay", "lr_scheduler_type",
+    }
+    blocking = sorted(set(dropped) & essential)
+    if blocking:
+        die("TRAINING_ARGUMENTS_INCOMPATIBLE",
+            f"transformers {transformers.__version__} does not accept {blocking}, "
+            "and proceeding without them would change training. Accepted "
+            f"parameters: {sorted(accepted)}")
+    if dropped:
+        log(f"[train] TrainingArguments does not accept {dropped} on transformers "
+            f"{transformers.__version__}; proceeding without them.")
+    CFG["unsupported_training_arguments"] = dropped
+
+    args = TrainingArguments(**kwargs)
 
     pad_id = processor.tokenizer.pad_token_id or 0
     trainer = Trainer(
