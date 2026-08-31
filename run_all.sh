@@ -11,6 +11,9 @@ export HF_HOME="${HF_HOME:-$WORKSPACE/hf_home}"
 export PYTHONPATH="$CODE_DIR/pipeline:${PYTHONPATH:-}"
 export PYTHONUNBUFFERED=1
 export TOKENIZERS_PARALLELISM=false
+# pip installs into the container, which is recreated on every restart, so
+# keep the wheel cache on the volume to make the reinstall cheap.
+export PIP_CACHE_DIR="${PIP_CACHE_DIR:-$WORKSPACE/.pipcache}"
 
 MARK="$OUT_DIR/.stage"
 mkdir -p "$OUT_DIR" "$MARK" "$HF_HOME" "$WORKSPACE/data"
@@ -88,6 +91,13 @@ main() {
   df -h "$WORKSPACE" || true
   free -g || true
 
+  # Stage markers live on the volume but pip installs into the container, which
+  # is recreated on every restart. A marker claiming setup is done while the
+  # packages are gone would skip straight into an import error, so let the
+  # environment itself decide.
+  if ! python -c "import transformers, peft, accelerate" >/dev/null 2>&1; then
+    rm -f "$MARK/setup.done"
+  fi
   run_stage setup     setup                                        || return 1
 
   # 62.5 GB of weights is the long pole and is needed regardless of when the
