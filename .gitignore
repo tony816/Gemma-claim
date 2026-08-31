@@ -9,4 +9,5 @@ data/
 
 # description-optimisation run outputs; trigger-eval.json is the input and is kept
 skills/*-workspace/report.html
+skills/*-workspace/*.out
 skills/*-workspace/[0-9]*_[0-9]*/
