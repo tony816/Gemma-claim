@@ -1,10 +1,13 @@
 """Record -> model tensors, with assistant-only loss masking.
 
 The mask is derived structurally rather than by pattern-matching the chat
-template: the generation prompt for a record is rendered, checked to be a
-strict prefix of the full conversation, and every token in that prefix is set
-to -100. Image placeholders, system/user text and padding therefore carry no
-loss; only the assistant response does.
+template. The real generation prompt is rendered -- the exact text the model
+is given at inference -- and the assistant body is located with a sentinel
+render, so the training sequence is that prompt followed by the template's own
+rendering of the response. The prompt is a strict prefix of that sequence by
+construction, and every token in it is set to -100. Image placeholders,
+system/user text and padding therefore carry no loss; only the assistant
+response does.
 """
 from __future__ import annotations
 
@@ -18,24 +21,70 @@ from common import Record, build_chat_messages, die, images_of
 IGNORE_INDEX = -100
 
 
+SENTINEL = "ZQXASSISTANTBODYQZX"
+
+# Gemma 4 renders a generation prompt in non-thinking mode as the conversation
+# prefix plus an empty, immediately closed thought channel. That is the prompt
+# the model is actually given at inference, so it is also what the training
+# target has to follow -- the plain full-conversation rendering omits it.
+THOUGHT_OPENER = "<|channel>thought\n<channel|>"
+
+
 def render_texts(processor, rec: Record) -> tuple[str, str]:
-    full = processor.apply_chat_template(
-        build_chat_messages(rec, for_prompt=False),
-        tokenize=False, add_generation_prompt=False,
-    )
+    """Render (full, prompt) such that prompt is a strict prefix of full.
+
+    The prompt is the real generation prompt, so training matches inference
+    exactly. The full sequence is that prompt followed by the assistant body
+    and the turn terminator, both taken verbatim from the template's own
+    rendering rather than assembled by hand.
+
+    The assistant body is located with a sentinel render instead of by
+    pattern-matching the template, so nothing here depends on Gemma's markup.
+    """
+    msgs_full = build_chat_messages(rec, for_prompt=False)
     prompt = processor.apply_chat_template(
         build_chat_messages(rec, for_prompt=True),
         tokenize=False, add_generation_prompt=True,
     )
-    if not full.startswith(prompt):
-        die(
-            "CHAT_TEMPLATE_PREFIX_VIOLATION",
-            "The rendered generation prompt is not a prefix of the rendered full "
-            "conversation, so assistant-only loss masking cannot be derived "
-            f"safely.\n--- prompt tail ---\n{prompt[-400:]}\n"
-            f"--- full at same offset ---\n{full[:len(prompt)][-400:]}",
-        )
-    return full, prompt
+    full_render = processor.apply_chat_template(
+        msgs_full, tokenize=False, add_generation_prompt=False,
+    )
+
+    probe_msgs = [dict(m) for m in msgs_full]
+    probe_msgs[-1] = dict(probe_msgs[-1])
+    probe_msgs[-1]["content"] = [{"type": "text", "text": SENTINEL}]
+    probe = processor.apply_chat_template(
+        probe_msgs, tokenize=False, add_generation_prompt=False,
+    )
+    if probe.count(SENTINEL) != 1:
+        die("CHAT_TEMPLATE_PROBE_FAILED",
+            f"{rec.record_id}: the sentinel appears {probe.count(SENTINEL)} times in "
+            "the probe rendering, so the assistant body cannot be located.")
+    head, _, tail = probe.partition(SENTINEL)
+
+    if not full_render.startswith(head):
+        die("CHAT_TEMPLATE_PREFIX_VIOLATION",
+            f"{rec.record_id}: the template does not render the conversation prefix "
+            "identically with and without the real assistant content.\n"
+            f"--- head tail ---\n{head[-400:]}\n"
+            f"--- full at same offset ---\n{full_render[:len(head)][-400:]}")
+
+    # The generation prompt must be the conversation prefix, optionally plus the
+    # empty thought channel. Anything else means the template changed shape and
+    # the mask boundary can no longer be trusted.
+    delta = prompt[len(head):] if prompt.startswith(head) else None
+    if delta is None or delta not in ("", THOUGHT_OPENER):
+        die("CHAT_TEMPLATE_PREFIX_VIOLATION",
+            f"{rec.record_id}: the generation prompt is not the conversation prefix "
+            "plus at most an empty thought channel, so assistant-only loss masking "
+            f"cannot be derived safely.\n--- prompt tail ---\n{prompt[-400:]}\n"
+            f"--- conversation prefix tail ---\n{head[-400:]}")
+
+    body = full_render[len(head):]
+    if not body.strip():
+        die("EMPTY_ASSISTANT_TARGET",
+            f"{rec.record_id}: the assistant turn renders to nothing.")
+    return prompt + body, prompt
 
 
 def _call_processor(processor, text: str, imgs: list) -> dict:

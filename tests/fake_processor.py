@@ -35,16 +35,30 @@ class FakeProcessor:
                 out.append("<image>" if part["type"] == "image" else part.get("text", ""))
             out.append("<end_of_turn>\n")
         if add_generation_prompt:
-            out.append("<start_of_turn>model\n")
+            # Gemma 4 opens an empty thought channel in non-thinking mode, so the
+            # generation prompt is deliberately NOT a prefix of the plain
+            # conversation rendering. Mirror that, otherwise the fake would not
+            # exercise the code path that reconciles the two.
+            out.append("<start_of_turn>model\n<|channel>thought\n<channel|>")
         return "".join(out)
 
     def __call__(self, text=None, images=None, return_tensors="pt", padding=False):
+        import re
         import zlib
 
+        # Real tokenisers match special markers atomically, which is what keeps
+        # a concatenated prompt+body tokenising as prompt tokens followed by
+        # body tokens. Model that here, otherwise the fake would merge across
+        # the boundary and fail a check the real tokeniser passes.
+        special = re.compile(r"<\|?[a-z_]+\|?>")
         chunks = text.split("<image>")
         ids: list[int] = []
         for i, chunk in enumerate(chunks):
-            ids.extend(zlib.crc32(w.encode()) % 10000 + 10 for w in chunk.split())
+            for piece in filter(None, re.split(r"(" + special.pattern + r")", chunk)):
+                if special.fullmatch(piece):
+                    ids.append(zlib.crc32(piece.encode()) % 1000 + 100000)
+                else:
+                    ids.extend(zlib.crc32(w.encode()) % 10000 + 10 for w in piece.split())
             if i < len(chunks) - 1:
                 ids.extend([7] * IMG_TOKENS)
         t = torch.tensor(ids, dtype=torch.long).unsqueeze(0)
