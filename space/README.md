@@ -4,6 +4,8 @@ emoji: 📐
 colorFrom: blue
 colorTo: gray
 sdk: gradio
+sdk_version: 6.26.0
+python_version: '3.12'
 app_file: app.py
 pinned: false
 ---
@@ -58,6 +60,13 @@ Space 설정 → **Variables and secrets**:
 0건이었습니다. 베이스 모델은 도면을 정확히 읽으므로, 부족했던 형식만 시스템
 프롬프트로 채우는 쪽을 택했습니다. 근거는 저장소의
 `run_artifacts/POST_HOC_GENERATION_AUDIT.md` 에 있습니다.
+
+## Gradio 버전
+
+`sdk_version` 을 6.26.0 으로 고정했습니다. 이 버전에서 실제로 빌드·동작을
+확인했습니다. 6.x 는 `Chatbot(type=)` 과 `Textbox(show_copy_button=)` 을 없앴고
+5.x 는 전자가 있어야 dict 형식 메시지를 받으므로, `app.py` 는 설치된 시그니처를
+보고 맞춥니다. 버전을 올리더라도 그대로 동작합니다.
 
 ## 배포
 
