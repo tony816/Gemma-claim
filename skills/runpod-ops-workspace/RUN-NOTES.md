@@ -37,3 +37,41 @@ Pass `--timeout 120`. Budget the quota first: one iteration is
 (train + test) × runs-per-query invocations — 60 at the defaults — and each
 takes about a minute. Five iterations is ~300 invocations. Consider
 `--runs-per-query 2 --max-iterations 2`.
+
+---
+
+# Validation run — real numbers
+
+`scripts/run_eval.py`, `--timeout 120 --runs-per-query 2 --num-workers 5`.
+20 queries, 40 invocations. **14/20.**
+
+| | passed | note |
+|---|---|---|
+| should NOT trigger | **10/10** | no false positives at all |
+| should trigger | **4/10** | and all four sit at exactly 0.5, none at 1.0 |
+
+## Reading it
+
+The description **under-triggers**. A clean sweep on the negatives — including
+deliberately near-miss cases (buying GPUs rather than renting, an Anthropic API
+budget, a Hugging Face Space free tier, Kubernetes GPU quota, LoRA as a concept)
+— says there is room to be far more aggressive without cost.
+
+Two contributing causes, one fixable:
+
+1. **Length dilutes.** The manual probe that triggered on
+   "5 workers UNHEALTHY, no container logs" used a ~50-word description. The
+   real 145-word one scores 0.0 on that same query.
+2. **The model believes it already knows.** Several failing positives — a LoRA
+   on a quantized base, pod vs serverless, "sanity check my setup" — are ones a
+   model will answer from its own knowledge rather than consult a skill for. The
+   description has to say that what is inside contradicts the obvious answer,
+   not merely that the topic matches.
+
+Note `--runs-per-query 2` gives coarse resolution: 0.5 could be anywhere from
+0.33 to 0.67. The *pattern* across ten positives — never 1.0 — is what carries
+the conclusion, not any single rate.
+
+## Not acted on
+
+The description was left unchanged; this run was validation only.
