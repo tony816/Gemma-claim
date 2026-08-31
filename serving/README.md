@@ -112,3 +112,70 @@ nothing to lose.
 RunPod's API does not surface container stdout for these workers, only system
 lines. Repeated `start container` entries a few seconds apart, with no container
 output, is the crash-loop signature.
+
+## 대화형 클라이언트
+
+`tony816/Gemma` 의 `gemma_chat.py` / `gemma_batch.py` 를 이 프로젝트에 맞춰
+가져온 것이 `claim_chat.py` / `claim_batch.py` 입니다. 스트리밍, 대화 기억,
+저장·불러오기, 비용 누적 표시는 원본 그대로입니다.
+
+```bash
+pip install openai
+export RUNPOD_API_KEY='런팟_키'
+python serving/claim_chat.py
+```
+
+`RUNPOD_ENDPOINT_ID` 는 생략하면 이 프로젝트의 엔드포인트가 기본값입니다.
+
+### 원본에서 바뀐 것
+
+| | 원본 | 여기 |
+|---|---|---|
+| 엔드포인트 | `e5yibbozs40ji4` (삭제됨) | `fdiltabt78bogm` |
+| GPU 단가 | $1.75/hr (두 풀 중 비싼 쪽) | $1.22/hr (AMPERE_48 단일 풀) |
+| 유휴 타임아웃 | 600 s | 300 s |
+| 히스토리 | 30턴 | 12턴 (컨텍스트가 32K → 16K) |
+| 시스템 프롬프트 | 없음 | 청구항 작성용이 기본 |
+| `/image` | 1장 | 여러 장, figure 순서 유지 |
+| temperature | 0.7 고정 | 청구항 모드 0.2 / 일반 0.7 |
+
+시스템 프롬프트와 sanitiser는 `claim_client.py` 에서 그대로 가져다 씁니다.
+같은 문구를 두 군데 두지 않으려는 것이고, 그쪽을 고치면 대화창에도 반영됩니다.
+
+```bash
+python serving/claim_chat.py --plain                 # 청구항 프롬프트 없이
+python serving/claim_chat.py --system "..."          # 다른 프롬프트로
+python serving/claim_chat.py --temperature 0.5
+```
+
+대화 중:
+
+```
+/image 도면1.png 도면2.png 도면3.png
+/image 도면1.png 이 도면의 구성요소를 청구항 1의 한정과 대응시켜줘
+```
+
+도면은 **적은 순서 그대로** 전달됩니다. 답변이 형식을 어기면(마크다운, 도면
+부호 등) 원문 아래에 다듬은 결과를 함께 보여줍니다. 히스토리에는 모델이 실제로
+낸 말을 남기므로 다음 턴의 맥락은 어긋나지 않습니다.
+
+### 배치
+
+`claim_batch.py` 는 프롬프트를 여러 건 동시에 던져 JSONL로 받습니다.
+**텍스트 전용**이라 도면은 다루지 못합니다. 도면이 필요하면 `claim_chat.py`
+또는 `claim_client.py` 를 쓰세요.
+
+```bash
+python serving/claim_batch.py prompts.txt --dry-run   # 호출 없이 비용만
+python serving/claim_batch.py prompts.txt -o 결과.jsonl
+```
+
+### 한 가지 미검증 사항
+
+이 클라이언트는 `https://api.runpod.ai/v2/{id}/openai/v1` (OpenAI 호환 경로)로
+붙습니다. 이 경로는 worker-vllm의 표준 인터페이스이고, 핸들러 쪽 OpenAI
+패스스루는 `claim_client.py` 로 실측 확인했습니다. 다만 RunPod 게이트웨이의
+`/openai/v1` 경로 자체는 API 키가 없어 직접 호출해 보지 못했습니다.
+
+첫 실행이 곧 검증입니다. 만약 404나 인증 오류가 나면 `claim_client.py` 가
+검증된 경로(`/run` + `/status`)를 쓰므로 그쪽으로 대체하면 됩니다.
