@@ -141,6 +141,30 @@ watchdog &
 # restarted), so the abort path holds before exiting rather than spinning at
 # the restart interval: same cost per hour, legible logs, and a window to pull
 # them. Only stop-pod from outside actually stops the meter.
+# The code payload is injected as base64 env chunks and overlaid onto
+# /workspace/code, so a payload that arrives corrupted can leave a partially
+# rewritten tree behind. Syntax-check every module before doing anything
+# expensive: a broken tree must fail loudly here, not halfway through training.
+verify_code() {
+  local bad=0 f
+  for f in "$CODE_DIR"/pipeline/*.py; do
+    if ! python3 -c "import ast,sys; ast.parse(open(sys.argv[1]).read())" "$f" 2>/dev/null; then
+      echo "### CODE_TREE_CORRUPT $f"
+      bad=1
+    fi
+  done
+  for f in common dataset preflight token_audit train evaluate push_hub report inference prefetch_model fetch_dataset; do
+    [ -f "$CODE_DIR/pipeline/$f.py" ] || { echo "### CODE_TREE_MISSING pipeline/$f.py"; bad=1; }
+  done
+  if [ "$bad" -ne 0 ]; then
+    echo "### CODE_TREE_UNUSABLE - refusing to run. Reship the affected files."
+    sleep "${ABORT_HOLD_SECONDS:-600}"
+    exit 4
+  fi
+  echo "[boot] code tree verified"
+}
+verify_code
+
 BOOTS="$OUT_DIR/.boot_count.${BOOT_EPOCH:-0}"
 count=$(( $(cat "$BOOTS" 2>/dev/null || echo 0) + 1 ))
 echo "$count" > "$BOOTS"
