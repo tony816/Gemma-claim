@@ -87,23 +87,39 @@ def environment_txt() -> None:
 
 
 def discover_lora_targets(model) -> list[str]:
-    """LoRA goes on the language tower only; vision/audio stay frozen."""
-    skip = ("vision_tower", "vision_model", "audio_tower", "multi_modal_projector",
-            "embed_tokens", "lm_head")
-    names: set[str] = set()
+    """LoRA goes on the language tower only; vision/audio stay frozen.
+
+    Fully-qualified module names are returned rather than bare suffixes. PEFT
+    matches a bare suffix everywhere it occurs, which would pull in the vision
+    tower's identically named projections -- and Gemma 4 wraps those in
+    Gemma4ClippableLinear, which PEFT cannot adapt. Exact names keep the
+    selection to the modules that were actually inspected here.
+    """
+    skip = ("vision_tower", "vision_model", "vision", "audio_tower", "audio",
+            "multi_modal_projector", "embed_tokens", "lm_head")
+    preferred = ("q_proj", "k_proj", "v_proj", "o_proj",
+                 "gate_proj", "up_proj", "down_proj")
+    chosen: list[str] = []
+    suffixes: set[str] = set()
+    widths: set[int] = set()
     for name, mod in model.named_modules():
         if not isinstance(mod, torch.nn.Linear):
             continue
         if any(s in name for s in skip):
             continue
-        names.add(name.split(".")[-1])
-    preferred = {"q_proj", "k_proj", "v_proj", "o_proj",
-                 "gate_proj", "up_proj", "down_proj"}
-    chosen = sorted(names & preferred) or sorted(names)
+        leaf = name.split(".")[-1]
+        if leaf not in preferred:
+            continue
+        chosen.append(name)
+        suffixes.add(leaf)
+        widths.add(int(mod.in_features))
     if not chosen:
-        die("LORA_TARGET_DISCOVERY_FAILED", "No Linear modules found in the language tower.")
-    log(f"LoRA target modules: {chosen} (from candidates {sorted(names)})")
-    return chosen
+        die("LORA_TARGET_DISCOVERY_FAILED",
+            "No adaptable Linear projection found in the language tower.")
+    log(f"LoRA targets: {len(chosen)} modules, suffixes {sorted(suffixes)}, "
+        f"in_features {sorted(widths)}")
+    log(f"LoRA target sample: {chosen[:3]} ... {chosen[-1]}")
+    return sorted(chosen)
 
 
 class JsonlLogger:
@@ -148,7 +164,10 @@ def main() -> None:
     model.config.use_cache = False
 
     targets = discover_lora_targets(model)
-    CFG["lora_target_modules"] = targets
+    # The exact module list is written to the adapter's adapter_config.json; keep
+    # the run config readable with a summary rather than several hundred names.
+    CFG["lora_target_module_count"] = len(targets)
+    CFG["lora_target_suffixes"] = sorted({t.split(".")[-1] for t in targets})
 
     peft_cfg = LoraConfig(
         r=CFG["lora_r"], lora_alpha=CFG["lora_alpha"], lora_dropout=CFG["lora_dropout"],
