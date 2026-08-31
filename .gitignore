@@ -4,3 +4,5 @@ outputs/
 data/
 *.zip
 .env
+
+# packaged skill is a build artifact of skills/runpod-ops/
