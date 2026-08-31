@@ -62,7 +62,7 @@ except ImportError:
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
-    from claim_client import SYSTEM_PROMPT as CLAIM_SYSTEM, sanitise as claim_sanitise
+    from claim_prompt import SYSTEM_PROMPT as CLAIM_SYSTEM, sanitise as claim_sanitise
 except ImportError:  # 단독으로 복사해 쓸 때
     CLAIM_SYSTEM, claim_sanitise = None, None
 
