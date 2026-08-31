@@ -130,14 +130,25 @@ watchdog() {
 watchdog &
 
 # Restart-loop guard: a container that exits is restarted by Runpod, and a
-# bootstrap that can never succeed would bill in a loop. Three attempts without
+# bootstrap that can never succeed would bill in a loop. A few attempts without
 # reaching the training stage is treated as unrecoverable.
-BOOTS="$OUT_DIR/.boot_count"
+#
+# The counter is keyed to BOOT_EPOCH so that shipping a new code payload starts
+# a fresh count -- otherwise attempts made against code that has since been
+# fixed keep the guard latched and no amount of fixing can get past it.
+#
+# Nothing inside the container can stop billing (exiting just gets it
+# restarted), so the abort path holds before exiting rather than spinning at
+# the restart interval: same cost per hour, legible logs, and a window to pull
+# them. Only stop-pod from outside actually stops the meter.
+BOOTS="$OUT_DIR/.boot_count.${BOOT_EPOCH:-0}"
 count=$(( $(cat "$BOOTS" 2>/dev/null || echo 0) + 1 ))
 echo "$count" > "$BOOTS"
-echo "[boot] attempt $count"
-if [ "$count" -gt 3 ] && [ ! -f "$MARK/train.done" ]; then
-  echo "### BOOTSTRAP_LOOP_ABORT: $count boots without reaching training. Exiting so billing stops."
+echo "[boot] attempt $count (epoch ${BOOT_EPOCH:-0}, limit ${BOOT_LIMIT:-3})"
+if [ "$count" -gt "${BOOT_LIMIT:-3}" ] && [ ! -f "$MARK/train.done" ]; then
+  echo "### BOOTSTRAP_LOOP_ABORT: $count boots in epoch ${BOOT_EPOCH:-0} without reaching training."
+  echo "### Holding ${ABORT_HOLD_SECONDS:-600}s so the loop does not hammer, then exiting."
+  sleep "${ABORT_HOLD_SECONDS:-600}"
   exit 3
 fi
 
