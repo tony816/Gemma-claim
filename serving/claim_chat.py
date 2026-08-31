@@ -41,6 +41,7 @@ RunPod은 GPU를 시간당 빌리는 방식이라 토큰이 아니라 '깨어 �
     /undo          마지막 주고받기 취소
     /save [파일]   대화 저장
     /load <파일>   대화 불러오기
+    /lang en|ko    청구항 언어 바꾸기
     /system <문장> 시스템 프롬프트 변경
     /cost          누적 비용
     /exit          종료 (Ctrl+D 도 동일)
@@ -67,9 +68,11 @@ except ImportError:
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
-    from claim_prompt import SYSTEM_PROMPT as CLAIM_SYSTEM, sanitise as claim_sanitise
+    from claim_prompt import (SYSTEM_PROMPT as CLAIM_SYSTEM,
+                              sanitise as claim_sanitise,
+                              system_prompt as claim_system_prompt)
 except ImportError:  # 단독으로 복사해 쓸 때
-    CLAIM_SYSTEM, claim_sanitise = None, None
+    CLAIM_SYSTEM, claim_sanitise, claim_system_prompt = None, None, None
 
 USD_TO_KRW = 1380
 
@@ -281,6 +284,7 @@ HELP = """
   /undo           마지막 질문과 답변 취소
   /save [파일]    대화 저장 (기본: chat_날짜시각.json)
   /load <파일>    저장한 대화 이어가기
+  /lang en|ko     청구항 언어 바꾸기
   /system <문장>  시스템 프롬프트 교체
   /system         현재 시스템 프롬프트 보기
   /cost           누적 비용
@@ -474,6 +478,16 @@ def handle_command(chat: Chat, raw: str) -> bool:
             print(f"{C_DIM}  취소할 대화가 없습니다.{C_OFF}")
     elif cmd == "/cost":
         print("  " + chat.cost_line())
+    elif cmd == "/lang":
+        # 청구항 언어를 대화 중에 바꿉니다. 히스토리는 그대로 두므로 앞선
+        # 도면과 맥락을 잃지 않고 다음 답만 다른 언어로 받습니다.
+        if claim_system_prompt is None:
+            print(f"{C_WARN}  claim_prompt.py 를 찾지 못해 쓸 수 없습니다.{C_OFF}")
+        elif arg in ("en", "ko"):
+            chat.system = claim_system_prompt(arg)
+            print(f"{C_DIM}  청구항 언어를 {arg} 로 바꿨습니다.{C_OFF}")
+        else:
+            print(f"{C_WARN}  /lang en 또는 /lang ko 로 적어주세요.{C_OFF}")
     elif cmd == "/system":
         if arg:
             chat.system = arg
@@ -530,6 +544,8 @@ def main() -> None:
                     help="기본: 청구항 모드 0.2, 일반 대화 0.7")
     ap.add_argument("--max-tokens", type=int, default=2048,
                     help="답변 최대 길이 (엔드포인트 컨텍스트 %d 토큰)" % MAX_MODEL_LEN)
+    ap.add_argument("--lang", choices=("en", "ko"), default="en",
+                    help="청구항 언어 (기본: en). 대화 중에는 /lang 으로 바꿉니다.")
     args = ap.parse_args()
 
     # 청구항 모드가 기본. --system 이 있으면 그것을, --plain 이면 프롬프트 없이.
@@ -540,7 +556,7 @@ def main() -> None:
         if not args.plain and CLAIM_SYSTEM is None:
             print(f"{C_WARN}claim_client.py 를 찾지 못해 일반 대화로 시작합니다.{C_OFF}")
     else:
-        system, claim_mode = CLAIM_SYSTEM, True
+        system, claim_mode = claim_system_prompt(args.lang), True
 
     temperature = args.temperature
     if temperature is None:

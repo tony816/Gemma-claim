@@ -36,7 +36,7 @@ SERVED_MODEL = "gemma4-31b"
 # The base model, unprompted, answers with a markdown preamble, a bolded
 # "Claim 1:" heading, and a trailing "Drafting Notes" section. Each instruction
 # below suppresses one of those observed behaviours.
-from claim_prompt import SYSTEM_PROMPT, sanitise  # noqa: F401  (re-exported)
+from claim_prompt import SYSTEM_PROMPT, sanitise, system_prompt  # noqa: F401  (re-exported)
 
 
 def encode_image(path: str) -> str:
@@ -70,7 +70,8 @@ def post(url: str, payload: dict, api_key: str) -> dict:
         return json.loads(resp.read())
 
 
-def run(endpoint: str, api_key: str, content: list[dict], max_tokens: int, temperature: float) -> dict:
+def run(endpoint: str, api_key: str, content: list[dict], max_tokens: int,
+        temperature: float, lang: str = "en") -> dict:
     # worker-vllm accepts three input shapes. This is the OpenAI passthrough:
     # only under `openai_route`/`openai_input` are `model` and `max_tokens`
     # actually honoured. The bare {"messages": ..., "sampling_params": ...}
@@ -81,7 +82,7 @@ def run(endpoint: str, api_key: str, content: list[dict], max_tokens: int, tempe
             "openai_input": {
                 "model": SERVED_MODEL,
                 "messages": [
-                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "system", "content": system_prompt(lang)},
                     {"role": "user", "content": content},
                 ],
                 "max_tokens": max_tokens,
@@ -133,6 +134,8 @@ def main() -> None:
     ap.add_argument("--max-tokens", type=int, default=600)
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--raw", action="store_true", help="print the model output unsanitised")
+    ap.add_argument("--lang", choices=("en", "ko"), default="en",
+                    help="claim language (default: en)")
     args = ap.parse_args()
 
     api_key = os.environ.get("RUNPOD_API_KEY")
@@ -144,14 +147,15 @@ def main() -> None:
             raise SystemExit(f"no such image: {p}")
 
     content = build_content(args.images, args.context)
-    result = run(args.endpoint, api_key, content, args.max_tokens, args.temperature)
+    result = run(args.endpoint, api_key, content, args.max_tokens, args.temperature,
+                 args.lang)
     text = extract_text(result)
 
     if args.raw:
         print(text)
         return
 
-    claim, removed = sanitise(text)
+    claim, removed = sanitise(text, args.lang)
     if removed:
         print(f"[sanitiser removed: {', '.join(removed)}]", file=sys.stderr)
     print(claim)

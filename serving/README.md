@@ -81,6 +81,41 @@ earlier ones, and the order is preserved end to end. Add `--context "..."` to
 supply anything the drawings do not show. `--raw` prints the model's output
 without the sanitiser, which is what you want when checking prompt compliance.
 
+## Korean
+
+`--lang ko` drafts in Korean. The chat client takes the same flag and switches
+mid-conversation with `/lang ko`.
+
+```bash
+python serving/claim_client.py fig1.png fig2.png --lang ko
+```
+
+The Korean prompt is not a translation. The English one ends by telling the
+model to begin with an article, and that single instruction decides the output
+language whatever else the prompt says; the Korean one names the Korean claim
+ending instead.
+
+Measured on the same two drawings the English run used, the model mapped every
+structure correctly — ports to 입구·출구, the two connected components to 제1·제2
+구성요소, the lower plate to 제2 하우징, the hatched gap to 중간층 — at 800 prompt
+tokens, so both drawings were read. It wrote **no reference numerals at all**,
+which is the instruction the English run violated by writing them bare.
+
+The sanitiser picks its ruleset from the output by default. It has to: the
+English rules key off an article and `comprising`, so on Korean they match
+nothing and report a failure that never happened. The Korean rules find the
+claim by its ending (`~을 포함하는 것을 특징으로 하는 …`) rather than its opening.
+
+Stripping a numeral in Korean is not a deletion. `부재 20을` has to become
+`부재를`, not `부재을` — the particle agrees with whether the preceding word ends
+in a consonant, and removing the number changes that. Quantities are left alone
+by the same rule that protects them in English: a unit follows a space
+(`100 pL`), and a counter binds directly (`3개`), so neither looks like a
+numeral. Numeral stripping has not been observed to fire on Korean output; it
+is a net, not a routine step.
+
+`tests/test_claim_prompt.py` covers all of this offline.
+
 ## Request shape — the part that is easy to get wrong
 
 worker-vllm accepts three input shapes. Only the OpenAI passthrough honours
@@ -145,8 +180,12 @@ python serving/claim_chat.py
 ```bash
 python serving/claim_chat.py --plain                 # 청구항 프롬프트 없이
 python serving/claim_chat.py --system "..."          # 다른 프롬프트로
+python serving/claim_chat.py --lang ko               # 한국어 청구항
 python serving/claim_chat.py --temperature 0.5
 ```
+
+대화 중에 `/lang ko`, `/lang en` 으로 언어를 바꿉니다. 히스토리는 그대로 두므로
+앞서 붙인 도면과 맥락을 잃지 않고 다음 답만 다른 언어로 받습니다.
 
 대화 중:
 
