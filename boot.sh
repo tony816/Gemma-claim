@@ -49,4 +49,17 @@ echo "[boot] code tree verified"
 # from latching now that boot.sh owns the restart-loop guard.
 echo 0 > "$O/.boot_count"
 
+# A pod bills by the hour whether or not it is doing anything, and the session
+# that would have stopped it may end first. That is how the previous run lost
+# $10.33. The guard watches GPU utilisation and the clock and stops the pod
+# itself; without RUNPOD_API_KEY it can only warn, loudly, in its log.
+GUARD="$C/tools/pod_guard.sh"
+[ -f "$GUARD" ] || GUARD="$(dirname "$C")/tools/pod_guard.sh"
+if [ "${GUARD_DISABLE:-0}" != "1" ] && [ -f "$GUARD" ]; then
+  nohup bash "$GUARD" >> "$O/pod_guard.log" 2>&1 &
+  echo "[boot] pod_guard started (deadline ${GUARD_DEADLINE_HOURS:-8}h, idle ${GUARD_IDLE_MINUTES:-20}m) -> $O/pod_guard.log"
+else
+  echo "[boot] WARNING: pod_guard not started - this pod will bill until stopped by hand"
+fi
+
 bash "$C/run_all.sh"

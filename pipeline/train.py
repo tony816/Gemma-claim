@@ -29,6 +29,23 @@ from dataset import Collator, RecordDataset
 
 MODEL_ID = os.environ.get("BASE_MODEL", "google/gemma-4-31B-it")
 REVISION = os.environ.get("BASE_MODEL_REVISION", "main")
+# Hoisted to module scope so tools/rehearse.py checks the same names this run
+# will use, instead of a copy that can drift away from it.
+TRAINING_ARG_ALIASES = {
+    "eval_strategy": ("evaluation_strategy",),
+    "evaluation_strategy": ("eval_strategy",),
+}
+# Losing any of these would change what is trained or how the checkpoint is
+# chosen, so an incompatible release has to stop the run rather than quietly
+# train something else.
+ESSENTIAL_TRAINING_ARGS = {
+    "bf16", "gradient_checkpointing", "remove_unused_columns", "label_names",
+    "eval_strategy", "save_strategy", "load_best_model_at_end",
+    "metric_for_best_model", "learning_rate", "num_train_epochs",
+    "per_device_train_batch_size", "gradient_accumulation_steps", "seed",
+    "output_dir", "max_grad_norm", "weight_decay", "lr_scheduler_type",
+}
+
 CKPT_DIR = OUT / "checkpoints"
 FINAL_DIR = OUT / "final_model_or_adapter"
 
@@ -240,10 +257,7 @@ def main() -> None:
     # the run config about anything that could not be honoured -- a silently
     # dropped argument would change training without showing up in the report.
     accepted = set(inspect.signature(TrainingArguments.__init__).parameters)
-    aliases = {
-        "eval_strategy": ("evaluation_strategy",),
-        "evaluation_strategy": ("eval_strategy",),
-    }
+    aliases = TRAINING_ARG_ALIASES
     kwargs: dict = {}
     dropped: list[str] = []
     for key, value in wanted.items():
@@ -267,17 +281,7 @@ def main() -> None:
             f"as warmup_steps={steps} of {CFG['total_optimizer_steps']}")
         CFG["warmup_steps"] = steps
 
-    # Losing any of these would change what is trained or how the checkpoint is
-    # chosen, so an incompatible release has to stop the run rather than quietly
-    # train something else.
-    essential = {
-        "bf16", "gradient_checkpointing", "remove_unused_columns", "label_names",
-        "eval_strategy", "save_strategy", "load_best_model_at_end",
-        "metric_for_best_model", "learning_rate", "num_train_epochs",
-        "per_device_train_batch_size", "gradient_accumulation_steps", "seed",
-        "output_dir", "max_grad_norm", "weight_decay", "lr_scheduler_type",
-    }
-    blocking = sorted(set(dropped) & essential)
+    blocking = sorted(set(dropped) & ESSENTIAL_TRAINING_ARGS)
     if blocking:
         die("TRAINING_ARGUMENTS_INCOMPATIBLE",
             f"transformers {transformers.__version__} does not accept {blocking}, "
