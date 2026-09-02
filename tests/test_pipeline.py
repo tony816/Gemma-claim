@@ -139,7 +139,7 @@ def main() -> int:
     # group entirely. The handoff requires the two reported separately, and
     # requires evaluate.py and tools/baseline.py to report them the same way.
     sys.path.insert(0, str(CODE / "serving"))
-    from evaluate import by_language, claim_form_checks, language_drift
+    from metrics import by_language, claim_form_checks, language_drift
 
     KO = "\uc81c1 \ud558\uc6b0\uc9d5; \uc0c1\uae30 \ud558\uc6b0\uc9d5 \ub0b4\ubd80\uc5d0 \ubc30\uce58\ub418\ub294 \uc13c\uc11c\ubd80\ub97c \ud3ec\ud568\ud558\ub294, \uc7a5\uce58."
     EN = "An apparatus comprising: a housing and a sensor disposed therein."

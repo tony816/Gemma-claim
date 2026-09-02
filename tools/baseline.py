@@ -120,7 +120,10 @@ def main() -> int:
 
     from claim_prompt import detect_lang, sanitise, system_prompt
     from common import find_package_root, load_all
-    from evaluate import claim_form_checks, qualitative_summary, text_metrics
+    # metrics, not evaluate: evaluate.py imports torch, and this tool has to
+    # run from wherever the endpoint is reachable — including a machine whose
+    # policy blocks torch's DLLs. None of these three functions needs it.
+    from metrics import claim_form_checks, qualitative_summary, text_metrics
 
     recs = load_all(find_package_root())[args.split]
     if args.limit:

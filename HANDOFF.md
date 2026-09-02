@@ -291,6 +291,19 @@ environment.
   `by_language` and `language_drift` per split for both base and tuned, in the
   same shape `tools/baseline.py` emits, and `tests/test_pipeline.py` [10] fails
   if the two shapes drift apart.
+- ~~`baseline.py` could not run on the machine that can reach RunPod.~~
+  **Fixed.** It imported `claim_form_checks`, `qualitative_summary` and
+  `text_metrics` from `evaluate.py`, which imports torch at module scope — so
+  the Windows DLL policy blocked the one tool standing between the user and
+  another $20, for three functions that are string checks, ROUGE and chrF.
+  Those now live in `pipeline/metrics.py`, which imports no torch;
+  `evaluate.py` re-exports them, so nothing else changes. Verified by importing
+  every one of `baseline.py`'s dependencies with `import torch` forced to raise
+  the exact WinError. **`baseline.py` can therefore be run from the laptop
+  today** — `api.runpod.ai` is blocked from the cloud session but not from
+  there. That is the decision gate; it does not need a GPU and it does not need
+  this environment.
+
 - ~~The offline test suite was red and nobody had run it.~~ **Fixed.** Two
   regressions came in with the 694-record switch: `tests/make_synthetic.py`
   still built the superseded 91/11/12 split, so `preflight.py` died on the
