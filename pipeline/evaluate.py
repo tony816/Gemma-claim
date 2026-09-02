@@ -13,10 +13,16 @@ import json
 import math
 import os
 import re
+import sys
 from collections import Counter
 from pathlib import Path
 
 import torch
+
+# claim_prompt lives in serving/ and is the one definition of the language
+# rules. tools/baseline.py imports it the same way; the two have to agree or
+# the baseline and the fine-tune are not being scored on the same footing.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "serving"))
 
 from common import (OUT, SEED, SPLITS, die, find_package_root, load_all, load_vlm,
                     log, set_all_seeds, write_json)
@@ -154,6 +160,42 @@ def qualitative_summary(rows: list[dict]) -> dict:
     }
 
 
+def by_language(rows: list[dict]) -> dict:
+    """Metrics split by the language of the reference.
+
+    The release is 612 Korean of 694, so a single aggregate is the Korean
+    number with the rest rounded away. The dataset handoff requires the two
+    reported separately, and tools/baseline.py already does -- this is the same
+    breakdown, in the same shape, so the baseline and the fine-tune can be put
+    side by side.
+    """
+    from claim_prompt import detect_lang
+
+    langs = [detect_lang(r["reference"]) for r in rows]
+    out: dict = {}
+    for lang in sorted(set(langs)):
+        idx = [i for i, x in enumerate(langs) if x == lang]
+        out[lang] = {
+            "n": len(idx),
+            **text_metrics([rows[i]["prediction"] for i in idx],
+                           [rows[i]["reference"] for i in idx]),
+            **qualitative_summary([rows[i] for i in idx]),
+        }
+    return out
+
+
+def language_drift(rows: list[dict]) -> int:
+    """Records answered in a different language from their reference.
+
+    Mode collapse showed up last run as a length collapse; on a Korean-majority
+    corpus it can just as easily show up as the model reverting to English.
+    """
+    from claim_prompt import detect_lang
+
+    return sum(1 for r in rows
+               if detect_lang(r["prediction"]) != detect_lang(r["reference"]))
+
+
 def main() -> None:
     from peft import PeftModel
     from transformers import AutoProcessor
@@ -209,9 +251,13 @@ def main() -> None:
                                 [r["reference"] for r in tuned_rows])
 
         metrics["base"][split] = {**base_loss, **base_tm,
-                                  "qualitative": qualitative_summary(base_rows)}
+                                  "qualitative": qualitative_summary(base_rows),
+                                  "by_language": by_language(base_rows),
+                                  "language_drift": language_drift(base_rows)}
         metrics["tuned"][split] = {**tuned_loss, **tuned_tm,
-                                   "qualitative": qualitative_summary(tuned_rows)}
+                                   "qualitative": qualitative_summary(tuned_rows),
+                                   "by_language": by_language(tuned_rows),
+                                   "language_drift": language_drift(tuned_rows)}
 
         with (OUT / f"{split}_predictions.jsonl").open("w", encoding="utf-8") as fh:
             for b, t in zip(base_rows, tuned_rows):

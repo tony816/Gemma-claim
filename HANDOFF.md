@@ -23,23 +23,73 @@ cost and why. This file is only the delta since then.
 | 2. preflight counts + oracle-field gate | done — passes, and fails correctly on a poisoned package |
 | Resume-from-adapter path in `train.py` | done — `RESUME_ADAPTER` |
 | Language-aware baseline scoring | done — was scoring 612 Korean records with the English prompt |
-| 3. `token_audit.py` | **blocked** — torch cannot load locally |
-| 4. `rehearse.py` clean | **blocked** — same |
-| 5. `baseline.py` | **not started** — needs 3 and 4 first |
+| 3. `token_audit.py` | **blocked** — needs the real tokenizer (see egress policy below) |
+| 4. `rehearse.py` clean | **5 of 7 gates pass**; 2 skip, neither reachable from this environment |
+| 5. `baseline.py` | **blocked** — `api.runpod.ai` is not reachable from this environment |
 
-## The blocker that moved this to the cloud
+## The torch blocker is gone; a different one replaced it
 
-On the user's Windows machine, importing torch fails:
+The Windows application-control policy that blocked PyTorch's DLLs
+(`OSError: [WinError 4551]` on `torch\lib\shm.dll`) does not occur in a cloud
+session. `pip install torch` then `pip install -r requirements.txt` succeeds —
+with one snag worth remembering: the base image ships a Debian-managed PyYAML
+with no RECORD file, so the requirements install aborts on
+`Cannot uninstall PyYAML 6.0.1`. Use `pip install --ignore-installed PyYAML -r
+requirements.txt`.
+
+Verified working set: torch 2.13.0+cu130, transformers 5.16.1, peft 0.20.0
+(the same peft that wrote the adapter), accelerate 1.14.0.
+
+**What blocks the rest is the environment's egress policy, not the code.**
+Reachable: `pypi.org`, `files.pythonhosted.org`, `github.com`, `api.github.com`.
+Refused with a 403 at the proxy: `huggingface.co`, `api.runpod.ai`,
+`api.runpod.io`, and everything else. So `AutoProcessor.from_pretrained` and
+`baseline.py` cannot run here as written. Two ways forward:
+
+* **Allow `huggingface.co` and `api.runpod.ai`** in the environment's network
+  policy (see the Claude Code on the web docs on environments). That is the
+  clean fix and makes every gate runnable off-GPU, which is the whole point of
+  running them before the pod.
+* **Offline assets** — what was actually done this session. Three small files
+  (`config.json` 4,621 B, `chat_template.jinja` 18,683 B, `tokenizer_config.json`)
+  are enough to run the template and LoRA gates with no Hub and no weights. Put
+  them in a directory and point `BASE_MODEL` or `OFFLINE_ASSETS` at it. They are
+  gated Google files: keep them out of the repository.
+
+### What rehearse.py reports now
+
+With offline assets and a package present, on transformers 5.16.1:
 
 ```
-OSError: [WinError 4551] <application control policy blocked this file>
-Error loading ...\.venv\Lib\site-packages\torch\lib\shm.dll
+[  ok  ] versions
+[  ok  ] TrainingArguments signature — all 17 essential args accepted on 5.16.1
+[  ok  ] chat template renders a strict prefix — template-only processor (tokeniser NOT checked)
+[ skip ] loss is masked to the assistant span — needs the real tokenizer
+[  ok  ] LoRA targets avoid the vision tower — 410 modules from the real config
+[ skip ] resume adapter — needs the adapter repo (RESUME_ADAPTER, Hub-gated)
+[  ok  ] dataset contracts
 ```
 
-A Windows application-control policy blocks PyTorch's DLLs. The venv sits under
-OneDrive, which may or may not be the cause — moving it outside OneDrive was
-proposed and never tried. **In a cloud session this should simply not occur**;
-install and move on. Do not attempt to change the policy on the user's machine.
+Two of the three expensive bugs from `CLAUDE.md` are now positively cleared on
+the current library set:
+
+* **Chat template.** The real template renders the generation prompt as the
+  conversation prefix plus exactly `<|channel>thought\n<channel|>`, which the
+  full rendering does not contain — so `render_texts`'s reconciliation is live,
+  not dead code. Checked on 1/2/5/8-image records, English and Korean, with the
+  Korean target preserved byte-for-byte through the template.
+* **LoRA targets.** `discover_lora_targets` on the real config finds exactly
+  **410** modules — the same count the adapter carries — all fully qualified,
+  none in the vision tower. The model holds 189 `Gemma4ClippableLinear`
+  projections with those same suffixes; a bare-suffix target list would match
+  them and PEFT cannot adapt them. The 410 is 60x7 minus 10: the `full_attention`
+  layers (5, 11, ..., 59) have no separate `v_proj`, because `attention_k_eq_v`
+  is true.
+
+The `resume adapter` gate could not run, but its load-bearing fact was confirmed
+by reading `adapter_config.json` directly: **`inference_mode` is `true`**, and
+`base_model_name_or_path` is `google/gemma-4-31B-it`, so `is_trainable=True`
+stays mandatory.
 
 ## The data — this is the part that does not travel with the repo
 
@@ -136,6 +186,11 @@ PYTHONPATH=pipeline python pipeline/token_audit.py
 python tools/rehearse.py
 ```
 
+If `huggingface.co` is not reachable, set `OFFLINE_ASSETS` (or point
+`BASE_MODEL`) at a directory holding `config.json` and `chat_template.jinja`;
+the template and LoRA gates then run without the Hub. A skip is still not a
+pass — the tokenizer-level gates need the real processor either way.
+
 ```bash
 python tools/baseline.py --split validation
 ```
@@ -148,11 +203,19 @@ worth its GPU time only if it beats those numbers on free-running generation.
 
 ### What token_audit is expected to reveal
 
-Nobody has measured the sequence lengths yet. The estimate below assumes 256
-tokens per image, which is unverified:
+Nobody has measured the sequence lengths yet. The earlier estimate assumed 256
+tokens per image; **the real number is 280** — `config.json` carries
+`vision_soft_tokens_per_image: 280` and `processor_config.json` carries
+`image_seq_length: 280`. Every image-token estimate scales by 280/256 = 1.094:
 
-- mean 5.61 images/record -> ~1,900 tokens average, ~5,000 tokens worst case
+- image tokens alone: mean 5.61 images -> 1,571; at the 8-image cap -> 2,240
+- the earlier "~1,900 average / ~5,000 worst case" becomes roughly
+  ~2,080 / ~5,470 on the same assumptions
 - the previous release topped out at 2,362 tokens, so expect 1.3–1.6x
+
+These are still estimates. Only `token_audit.py` against the real tokenizer
+settles `recommended_max_new_tokens`, and that number drives most of the run's
+cost.
 
 Two things depend on the real number: whether any target is truncated (a hard
 failure), and `recommended_max_new_tokens`, which `evaluate.py` uses and which
@@ -217,15 +280,27 @@ environment.
 
 ## Still open
 
-- **`pipeline/fetch_dataset.py:17` still pins the old ZIP's SHA-256.** No ZIP has
-  been produced for the new package. Either produce one
-  (`tools/convert_release.py --zip` prints the hash) and update the constant, or
-  bypass `fetch_dataset.py` and point `DATA_ROOT` at the transferred package.
-  `run_all.sh` calls `fetch_dataset.py`, so decide before using it.
-- **`evaluate.py` has no per-language breakdown.** The dataset handoff requires
-  Korean and non-Korean reported separately. `baseline.py` does this now;
-  `evaluate.py` does not, and the two should agree before the results are
-  compared.
+- ~~`fetch_dataset.py` still pins the old ZIP's SHA-256.~~ **Done.** It now
+  skips the download entirely when a package is already under `DATA_ROOT` (the
+  path a transferred package takes), and otherwise refuses with
+  `DATASET_PIN_SUPERSEDED` rather than fetching v1.1.2 over the new release.
+  `run_all.sh` treats that as non-retryable, so it no longer sits in a
+  30-minute retry loop on a pod that bills by the hour. To use a ZIP instead,
+  pin it with `DATASET_SHA256` and set `DATASET_URL` / `DRIVE_FILE_ID`.
+- ~~`evaluate.py` has no per-language breakdown.~~ **Done.** It reports
+  `by_language` and `language_drift` per split for both base and tuned, in the
+  same shape `tools/baseline.py` emits, and `tests/test_pipeline.py` [10] fails
+  if the two shapes drift apart.
+- ~~The offline test suite was red and nobody had run it.~~ **Fixed.** Two
+  regressions came in with the 694-record switch: `tests/make_synthetic.py`
+  still built the superseded 91/11/12 split, so `preflight.py` died on the
+  count gate — and because it died there, checks [7]–[9] were "passing" on the
+  wrong failure and never exercised the missing-image, empty-target and
+  cross-split gates they name. The fixture also carried a `metadata` key, which
+  the new whitelist rejects with `ORACLE_FIELD_IN_MODEL_INPUT`. It now mirrors
+  what `tools/convert_release.py` emits — exactly `{id, images, messages}`,
+  plain-string contents — at 554/65/75, images up to the 8 cap, 88% Korean.
+  All checks pass.
 - **5 records have `claim_boundary_status: UNRESOLVED`** (4 train, 1 validation).
   They are ACCEPTED in the release and the release is frozen, so they stay. Worth
   a look if the metrics come out strange.

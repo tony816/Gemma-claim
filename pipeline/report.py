@@ -182,7 +182,7 @@ All under `{OUT}`:
 ## Reproduce
 
 ```bash
-bash {OUT}/reproduce.sh /path/to/final_dataset_v112.zip
+bash {OUT}/reproduce.sh /path/to/final_dataset.zip
 ```
 """
     (OUT / "FINAL_TRAINING_REPORT.md").write_text(md, encoding="utf-8")

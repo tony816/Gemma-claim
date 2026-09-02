@@ -45,8 +45,8 @@ def main() -> int:
     root = find_package_root(pkg)
     check("find_package_root locates hf_multimodal", root == pkg, str(root))
     data = load_all(root)
-    check("split sizes 91/11/12",
-          {s: len(data[s]) for s in SPLITS} == {"train": 91, "validation": 11, "test": 12},
+    check("split sizes 554/65/75",
+          {s: len(data[s]) for s in SPLITS} == {"train": 554, "validation": 65, "test": 75},
           str({s: len(data[s]) for s in SPLITS}))
     r0 = data["train"][0]
     check("images resolved to existing files", all(p.is_file() for p in r0.images))
@@ -133,6 +133,34 @@ def main() -> int:
     check("cross-split record id is a hard failure",
           p.returncode != 0 and "TEST_LEAKAGE" in (p.stdout + p.stderr))
     trf.write_text(orig_tr)
+
+    print("\n[10] per-language reporting agrees between evaluate and baseline")
+    # 88% of the release is Korean, so a single aggregate hides the smaller
+    # group entirely. The handoff requires the two reported separately, and
+    # requires evaluate.py and tools/baseline.py to report them the same way.
+    sys.path.insert(0, str(CODE / "serving"))
+    from evaluate import by_language, claim_form_checks, language_drift
+
+    KO = "\uc81c1 \ud558\uc6b0\uc9d5; \uc0c1\uae30 \ud558\uc6b0\uc9d5 \ub0b4\ubd80\uc5d0 \ubc30\uce58\ub418\ub294 \uc13c\uc11c\ubd80\ub97c \ud3ec\ud568\ud558\ub294, \uc7a5\uce58."
+    EN = "An apparatus comprising: a housing and a sensor disposed therein."
+    mk = lambda ref, pred: {"reference": ref, "prediction": pred,
+                            "checks": claim_form_checks(pred)}
+    rows = [mk(KO, KO), mk(KO, KO), mk(KO, EN), mk(EN, EN)]
+    bl = by_language(rows)
+    check("both languages are reported separately", sorted(bl) == ["en", "ko"], str(sorted(bl)))
+    check("records are bucketed by reference language",
+          bl.get("ko", {}).get("n") == 3 and bl.get("en", {}).get("n") == 1)
+    check("answering in the wrong language is counted",
+          language_drift(rows) == 1, str(language_drift(rows)))
+    # tools/baseline.py builds each by_language entry as
+    # {"n": ..., **text_metrics(...), **qualitative_summary(...)}; evaluate.py
+    # has to emit the same keys or the two cannot be compared side by side.
+    baseline_keys = {"n", "rougeL_f", "chrf", "empty_responses", "looks_dependent",
+                     "missing_apparatus_noun", "missing_transition_phrase",
+                     "unterminated_no_final_period", "excessive_repetition_gt_0_3",
+                     "well_formed_independent_claims", "well_formed_rate", "mean_words"}
+    missing = sorted(baseline_keys - set(bl.get("ko", {})))
+    check("evaluate's by_language matches baseline's shape", not missing, str(missing))
 
     print(f"\n{'ALL CHECKS PASSED' if not failures else 'FAILURES: ' + ', '.join(failures)}")
     return 1 if failures else 0

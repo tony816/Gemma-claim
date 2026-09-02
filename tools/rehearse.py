@@ -171,11 +171,58 @@ def _sample_record(n_images: int = 2):
     )
 
 
+class TemplateOnlyProcessor:
+    """apply_chat_template(tokenize=False) backed by a real chat_template.jinja.
+
+    Rendering the template is pure Jinja: it needs the 18 KB template file and
+    nothing else -- no tokenizer, no weights, no Hub. That is enough to exercise
+    the prefix contract render_texts depends on, which is the bug that cost a
+    GPU restart cycle last run. It is *not* enough to check tokenisation, so the
+    label-masking gate still refuses to run against it.
+    """
+
+    def __init__(self, template: str):
+        self.chat_template = template
+
+    def apply_chat_template(self, messages, tokenize=False,
+                            add_generation_prompt=False, **kw):
+        if tokenize:
+            raise RuntimeError("TemplateOnlyProcessor cannot tokenise")
+        from transformers.utils.chat_template_utils import render_jinja_template
+        out = render_jinja_template(
+            conversations=[messages], chat_template=self.chat_template,
+            add_generation_prompt=add_generation_prompt,
+            bos_token="<bos>", eos_token="<eos>", pad_token="<pad>",
+        )
+        while isinstance(out, (list, tuple)):
+            out = out[0]
+        return out
+
+
+def _offline_template() -> str | None:
+    """A chat_template.jinja placed next to the model assets, if there is one.
+
+    Set OFFLINE_ASSETS (or point BASE_MODEL at a local directory) when the Hub
+    is unreachable -- an egress policy that blocks huggingface.co otherwise
+    downgrades the template gate to a skip, and a skip is not a pass.
+    """
+    for base in (os.environ.get("OFFLINE_ASSETS", ""), MODEL_ID):
+        if not base:
+            continue
+        cand = Path(base) / "chat_template.jinja"
+        if cand.is_file():
+            return cand.read_text(encoding="utf-8")
+    return None
+
+
 def _load_processor():
     try:
         from transformers import AutoProcessor
         return AutoProcessor.from_pretrained(MODEL_ID, revision=REVISION), "real"
     except Exception as exc:  # noqa: BLE001
+        tpl = _offline_template()
+        if tpl is not None:
+            return TemplateOnlyProcessor(tpl), "template-only"
         try:
             from fake_processor import FakeProcessor  # type: ignore
             return FakeProcessor(), f"fake ({type(exc).__name__})"
@@ -187,7 +234,7 @@ def _load_processor():
 def check_chat_template() -> str:
     """Gemma 4's generation prompt opens an empty thought channel that the full
     rendering does not contain. render_texts must reconcile the two."""
-    from dataset import render_texts
+    from dataset import THOUGHT_OPENER, render_texts
 
     processor, kind = _load_processor()
     rec = _sample_record()
@@ -201,6 +248,20 @@ def check_chat_template() -> str:
     if rec.target.split()[0] not in body:
         raise RuntimeError("assistant text missing from the trained body")
     detail = f"{kind} processor, prompt {len(prompt)} chars, target {len(body)} chars"
+    if kind == "template-only":
+        # The real template was rendered, so the prefix contract above is
+        # genuinely checked; only the processor wrapper around it was not.
+        if THOUGHT_OPENER not in prompt:
+            raise RuntimeError(
+                "the generation prompt carries no thought channel — either the "
+                "template changed or the wrong file was supplied")
+        n_img = sum(1 for m in rec.messages for part in m["content"]
+                    if part.get("type") == "image")
+        if full.count("<|image|>") != n_img:
+            raise RuntimeError(
+                f"{full.count('<|image|>')} image placeholders rendered for "
+                f"{n_img} images — the order contract cannot hold")
+        return detail + f", {n_img} image placeholders (tokeniser NOT checked)"
     if kind != "real":
         raise Skip(detail + " — real processor unreachable, template not verified")
     return detail
@@ -212,7 +273,7 @@ def check_label_masking() -> str:
 
     processor, kind = _load_processor()
     if kind != "real":
-        raise Skip("needs the real tokenizer to align labels")
+        raise Skip(f"needs the real tokenizer to align labels ({kind} processor)")
     enc = encode_record(processor, _sample_record())
     labels = enc["labels"]
     labels = labels.tolist() if hasattr(labels, "tolist") else list(labels)

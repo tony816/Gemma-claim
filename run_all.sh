@@ -75,6 +75,12 @@ wait_for_dataset() {
       echo "[fetch] hash mismatch - not retrying"
       return 1
     fi
+    # Same for a pin that no longer names the release being trained: retrying
+    # burns paid pod time on a decision only a human can make.
+    if [ -f "$OUT_DIR/.fetch_fatal" ]; then
+      echo "[fetch] $(cat "$OUT_DIR/.fetch_fatal") - not retrying"
+      return 1
+    fi
     if [ $SECONDS -ge $deadline ]; then
       echo "[fetch] DATASET_WAIT_TIMEOUT after ${DATASET_WAIT_SECONDS:-1800}s"
       return 1

@@ -14,9 +14,43 @@ from pathlib import Path
 
 from common import DATA_ROOT, WORKSPACE, die, find_package_root, log, write_json, OUT
 
-EXPECTED_SHA256 = "1f5b301a7a340ac89620b9124b8df78f82928dbf422d69ffe227f55c1eb4c907"
+# This pins the SUPERSEDED v1.1.2 release (91/11/12). The approved release the
+# pipeline now targets is 554/65/75 and no ZIP has been produced for it, so
+# downloading against this constant would fetch the wrong dataset. Two ways
+# forward, both supported below:
+#   * point DATA_ROOT at an already-extracted package -- the download is then
+#     skipped entirely, which is the path a transferred package takes; or
+#   * produce a ZIP (tools/convert_release.py --zip prints the hash) and pin it
+#     with DATASET_SHA256 (plus DATASET_URL or DRIVE_FILE_ID).
+V112_ZIP_SHA256 = "1f5b301a7a340ac89620b9124b8df78f82928dbf422d69ffe227f55c1eb4c907"
+DATASET_VERSION = os.environ.get("DATASET_VERSION", "finetune_multilingual_approved_20260902")
+PINNED_SHA256 = os.environ.get("DATASET_SHA256", "").strip()
+EXPECTED_SHA256 = PINNED_SHA256 or V112_ZIP_SHA256
 DRIVE_FILE_ID = os.environ.get("DRIVE_FILE_ID", "11sk-Ol6p01xT7eC-ktjaI0I4VXnFGedv")
-ZIP_PATH = WORKSPACE / "final_dataset_v112.zip"
+ZIP_PATH = WORKSPACE / "final_dataset.zip"
+
+
+def already_extracted() -> Path | None:
+    """A package already sitting under DATA_ROOT, if there is one.
+
+    A transferred package needs no download and no ZIP hash: the bytes are
+    already here and preflight.py is what decides whether they are the right
+    ones. Checking this first is what keeps a stale pin from fetching a
+    superseded release over a good package.
+    """
+    import contextlib
+    import io
+
+    if not DATA_ROOT.is_dir():
+        return None
+    # find_package_root handles the nested layouts too, and die()s with a
+    # banner when there is nothing there -- which here is a normal answer, not
+    # a failure, so its output is contained.
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            return find_package_root(DATA_ROOT)
+    except SystemExit:
+        return None
 
 
 def sha256(path: Path) -> str:
@@ -126,9 +160,31 @@ def integrity_manifest(pkg: Path) -> dict:
 
 
 def main() -> None:
-    download()
-    digest = verify()
-    pkg = extract()
+    # A marker left by an earlier attempt must not stop this one from retrying
+    # a failure that is genuinely transient.
+    (OUT / ".fetch_fatal").unlink(missing_ok=True)
+    pkg = already_extracted()
+    if pkg is not None:
+        log(f"Package already present at {pkg}; skipping download.")
+        digest = None
+    else:
+        if not PINNED_SHA256:
+            # Waiting cannot fix a wrong pin, and run_all.sh otherwise sits in a
+            # 30-minute retry loop on a pod that bills by the hour.
+            OUT.mkdir(parents=True, exist_ok=True)
+            (OUT / ".fetch_fatal").write_text("DATASET_PIN_SUPERSEDED", encoding="utf-8")
+            die(
+                "DATASET_PIN_SUPERSEDED",
+                "No package under DATA_ROOT, and the only ZIP hash pinned here is "
+                "the superseded v1.1.2 release (91/11/12). Downloading it would "
+                "fetch the wrong dataset.\n"
+                "Either extract the approved package under DATA_ROOT, or pin the "
+                "new ZIP with DATASET_SHA256=<sha256> and point DATASET_URL / "
+                "DRIVE_FILE_ID at it (tools/convert_release.py --zip prints the hash).",
+            )
+        download()
+        digest = verify()
+        pkg = extract()
     counts = {}
     for split in ("train", "validation", "test"):
         p = pkg / "hf_multimodal" / f"{split}.jsonl"
@@ -137,11 +193,12 @@ def main() -> None:
         OUT / "dataset_download.json",
         {
             "zip_sha256": digest,
-            "zip_sha256_expected": EXPECTED_SHA256,
-            "zip_bytes": ZIP_PATH.stat().st_size,
+            "zip_sha256_expected": EXPECTED_SHA256 if digest else None,
+            "zip_bytes": ZIP_PATH.stat().st_size if digest else None,
+            "downloaded": digest is not None,
             "package_root": str(pkg),
             "record_counts": counts,
-            "dataset_version": "v1.1.2-independent-oracle-clean",
+            "dataset_version": DATASET_VERSION,
             "integrity_manifest": integrity_manifest(pkg),
             "DATA_DOWNLOAD_VERIFIED": True,
         },
