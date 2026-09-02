@@ -30,6 +30,7 @@ import os
 import sys
 import time
 import urllib.request
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -103,7 +104,9 @@ def main() -> int:
                     help="validation (default). Use test only once, at the very end.")
     ap.add_argument("--endpoint", default=os.environ.get("RUNPOD_ENDPOINT_ID", DEFAULT_ENDPOINT))
     ap.add_argument("--limit", type=int, default=0, help="score only the first N records")
-    ap.add_argument("--max-tokens", type=int, default=600)
+    ap.add_argument("--max-tokens", type=int, default=1200,
+                    help="600 truncates Korean references, which run to "
+                         "1771 characters on the validation split.")
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("-o", "--out", default="baseline_predictions.jsonl")
     args = ap.parse_args()
@@ -115,30 +118,57 @@ def main() -> int:
         print("⚠ scoring the TEST split. It is spent once — this should be the "
               "final measurement, not an exploratory one.\n", file=sys.stderr)
 
-    from claim_prompt import SYSTEM_PROMPT, sanitise
+    from claim_prompt import detect_lang, sanitise, system_prompt
     from common import find_package_root, load_all
     from evaluate import claim_form_checks, qualitative_summary, text_metrics
 
     recs = load_all(find_package_root())[args.split]
     if args.limit:
         recs = recs[:args.limit]
+
+    # The system prompt has to match the language of the reference. Told to
+    # begin with an article, the model answers in English however Korean the
+    # rest of the prompt is -- so scoring 88% Korean references against the
+    # English prompt would measure the prompt's language, not the model.
+    langs = [detect_lang(r.target) for r in recs]
     print(f"scoring {len(recs)} {args.split} records through {args.endpoint}\n"
+          f"languages: {dict(Counter(langs))}\n"
           f"(first call waits out a cold start, ~5 min)\n")
 
     rows, preds, refs = [], [], []
-    for i, rec in enumerate(recs, 1):
-        raw = ask(args.endpoint, key, SYSTEM_PROMPT, rec, args.max_tokens, args.temperature)
-        cleaned, removed = sanitise(raw)
+    for i, (rec, lang) in enumerate(zip(recs, langs), 1):
+        raw = ask(args.endpoint, key, system_prompt(lang), rec,
+                  args.max_tokens, args.temperature)
+        cleaned, removed = sanitise(raw, lang)
+        answered = detect_lang(cleaned)
         rows.append({"record_id": rec.record_id, "n_images": len(rec.images),
+                     "lang": lang, "answered_lang": answered,
                      "reference": rec.target, "raw": raw, "prediction": cleaned,
                      "sanitiser_removed": removed, "checks": claim_form_checks(cleaned)})
         preds.append(cleaned)
         refs.append(rec.target)
+        drift = "" if answered == lang else f"  ⚠ answered in {answered}, asked for {lang}"
         print(f"  [{i}/{len(recs)}] {rec.record_id}: {len(cleaned.split())} words"
-              + (f"  (cleaned: {', '.join(removed)})" if removed else ""))
+              + (f"  (cleaned: {', '.join(removed)})" if removed else "") + drift)
 
     metrics = {"split": args.split, "n": len(rows), "model": "base + claim prompt",
                **text_metrics(preds, refs), **qualitative_summary(rows)}
+
+    # The handoff asks for Korean and non-Korean reported separately, and the
+    # split is lopsided enough (612 of 694 Korean) that a single aggregate would
+    # be the Korean number with the rest rounded away.
+    by_lang = {}
+    for lang in sorted(set(langs)):
+        idx = [i for i, x in enumerate(langs) if x == lang]
+        if not idx:
+            continue
+        by_lang[lang] = {
+            "n": len(idx),
+            **text_metrics([preds[i] for i in idx], [refs[i] for i in idx]),
+            **qualitative_summary([rows[i] for i in idx]),
+        }
+    metrics["by_language"] = by_lang
+    metrics["language_drift"] = sum(1 for r in rows if r["answered_lang"] != r["lang"])
 
     # chrF is the number that fell while loss fell in the last run — the one
     # signal that the model had stopped conditioning on its input. A baseline

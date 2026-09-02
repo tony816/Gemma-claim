@@ -71,6 +71,11 @@ CFG = {
     "best_checkpoint_metric": "eval_loss",
     "best_checkpoint_mode": "min",
     "early_stopping_patience": int(os.environ.get("PATIENCE", "3")),
+    # Empty = start from a fresh LoRA on the base model. Set to a Hub repo id or
+    # a local directory to continue training an existing adapter instead; the
+    # adapter's own target_modules and rank are then authoritative and LORA_R /
+    # LORA_ALPHA / LORA_DROPOUT above are ignored.
+    "resume_adapter": os.environ.get("RESUME_ADAPTER", "").strip(),
 }
 
 
@@ -188,12 +193,60 @@ def main() -> None:
     CFG["lora_target_module_count"] = len(targets)
     CFG["lora_target_suffixes"] = sorted({t.split(".")[-1] for t in targets})
 
-    peft_cfg = LoraConfig(
-        r=CFG["lora_r"], lora_alpha=CFG["lora_alpha"], lora_dropout=CFG["lora_dropout"],
-        bias="none", task_type="CAUSAL_LM", target_modules=targets,
-    )
-    model = get_peft_model(model, peft_cfg)
+    resume = CFG["resume_adapter"]
+    if resume:
+        from peft import PeftConfig, PeftModel
+
+        log(f"Continuing training from adapter {resume!r} rather than a fresh LoRA.")
+        prior = PeftConfig.from_pretrained(resume)
+
+        # Stacking an adapter trained on some other base silently produces
+        # nonsense, so the bases must match exactly.
+        if prior.base_model_name_or_path != MODEL_ID:
+            die("RESUME_ADAPTER_BASE_MISMATCH",
+                f"Adapter {resume} was trained on "
+                f"{prior.base_model_name_or_path!r}, this run loads {MODEL_ID!r}.")
+
+        # The adapter's module list is authoritative, but it must still be a
+        # subset of what is adaptable here: an adapter naming a vision-tower or
+        # since-renamed module would otherwise attach to nothing at all.
+        prior_targets = prior.target_modules
+        prior_targets = (sorted(prior_targets) if not isinstance(prior_targets, str)
+                         else [prior_targets])
+        unknown = sorted(set(prior_targets) - set(targets))
+        if unknown:
+            die("RESUME_ADAPTER_TARGETS_UNKNOWN",
+                f"{len(unknown)} adapter target module(s) are not adaptable "
+                f"language-tower Linears in this model: {unknown[:10]}")
+        log(f"adapter targets {len(prior_targets)} modules, all present "
+            f"({len(targets)} adaptable here); r={prior.r} alpha={prior.lora_alpha}")
+
+        # is_trainable=True is load-bearing: the published adapter_config.json
+        # carries inference_mode=true, and without this every LoRA parameter
+        # loads frozen. The run would then complete with a flat loss curve and
+        # no error anywhere.
+        model = PeftModel.from_pretrained(model, resume, is_trainable=True)
+
+        CFG["resumed_from"] = resume
+        CFG["lora_r"] = prior.r
+        CFG["lora_alpha"] = prior.lora_alpha
+        CFG["lora_dropout"] = prior.lora_dropout
+        CFG["lora_target_module_count"] = len(prior_targets)
+        CFG["lora_target_suffixes"] = sorted({t.split(".")[-1] for t in prior_targets})
+    else:
+        peft_cfg = LoraConfig(
+            r=CFG["lora_r"], lora_alpha=CFG["lora_alpha"],
+            lora_dropout=CFG["lora_dropout"],
+            bias="none", task_type="CAUSAL_LM", target_modules=targets,
+        )
+        model = get_peft_model(model, peft_cfg)
+
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    if trainable == 0:
+        die("NO_TRAINABLE_PARAMETERS",
+            "Every parameter is frozen, so the run would report success while "
+            "learning nothing. For a resumed adapter this means is_trainable "
+            "did not take effect.")
     total = sum(p.numel() for p in model.parameters())
     CFG["trainable_params"] = trainable
     CFG["total_params"] = total

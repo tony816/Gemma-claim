@@ -262,6 +262,66 @@ def check_lora_targets() -> str:
     return detail
 
 
+@gate("resume adapter loads trainable and matches this base")
+def check_resume_adapter() -> str:
+    """Only runs when RESUME_ADAPTER is set; skipped otherwise.
+
+    Two ways a resumed run fails silently, both free to catch here:
+    a published adapter_config.json carries inference_mode=true, so loading it
+    without is_trainable=True freezes every LoRA parameter and the run reports
+    a completed training with a flat loss; and an adapter whose target_modules
+    no longer resolve attaches to nothing while still loading cleanly.
+    """
+    resume = os.environ.get("RESUME_ADAPTER", "").strip()
+    if not resume:
+        raise Skip("RESUME_ADAPTER unset — starting from a fresh LoRA")
+
+    try:
+        from peft import PeftConfig
+    except ImportError as exc:
+        raise Skip(f"peft not importable ({exc})")
+
+    prior = PeftConfig.from_pretrained(resume)
+    if prior.base_model_name_or_path != MODEL_ID:
+        raise RuntimeError(
+            f"adapter base {prior.base_model_name_or_path!r} != {MODEL_ID!r}")
+
+    if getattr(prior, "inference_mode", False):
+        # Not a failure -- train.py passes is_trainable=True -- but it is the
+        # exact condition that makes the flag load-bearing, so say so out loud.
+        note = "adapter_config has inference_mode=true; is_trainable=True is required"
+    else:
+        note = "adapter_config is already trainable"
+
+    pt = prior.target_modules
+    pt = [pt] if isinstance(pt, str) else sorted(pt)
+    if not all("." in t for t in pt):
+        raise RuntimeError("adapter targets are bare suffixes; they would match "
+                           "the vision tower too")
+
+    try:
+        from accelerate import init_empty_weights
+        from transformers import AutoConfig
+
+        from train import discover_lora_targets
+        cfg = AutoConfig.from_pretrained(MODEL_ID, revision=REVISION)
+        with init_empty_weights():
+            model = _model_from_config(cfg)
+        adaptable = set(discover_lora_targets(model))
+    except Skip:
+        raise
+    except Exception as exc:  # noqa: BLE001
+        raise Skip(f"{len(pt)} adapter targets read, {note} — could not resolve "
+                   f"them against the real model ({type(exc).__name__}: {exc})")
+
+    unknown = sorted(set(pt) - adaptable)
+    if unknown:
+        raise RuntimeError(
+            f"{len(unknown)} adapter target(s) are not adaptable here, "
+            f"e.g. {unknown[:3]}")
+    return f"{len(pt)} of {len(adaptable)} adaptable modules, r={prior.r}; {note}"
+
+
 def _model_from_config(cfg):
     import transformers
     for name in ("Gemma4ForConditionalGeneration", "AutoModelForImageTextToText",
@@ -339,6 +399,7 @@ def main() -> int:
     check_chat_template()
     check_label_masking()
     check_lora_targets()
+    check_resume_adapter()
     check_dataset()
 
     failed = [r for r in results if r[1] == FAIL]

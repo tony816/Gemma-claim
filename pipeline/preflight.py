@@ -26,7 +26,20 @@ from common import (
     write_json,
 )
 
-EXPECTED_COUNTS = {"train": 91, "validation": 11, "test": 12}
+EXPECTED_COUNTS = {"train": 554, "validation": 65, "test": 75}
+
+# A converted record may carry these keys and no others. The approved release
+# ships 66 fields per row, and several of them are the answer or a route to it:
+# `canonical_source_claim_transcription` is byte-identical to the target, and
+# the oracle / evidence / boundary fields describe how the target was derived.
+# tools/convert_release.py projects a row down to three keys; this re-checks
+# the projection at the point of use, so a package assembled any other way
+# cannot smuggle oracle material into model input.
+ALLOWED_RECORD_KEYS = {"id", "images", "messages"}
+FORBIDDEN_KEY_MARKERS = (
+    "oracle", "canonical", "evidence", "boundary", "transcription",
+    "source_", "semantic", "family", "publication", "target_claim",
+)
 
 
 def run_packaged_validators(pkg: Path) -> dict:
@@ -108,6 +121,40 @@ def check_leakage(recs: list[Record], report: dict) -> None:
         )
 
 
+def check_record_keys(recs: list[Record], report: dict) -> None:
+    """No record may carry a field outside the model-input whitelist.
+
+    check_leakage above looks for oracle *paths and text*. This looks for oracle
+    *fields*, which is the shape the approved release actually delivers: the
+    answer travels as a sibling key of the input, not as a path.
+    """
+    offenders = []
+    for rec in recs:
+        extra = set(rec.raw_keys) - ALLOWED_RECORD_KEYS
+        if extra:
+            marked = sorted(
+                k for k in extra
+                if any(m in k.lower() for m in FORBIDDEN_KEY_MARKERS)
+            )
+            offenders.append({
+                "record": rec.record_id,
+                "unexpected_keys": sorted(extra)[:20],
+                "oracle_shaped": marked[:20],
+            })
+    report["record_key_violations"] = offenders[:20]
+    report["record_key_violation_count"] = len(offenders)
+    if offenders:
+        die(
+            "ORACLE_FIELD_IN_MODEL_INPUT",
+            f"{len(offenders)} record(s) carry fields outside "
+            f"{sorted(ALLOWED_RECORD_KEYS)}. Convert the release with "
+            f"tools/convert_release.py instead of loading it directly.\n"
+            f"First offenders: {offenders[:3]}",
+        )
+    log(f"record key whitelist clean: every record carries exactly "
+        f"{sorted(ALLOWED_RECORD_KEYS)}")
+
+
 def family_of(rec: Record) -> str:
     """Best-effort family key, used only to assert split disjointness."""
     rid = rec.record_id
@@ -156,7 +203,7 @@ def main() -> None:
     data = load_all(pkg)
     report: dict = {
         "package_root": str(pkg),
-        "dataset_version": "v1.1.2-independent-oracle-clean",
+        "dataset_version": os.environ.get("DATASET_VERSION", "finetune_multilingual_approved_20260902"),
         "observed_schema": {},
     }
 
@@ -186,6 +233,7 @@ def main() -> None:
     check_images(all_recs, pkg, report)
     check_targets(all_recs, report)
     check_leakage(all_recs, report)
+    check_record_keys(all_recs, report)
 
     report["packaged_validators"] = run_packaged_validators(pkg)
     pv = report["packaged_validators"]
