@@ -232,6 +232,69 @@ Note the endpoint `fdiltabt78bogm` serves `cyankiwi/gemma-4-31B-it-qat-AWQ-INT4`
 an **INT4** build, while training is bf16. The baseline is therefore slightly
 pessimistic. That is the safe direction, but say so when reporting the number.
 
+## Running baseline.py on the laptop (no torch needed)
+
+This is the next step and it does not need this cloud session, a GPU, or the
+1.1 GB package to move anywhere. `api.runpod.ai` is refused by the cloud
+session's egress policy but reachable from the laptop, and `baseline.py` no
+longer pulls in torch, so the laptop is now the right place to run it.
+
+Dependencies are two pure-Python packages — no torch, no transformers, nothing
+that the Windows application-control policy touches:
+
+```
+pip install sacrebleu rouge-score
+```
+
+Both are imported lazily, so a missing one does not crash the run: it returns
+`chrf: null` with an error string, and `baseline.py` prints a loud warning.
+**A run that reports `chrf: null` has measured nothing** — chrF is the metric
+that fell while loss fell last time, and it is the whole reason this tool
+exists. Install both and check the number is real.
+
+Then, from the repository root (`cmd.exe`; quote the path, it has a space):
+
+```
+set "DATA_ROOT=C:\Users\VIEW LIFW\OneDrive\Desktop\Gemma-claim-data\v2_approved_20260902"
+set "RUNPOD_API_KEY=<key>"
+python tools/baseline.py --split validation
+```
+
+PowerShell instead of cmd:
+
+```
+$env:DATA_ROOT = "C:\Users\VIEW LIFW\OneDrive\Desktop\Gemma-claim-data\v2_approved_20260902"
+$env:RUNPOD_API_KEY = "<key>"
+python tools/baseline.py --split validation
+```
+
+65 records, one cold start plus a few seconds each — cents, not dollars. It
+writes `baseline_predictions.jsonl` and `baseline_predictions.metrics.json`.
+`--limit 5` first is a cheap way to confirm the endpoint answers before
+spending the whole split.
+
+What to look at, in this order:
+
+1. **`chrf` is not null.** If it is, the metrics install failed; nothing was
+   measured.
+2. **`by_language`.** 612 of 694 records are Korean; the aggregate is the
+   Korean number with the rest rounded away. The non-Korean group is 82
+   records overall and 4 in test — too small to be a result, so read it as
+   noise, not as a measurement.
+3. **`language_drift`.** Records answered in the wrong language. Non-zero here
+   means the prompt is not holding, and that has to be fixed before any
+   fine-tune number means anything.
+4. **A few predictions by eye.** `well_formed_rate` was 1.0 for the base model
+   last time; the model read the drawings correctly and the fine-tune is what
+   broke it.
+
+The endpoint `fdiltabt78bogm` serves an **INT4** build while training is bf16,
+so this baseline is slightly pessimistic — the safe direction, but say so when
+reporting the number.
+
+Whatever comes out is the bar. The fine-tune is worth its GPU time only if it
+beats these numbers on free-running generation.
+
 ## Cost and time, from the previous run's measured figures
 
 Ground truth: 91 records, 115 optimiser steps, 610.3 s wall clock on an H200,
