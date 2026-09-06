@@ -1,0 +1,30 @@
+/workspace/code/tools/pod_guard.sh: line 42: 5: syntax error: invalid arithmetic operator (error token is "")
+/workspace/code/tools/pod_guard.sh: line 43: 20: syntax error: invalid arithmetic operator (error token is "")
+[pod_guard 2026-09-06T04:20:50Z] watching: deadline 5h, idle 20m at <=5% GPU, poll 60s
+[pod_guard 2026-09-06T04:20:50Z] note: RUNPOD_POD_ID unset — will warn but cannot self-stop
+[pod_guard 2026-09-06T04:21:50Z] STOPPING POD — wall-clock deadline of 5h reached
+[pod_guard 2026-09-06T04:21:50Z] RUNPOD_POD_ID is not set, cannot identify this pod. STILL BILLING — stop it manually.
+/workspace/code/tools/pod_guard.sh: line 42: 5: syntax error: invalid arithmetic operator (error token is "")
+/workspace/code/tools/pod_guard.sh: line 43: 20: syntax error: invalid arithmetic operator (error token is "")
+[pod_guard 2026-09-06T04:25:32Z] watching: deadline 5h, idle 20m at <=5% GPU, poll 60s
+[pod_guard 2026-09-06T04:25:32Z] note: RUNPOD_POD_ID unset — will warn but cannot self-stop
+[pod_guard 2026-09-06T04:26:32Z] STOPPING POD — wall-clock deadline of 5h reached
+[pod_guard 2026-09-06T04:26:32Z] RUNPOD_POD_ID is not set, cannot identify this pod. STILL BILLING — stop it manually.
+[pod_guard 2026-09-06T04:29:06Z] watching: deadline 5h, idle 20m at <=5% GPU, poll 60s
+[pod_guard 2026-09-06T04:29:06Z] note: RUNPOD_POD_ID unset — will warn but cannot self-stop
+[pod_guard 2026-09-06T04:30:23Z] watching: deadline 5h, idle 20m at <=5% GPU, poll 60s
+[pod_guard 2026-09-06T04:31:23Z] GPU at 0% — idle 1m of 20m allowed
+[pod_guard 2026-09-06T04:35:23Z] GPU at 0% — idle 5m of 20m allowed
+/workspace/code/tools/pod_guard.sh: line 42: 4.5: syntax error: invalid arithmetic operator (error token is ".5")
+[pod_guard 2026-09-06T04:38:41Z] watching: deadline 4.5h, idle 45m at <=5% GPU, poll 60s
+[pod_guard 2026-09-06T04:39:03Z] watching: deadline 5h, idle 45m at <=5% GPU, poll 60s
+[pod_guard 2026-09-06T04:40:03Z] GPU at 0% — idle 1m of 45m allowed
+[pod_guard 2026-09-06T04:44:03Z] GPU at 0% — idle 5m of 45m allowed
+[pod_guard 2026-09-06T04:47:03Z] GPU back to 76% — idle timer reset
+[pod_guard 2026-09-06T05:51:05Z] GPU at 0% — idle 1m of 45m allowed
+[pod_guard 2026-09-06T05:52:05Z] GPU back to 83% — idle timer reset
+[pod_guard 2026-09-06T07:08:07Z] GPU at 0% — idle 1m of 45m allowed
+[pod_guard 2026-09-06T07:12:07Z] GPU back to 74% — idle timer reset
+[pod_guard 2026-09-06T07:15:08Z] GPU at 0% — idle 1m of 45m allowed
+[pod_guard 2026-09-06T07:16:08Z] GPU back to 75% — idle timer reset
+[pod_guard 2026-09-06T07:19:08Z] GPU at 0% — idle 1m of 45m allowed

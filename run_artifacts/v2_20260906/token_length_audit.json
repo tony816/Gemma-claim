@@ -1,0 +1,5589 @@
+{
+  "base_model": "google/gemma-4-31B-it",
+  "revision": "main",
+  "model_max_position_embeddings": 262144,
+  "max_total_tokens": 4075,
+  "max_target_tokens": 1870,
+  "truncation_applied_anywhere": false,
+  "records_over_context": [],
+  "empty_targets": [],
+  "per_split": {
+    "train": {
+      "n": 554,
+      "max_total_tokens": 4075,
+      "max_target_tokens": 1870,
+      "max_prompt_tokens": 2205,
+      "mean_total_tokens": 1811.8
+    },
+    "validation": {
+      "n": 65,
+      "max_total_tokens": 2706,
+      "max_target_tokens": 513,
+      "max_prompt_tokens": 2205,
+      "mean_total_tokens": 1891.3
+    },
+    "test": {
+      "n": 75,
+      "max_total_tokens": 3099,
+      "max_target_tokens": 894,
+      "max_prompt_tokens": 2205,
+      "mean_total_tokens": 1787.3
+    }
+  },
+  "per_record": [
+    {
+      "split": "train",
+      "record_id": "EP2671942A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 850,
+      "target_tokens": 104,
+      "total_tokens": 954
+    },
+    {
+      "split": "train",
+      "record_id": "KR100247327B1_claim8",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 123,
+      "total_tokens": 1524
+    },
+    {
+      "split": "train",
+      "record_id": "KR100292182B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 355,
+      "total_tokens": 2560
+    },
+    {
+      "split": "train",
+      "record_id": "KR100348351B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 126,
+      "total_tokens": 1527
+    },
+    {
+      "split": "train",
+      "record_id": "KR100637030B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 165,
+      "total_tokens": 1566
+    },
+    {
+      "split": "train",
+      "record_id": "KR100774713B1_claim5",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 203,
+      "total_tokens": 2140
+    },
+    {
+      "split": "train",
+      "record_id": "KR100799292B1_claim2",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 112,
+      "total_tokens": 1245
+    },
+    {
+      "split": "train",
+      "record_id": "KR100830926B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 154,
+      "total_tokens": 2359
+    },
+    {
+      "split": "train",
+      "record_id": "KR100868598B1_claim6",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 109,
+      "total_tokens": 1242
+    },
+    {
+      "split": "train",
+      "record_id": "KR101075760B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 97,
+      "total_tokens": 962
+    },
+    {
+      "split": "train",
+      "record_id": "KR101080087B1_claim9",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 325,
+      "total_tokens": 1726
+    },
+    {
+      "split": "train",
+      "record_id": "KR101139954B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 459,
+      "total_tokens": 1860
+    },
+    {
+      "split": "train",
+      "record_id": "KR101170469B1_claim5",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 298,
+      "total_tokens": 2503
+    },
+    {
+      "split": "train",
+      "record_id": "KR101185155B1_claim15",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 264,
+      "total_tokens": 2469
+    },
+    {
+      "split": "train",
+      "record_id": "KR101209000B1_claim6",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 230,
+      "total_tokens": 1363
+    },
+    {
+      "split": "train",
+      "record_id": "KR101214780B1_claim9",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 142,
+      "total_tokens": 2347
+    },
+    {
+      "split": "train",
+      "record_id": "KR101216828B1_claim19",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 290,
+      "total_tokens": 2495
+    },
+    {
+      "split": "train",
+      "record_id": "KR101218178B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 238,
+      "total_tokens": 835
+    },
+    {
+      "split": "train",
+      "record_id": "KR101225460B1_claim39",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 321,
+      "total_tokens": 2526
+    },
+    {
+      "split": "train",
+      "record_id": "KR101244467B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 306,
+      "total_tokens": 1171
+    },
+    {
+      "split": "train",
+      "record_id": "KR101254617B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 277,
+      "total_tokens": 1678
+    },
+    {
+      "split": "train",
+      "record_id": "KR101267789B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 192,
+      "total_tokens": 1861
+    },
+    {
+      "split": "train",
+      "record_id": "KR101290648B1_claim11",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 224,
+      "total_tokens": 2429
+    },
+    {
+      "split": "train",
+      "record_id": "KR101293940B1_claim13",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 203,
+      "total_tokens": 1604
+    },
+    {
+      "split": "train",
+      "record_id": "KR101302353B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 216,
+      "total_tokens": 2421
+    },
+    {
+      "split": "train",
+      "record_id": "KR101314206B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 158,
+      "total_tokens": 1827
+    },
+    {
+      "split": "train",
+      "record_id": "KR101321082B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 187,
+      "total_tokens": 1588
+    },
+    {
+      "split": "train",
+      "record_id": "KR101333310B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 163,
+      "total_tokens": 760
+    },
+    {
+      "split": "train",
+      "record_id": "KR101337704B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 374,
+      "total_tokens": 2579
+    },
+    {
+      "split": "train",
+      "record_id": "KR101355994B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 311,
+      "total_tokens": 2516
+    },
+    {
+      "split": "train",
+      "record_id": "KR101365721B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 89,
+      "total_tokens": 1758
+    },
+    {
+      "split": "train",
+      "record_id": "KR101391087B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 402,
+      "total_tokens": 1267
+    },
+    {
+      "split": "train",
+      "record_id": "KR101391862B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 481,
+      "total_tokens": 2418
+    },
+    {
+      "split": "train",
+      "record_id": "KR101398956B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 96,
+      "total_tokens": 961
+    },
+    {
+      "split": "train",
+      "record_id": "KR101404455B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 260,
+      "total_tokens": 1661
+    },
+    {
+      "split": "train",
+      "record_id": "KR101411428B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 350,
+      "total_tokens": 2555
+    },
+    {
+      "split": "train",
+      "record_id": "KR101415001B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 233,
+      "total_tokens": 1366
+    },
+    {
+      "split": "train",
+      "record_id": "KR101423164B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 211,
+      "total_tokens": 1612
+    },
+    {
+      "split": "train",
+      "record_id": "KR101423588B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 376,
+      "total_tokens": 1509
+    },
+    {
+      "split": "train",
+      "record_id": "KR101423936B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 402,
+      "total_tokens": 2607
+    },
+    {
+      "split": "train",
+      "record_id": "KR101437261B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 445,
+      "total_tokens": 2382
+    },
+    {
+      "split": "train",
+      "record_id": "KR101441594B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 282,
+      "total_tokens": 2487
+    },
+    {
+      "split": "train",
+      "record_id": "KR101465900B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 342,
+      "total_tokens": 939
+    },
+    {
+      "split": "train",
+      "record_id": "KR101481054B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 232,
+      "total_tokens": 1901
+    },
+    {
+      "split": "train",
+      "record_id": "KR101482605B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 357,
+      "total_tokens": 1758
+    },
+    {
+      "split": "train",
+      "record_id": "KR101483438B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 490,
+      "total_tokens": 2695
+    },
+    {
+      "split": "train",
+      "record_id": "KR101483493B1_claim9",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 1870,
+      "total_tokens": 4075
+    },
+    {
+      "split": "train",
+      "record_id": "KR101487836B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 181,
+      "total_tokens": 778
+    },
+    {
+      "split": "train",
+      "record_id": "KR101506727B1_claim83",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 205,
+      "total_tokens": 1874
+    },
+    {
+      "split": "train",
+      "record_id": "KR101519872B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 364,
+      "total_tokens": 1229
+    },
+    {
+      "split": "train",
+      "record_id": "KR101535216B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 554,
+      "total_tokens": 2759
+    },
+    {
+      "split": "train",
+      "record_id": "KR101548634B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 175,
+      "total_tokens": 1308
+    },
+    {
+      "split": "train",
+      "record_id": "KR101593552B1_claim2",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 293,
+      "total_tokens": 1962
+    },
+    {
+      "split": "train",
+      "record_id": "KR101597413B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 147,
+      "total_tokens": 744
+    },
+    {
+      "split": "train",
+      "record_id": "KR101605701B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 274,
+      "total_tokens": 2211
+    },
+    {
+      "split": "train",
+      "record_id": "KR101608749B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 512,
+      "total_tokens": 2717
+    },
+    {
+      "split": "train",
+      "record_id": "KR101630784B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 300,
+      "total_tokens": 2505
+    },
+    {
+      "split": "train",
+      "record_id": "KR101651337B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 129,
+      "total_tokens": 2334
+    },
+    {
+      "split": "train",
+      "record_id": "KR101663600B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 581,
+      "total_tokens": 2518
+    },
+    {
+      "split": "train",
+      "record_id": "KR101691349B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 342,
+      "total_tokens": 1475
+    },
+    {
+      "split": "train",
+      "record_id": "KR101703992B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 384,
+      "total_tokens": 2589
+    },
+    {
+      "split": "train",
+      "record_id": "KR101742958B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 496,
+      "total_tokens": 2165
+    },
+    {
+      "split": "train",
+      "record_id": "KR101743749B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 311,
+      "total_tokens": 1176
+    },
+    {
+      "split": "train",
+      "record_id": "KR101747091B1_claim4",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 122,
+      "total_tokens": 1255
+    },
+    {
+      "split": "train",
+      "record_id": "KR101749627B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 345,
+      "total_tokens": 2550
+    },
+    {
+      "split": "train",
+      "record_id": "KR101762295B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 431,
+      "total_tokens": 2636
+    },
+    {
+      "split": "train",
+      "record_id": "KR101765474B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 332,
+      "total_tokens": 2537
+    },
+    {
+      "split": "train",
+      "record_id": "KR101767978B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 512,
+      "total_tokens": 1913
+    },
+    {
+      "split": "train",
+      "record_id": "KR101768062B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 433,
+      "total_tokens": 2638
+    },
+    {
+      "split": "train",
+      "record_id": "KR101776134B1_claim8",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 377,
+      "total_tokens": 2582
+    },
+    {
+      "split": "train",
+      "record_id": "KR101780334B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 302,
+      "total_tokens": 1167
+    },
+    {
+      "split": "train",
+      "record_id": "KR101786135B1_claim14",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 318,
+      "total_tokens": 2255
+    },
+    {
+      "split": "train",
+      "record_id": "KR101806763B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 219,
+      "total_tokens": 1084
+    },
+    {
+      "split": "train",
+      "record_id": "KR101813162B1_claim16",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 908,
+      "total_tokens": 2309
+    },
+    {
+      "split": "train",
+      "record_id": "KR101813870B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 262,
+      "total_tokens": 2467
+    },
+    {
+      "split": "train",
+      "record_id": "KR101830778B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 107,
+      "total_tokens": 1776
+    },
+    {
+      "split": "train",
+      "record_id": "KR101845974B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 734,
+      "total_tokens": 2939
+    },
+    {
+      "split": "train",
+      "record_id": "KR101858830B1_claim8",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 330,
+      "total_tokens": 1999
+    },
+    {
+      "split": "train",
+      "record_id": "KR101872803B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 103,
+      "total_tokens": 2308
+    },
+    {
+      "split": "train",
+      "record_id": "KR101882480B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 1047,
+      "total_tokens": 2180
+    },
+    {
+      "split": "train",
+      "record_id": "KR101882940B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 1070,
+      "total_tokens": 3275
+    },
+    {
+      "split": "train",
+      "record_id": "KR101885417B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 490,
+      "total_tokens": 2695
+    },
+    {
+      "split": "train",
+      "record_id": "KR101890593B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 81,
+      "total_tokens": 946
+    },
+    {
+      "split": "train",
+      "record_id": "KR101890753B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 176,
+      "total_tokens": 2381
+    },
+    {
+      "split": "train",
+      "record_id": "KR101891049B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 275,
+      "total_tokens": 2480
+    },
+    {
+      "split": "train",
+      "record_id": "KR101891558B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 325,
+      "total_tokens": 2262
+    },
+    {
+      "split": "train",
+      "record_id": "KR101904248B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 242,
+      "total_tokens": 2447
+    },
+    {
+      "split": "train",
+      "record_id": "KR101909446B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 182,
+      "total_tokens": 2387
+    },
+    {
+      "split": "train",
+      "record_id": "KR101909599B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 291,
+      "total_tokens": 888
+    },
+    {
+      "split": "train",
+      "record_id": "KR101916608B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 654,
+      "total_tokens": 2859
+    },
+    {
+      "split": "train",
+      "record_id": "KR101918115B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 329,
+      "total_tokens": 1998
+    },
+    {
+      "split": "train",
+      "record_id": "KR101931071B1_claim4",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 753,
+      "total_tokens": 2958
+    },
+    {
+      "split": "train",
+      "record_id": "KR101946339B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 413,
+      "total_tokens": 2618
+    },
+    {
+      "split": "train",
+      "record_id": "KR101948873B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 399,
+      "total_tokens": 2336
+    },
+    {
+      "split": "train",
+      "record_id": "KR101951906B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 537,
+      "total_tokens": 2742
+    },
+    {
+      "split": "train",
+      "record_id": "KR101953884B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 324,
+      "total_tokens": 1725
+    },
+    {
+      "split": "train",
+      "record_id": "KR101960634B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 517,
+      "total_tokens": 2186
+    },
+    {
+      "split": "train",
+      "record_id": "KR101967236B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 131,
+      "total_tokens": 2336
+    },
+    {
+      "split": "train",
+      "record_id": "KR101974515B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 288,
+      "total_tokens": 2493
+    },
+    {
+      "split": "train",
+      "record_id": "KR101974587B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 143,
+      "total_tokens": 1812
+    },
+    {
+      "split": "train",
+      "record_id": "KR101976117B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 314,
+      "total_tokens": 2519
+    },
+    {
+      "split": "train",
+      "record_id": "KR101978821B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 225,
+      "total_tokens": 2430
+    },
+    {
+      "split": "train",
+      "record_id": "KR101978822B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 240,
+      "total_tokens": 2445
+    },
+    {
+      "split": "train",
+      "record_id": "KR101983580B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 264,
+      "total_tokens": 2201
+    },
+    {
+      "split": "train",
+      "record_id": "KR101983593B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 333,
+      "total_tokens": 2538
+    },
+    {
+      "split": "train",
+      "record_id": "KR101984699B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 604,
+      "total_tokens": 2809
+    },
+    {
+      "split": "train",
+      "record_id": "KR101986464B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 341,
+      "total_tokens": 2546
+    },
+    {
+      "split": "train",
+      "record_id": "KR101998795B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 355,
+      "total_tokens": 2560
+    },
+    {
+      "split": "train",
+      "record_id": "KR102005359B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 527,
+      "total_tokens": 2732
+    },
+    {
+      "split": "train",
+      "record_id": "KR102012874B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 690,
+      "total_tokens": 1555
+    },
+    {
+      "split": "train",
+      "record_id": "KR102027441B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 204,
+      "total_tokens": 2409
+    },
+    {
+      "split": "train",
+      "record_id": "KR102033332B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 352,
+      "total_tokens": 1753
+    },
+    {
+      "split": "train",
+      "record_id": "KR102046101B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 157,
+      "total_tokens": 2362
+    },
+    {
+      "split": "train",
+      "record_id": "KR102065387B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 237,
+      "total_tokens": 1102
+    },
+    {
+      "split": "train",
+      "record_id": "KR102065440B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 533,
+      "total_tokens": 1934
+    },
+    {
+      "split": "train",
+      "record_id": "KR102070931B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 226,
+      "total_tokens": 1359
+    },
+    {
+      "split": "train",
+      "record_id": "KR102072711B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 73,
+      "total_tokens": 1742
+    },
+    {
+      "split": "train",
+      "record_id": "KR102074153B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 776,
+      "total_tokens": 2981
+    },
+    {
+      "split": "train",
+      "record_id": "KR102077037B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 177,
+      "total_tokens": 1578
+    },
+    {
+      "split": "train",
+      "record_id": "KR102082117B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 304,
+      "total_tokens": 1705
+    },
+    {
+      "split": "train",
+      "record_id": "KR102088277B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 353,
+      "total_tokens": 2558
+    },
+    {
+      "split": "train",
+      "record_id": "KR102089633B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 415,
+      "total_tokens": 1816
+    },
+    {
+      "split": "train",
+      "record_id": "KR102092230B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 557,
+      "total_tokens": 2762
+    },
+    {
+      "split": "train",
+      "record_id": "KR102094082B1_claim8",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 208,
+      "total_tokens": 1877
+    },
+    {
+      "split": "train",
+      "record_id": "KR102110647B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 359,
+      "total_tokens": 1224
+    },
+    {
+      "split": "train",
+      "record_id": "KR102113957B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 233,
+      "total_tokens": 1634
+    },
+    {
+      "split": "train",
+      "record_id": "KR102114446B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 220,
+      "total_tokens": 1889
+    },
+    {
+      "split": "train",
+      "record_id": "KR102126032B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 183,
+      "total_tokens": 1316
+    },
+    {
+      "split": "train",
+      "record_id": "KR102129937B1_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 95,
+      "total_tokens": 424
+    },
+    {
+      "split": "train",
+      "record_id": "KR102150912B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 653,
+      "total_tokens": 2054
+    },
+    {
+      "split": "train",
+      "record_id": "KR102156569B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 444,
+      "total_tokens": 1845
+    },
+    {
+      "split": "train",
+      "record_id": "KR102157106B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 324,
+      "total_tokens": 1457
+    },
+    {
+      "split": "train",
+      "record_id": "KR102170933B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 326,
+      "total_tokens": 2531
+    },
+    {
+      "split": "train",
+      "record_id": "KR102184277B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 873,
+      "total_tokens": 2274
+    },
+    {
+      "split": "train",
+      "record_id": "KR102193197B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 359,
+      "total_tokens": 956
+    },
+    {
+      "split": "train",
+      "record_id": "KR102206856B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 277,
+      "total_tokens": 2482
+    },
+    {
+      "split": "train",
+      "record_id": "KR102219101B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 298,
+      "total_tokens": 1699
+    },
+    {
+      "split": "train",
+      "record_id": "KR102220357B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 334,
+      "total_tokens": 2271
+    },
+    {
+      "split": "train",
+      "record_id": "KR102224541B1_claim10",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 298,
+      "total_tokens": 1699
+    },
+    {
+      "split": "train",
+      "record_id": "KR102228913B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 154,
+      "total_tokens": 2359
+    },
+    {
+      "split": "train",
+      "record_id": "KR102242704B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 398,
+      "total_tokens": 2603
+    },
+    {
+      "split": "train",
+      "record_id": "KR102256757B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 307,
+      "total_tokens": 2512
+    },
+    {
+      "split": "train",
+      "record_id": "KR102264336B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 461,
+      "total_tokens": 2398
+    },
+    {
+      "split": "train",
+      "record_id": "KR102265781B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 312,
+      "total_tokens": 1445
+    },
+    {
+      "split": "train",
+      "record_id": "KR102273586B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 460,
+      "total_tokens": 2397
+    },
+    {
+      "split": "train",
+      "record_id": "KR102273588B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 671,
+      "total_tokens": 2608
+    },
+    {
+      "split": "train",
+      "record_id": "KR102276191B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 201,
+      "total_tokens": 2406
+    },
+    {
+      "split": "train",
+      "record_id": "KR102288369B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 120,
+      "total_tokens": 1789
+    },
+    {
+      "split": "train",
+      "record_id": "KR102292998B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 180,
+      "total_tokens": 2385
+    },
+    {
+      "split": "train",
+      "record_id": "KR102296575B1_claim21",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 362,
+      "total_tokens": 2567
+    },
+    {
+      "split": "train",
+      "record_id": "KR102304025B1_claim11",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 353,
+      "total_tokens": 2558
+    },
+    {
+      "split": "train",
+      "record_id": "KR102317030B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 267,
+      "total_tokens": 1668
+    },
+    {
+      "split": "train",
+      "record_id": "KR102321031B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 269,
+      "total_tokens": 2474
+    },
+    {
+      "split": "train",
+      "record_id": "KR102323360B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 357,
+      "total_tokens": 2562
+    },
+    {
+      "split": "train",
+      "record_id": "KR102339013B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 668,
+      "total_tokens": 2069
+    },
+    {
+      "split": "train",
+      "record_id": "KR102344815B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 435,
+      "total_tokens": 2640
+    },
+    {
+      "split": "train",
+      "record_id": "KR102345695B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 158,
+      "total_tokens": 1291
+    },
+    {
+      "split": "train",
+      "record_id": "KR102370055B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 394,
+      "total_tokens": 2331
+    },
+    {
+      "split": "train",
+      "record_id": "KR102370580B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 432,
+      "total_tokens": 1297
+    },
+    {
+      "split": "train",
+      "record_id": "KR102370880B1_claim9",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 206,
+      "total_tokens": 2411
+    },
+    {
+      "split": "train",
+      "record_id": "KR102375927B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 1129,
+      "total_tokens": 3334
+    },
+    {
+      "split": "train",
+      "record_id": "KR102381134B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 252,
+      "total_tokens": 2457
+    },
+    {
+      "split": "train",
+      "record_id": "KR102392570B1_claim8",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 387,
+      "total_tokens": 2592
+    },
+    {
+      "split": "train",
+      "record_id": "KR102394330B1_claim17",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 360,
+      "total_tokens": 2565
+    },
+    {
+      "split": "train",
+      "record_id": "KR102396381B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 118,
+      "total_tokens": 2323
+    },
+    {
+      "split": "train",
+      "record_id": "KR102402566B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 488,
+      "total_tokens": 2693
+    },
+    {
+      "split": "train",
+      "record_id": "KR102403439B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 60,
+      "total_tokens": 2265
+    },
+    {
+      "split": "train",
+      "record_id": "KR102404682B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 214,
+      "total_tokens": 811
+    },
+    {
+      "split": "train",
+      "record_id": "KR102407153B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 408,
+      "total_tokens": 2613
+    },
+    {
+      "split": "train",
+      "record_id": "KR102409058B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 308,
+      "total_tokens": 2513
+    },
+    {
+      "split": "train",
+      "record_id": "KR102422907B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 291,
+      "total_tokens": 2496
+    },
+    {
+      "split": "train",
+      "record_id": "KR102423723B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 299,
+      "total_tokens": 2504
+    },
+    {
+      "split": "train",
+      "record_id": "KR102424850B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 297,
+      "total_tokens": 2502
+    },
+    {
+      "split": "train",
+      "record_id": "KR102427988B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 330,
+      "total_tokens": 2535
+    },
+    {
+      "split": "train",
+      "record_id": "KR102429576B1_claim13",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 283,
+      "total_tokens": 2488
+    },
+    {
+      "split": "train",
+      "record_id": "KR102435196B1_claim3",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 270,
+      "total_tokens": 2207
+    },
+    {
+      "split": "train",
+      "record_id": "KR102438372B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 143,
+      "total_tokens": 2348
+    },
+    {
+      "split": "train",
+      "record_id": "KR102447967B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 282,
+      "total_tokens": 2487
+    },
+    {
+      "split": "train",
+      "record_id": "KR102448365B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 507,
+      "total_tokens": 2444
+    },
+    {
+      "split": "train",
+      "record_id": "KR102456309B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 457,
+      "total_tokens": 2394
+    },
+    {
+      "split": "train",
+      "record_id": "KR102459364B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 107,
+      "total_tokens": 704
+    },
+    {
+      "split": "train",
+      "record_id": "KR102474238B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 570,
+      "total_tokens": 1703
+    },
+    {
+      "split": "train",
+      "record_id": "KR102478013B1_claim112",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 323,
+      "total_tokens": 2528
+    },
+    {
+      "split": "train",
+      "record_id": "KR102478636B1_claim20",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 335,
+      "total_tokens": 2540
+    },
+    {
+      "split": "train",
+      "record_id": "KR102478637B1_claim20",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 238,
+      "total_tokens": 2443
+    },
+    {
+      "split": "train",
+      "record_id": "KR102478639B1_claim19",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 279,
+      "total_tokens": 2484
+    },
+    {
+      "split": "train",
+      "record_id": "KR102478830B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 280,
+      "total_tokens": 877
+    },
+    {
+      "split": "train",
+      "record_id": "KR102491723B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 392,
+      "total_tokens": 989
+    },
+    {
+      "split": "train",
+      "record_id": "KR102530556B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 694,
+      "total_tokens": 2095
+    },
+    {
+      "split": "train",
+      "record_id": "KR102549976B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 137,
+      "total_tokens": 1538
+    },
+    {
+      "split": "train",
+      "record_id": "KR102555474B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 249,
+      "total_tokens": 1650
+    },
+    {
+      "split": "train",
+      "record_id": "KR102557135B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 179,
+      "total_tokens": 2384
+    },
+    {
+      "split": "train",
+      "record_id": "KR102560737B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 414,
+      "total_tokens": 2351
+    },
+    {
+      "split": "train",
+      "record_id": "KR102568295B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 452,
+      "total_tokens": 1585
+    },
+    {
+      "split": "train",
+      "record_id": "KR102576448B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 173,
+      "total_tokens": 1574
+    },
+    {
+      "split": "train",
+      "record_id": "KR102579800B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 262,
+      "total_tokens": 2467
+    },
+    {
+      "split": "train",
+      "record_id": "KR102597405B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 351,
+      "total_tokens": 948
+    },
+    {
+      "split": "train",
+      "record_id": "KR102597565B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 235,
+      "total_tokens": 1636
+    },
+    {
+      "split": "train",
+      "record_id": "KR102601324B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 247,
+      "total_tokens": 2452
+    },
+    {
+      "split": "train",
+      "record_id": "KR102603738B1_claim22",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 282,
+      "total_tokens": 2487
+    },
+    {
+      "split": "train",
+      "record_id": "KR102606867B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 250,
+      "total_tokens": 2187
+    },
+    {
+      "split": "train",
+      "record_id": "KR102612446B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 543,
+      "total_tokens": 2480
+    },
+    {
+      "split": "train",
+      "record_id": "KR102614191B1_claim4",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 124,
+      "total_tokens": 2329
+    },
+    {
+      "split": "train",
+      "record_id": "KR102629738B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 648,
+      "total_tokens": 2853
+    },
+    {
+      "split": "train",
+      "record_id": "KR102650704B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 584,
+      "total_tokens": 2789
+    },
+    {
+      "split": "train",
+      "record_id": "KR102655027B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 389,
+      "total_tokens": 2058
+    },
+    {
+      "split": "train",
+      "record_id": "KR102682605B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 337,
+      "total_tokens": 2542
+    },
+    {
+      "split": "train",
+      "record_id": "KR102692949B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 427,
+      "total_tokens": 1828
+    },
+    {
+      "split": "train",
+      "record_id": "KR102693989B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 466,
+      "total_tokens": 1599
+    },
+    {
+      "split": "train",
+      "record_id": "KR102704078B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 544,
+      "total_tokens": 2749
+    },
+    {
+      "split": "train",
+      "record_id": "KR102705210B1_claim20",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 266,
+      "total_tokens": 2471
+    },
+    {
+      "split": "train",
+      "record_id": "KR102705777B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 222,
+      "total_tokens": 2427
+    },
+    {
+      "split": "train",
+      "record_id": "KR102718533B1_claim8",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 486,
+      "total_tokens": 1083
+    },
+    {
+      "split": "train",
+      "record_id": "KR102731518B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 701,
+      "total_tokens": 2906
+    },
+    {
+      "split": "train",
+      "record_id": "KR102732642B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 688,
+      "total_tokens": 2893
+    },
+    {
+      "split": "train",
+      "record_id": "KR102732647B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 433,
+      "total_tokens": 2638
+    },
+    {
+      "split": "train",
+      "record_id": "KR102746174B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 299,
+      "total_tokens": 2504
+    },
+    {
+      "split": "train",
+      "record_id": "KR102747538B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 316,
+      "total_tokens": 1449
+    },
+    {
+      "split": "train",
+      "record_id": "KR102748099B1_claim8",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 252,
+      "total_tokens": 2457
+    },
+    {
+      "split": "train",
+      "record_id": "KR102788546B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 360,
+      "total_tokens": 2565
+    },
+    {
+      "split": "train",
+      "record_id": "KR102791677B1_claim44",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 302,
+      "total_tokens": 2507
+    },
+    {
+      "split": "train",
+      "record_id": "KR102798102B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 375,
+      "total_tokens": 2580
+    },
+    {
+      "split": "train",
+      "record_id": "KR102804857B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 614,
+      "total_tokens": 2819
+    },
+    {
+      "split": "train",
+      "record_id": "KR102805024B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 168,
+      "total_tokens": 1033
+    },
+    {
+      "split": "train",
+      "record_id": "KR102808669B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 559,
+      "total_tokens": 2764
+    },
+    {
+      "split": "train",
+      "record_id": "KR102816566B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 1023,
+      "total_tokens": 3228
+    },
+    {
+      "split": "train",
+      "record_id": "KR102821712B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 385,
+      "total_tokens": 1518
+    },
+    {
+      "split": "train",
+      "record_id": "KR102824697B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 334,
+      "total_tokens": 1467
+    },
+    {
+      "split": "train",
+      "record_id": "KR102825182B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 150,
+      "total_tokens": 2355
+    },
+    {
+      "split": "train",
+      "record_id": "KR20020017212A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 168,
+      "total_tokens": 765
+    },
+    {
+      "split": "train",
+      "record_id": "KR20030066672A_claim122",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 168,
+      "total_tokens": 1837
+    },
+    {
+      "split": "train",
+      "record_id": "KR20040015794A_claim45",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 58,
+      "total_tokens": 2263
+    },
+    {
+      "split": "train",
+      "record_id": "KR20050111083A_claim7",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 82,
+      "total_tokens": 1215
+    },
+    {
+      "split": "train",
+      "record_id": "KR20070001927A_claim23",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 83,
+      "total_tokens": 948
+    },
+    {
+      "split": "train",
+      "record_id": "KR20080067543A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 225,
+      "total_tokens": 1090
+    },
+    {
+      "split": "train",
+      "record_id": "KR20080087004A_claim48",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 83,
+      "total_tokens": 2288
+    },
+    {
+      "split": "train",
+      "record_id": "KR20100036224A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 248,
+      "total_tokens": 2453
+    },
+    {
+      "split": "train",
+      "record_id": "KR20100070977A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 166,
+      "total_tokens": 1031
+    },
+    {
+      "split": "train",
+      "record_id": "KR20100085911A_claim45",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 140,
+      "total_tokens": 2345
+    },
+    {
+      "split": "train",
+      "record_id": "KR20110036581A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 255,
+      "total_tokens": 2460
+    },
+    {
+      "split": "train",
+      "record_id": "KR20110092083A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 303,
+      "total_tokens": 900
+    },
+    {
+      "split": "train",
+      "record_id": "KR20110116461A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 281,
+      "total_tokens": 610
+    },
+    {
+      "split": "train",
+      "record_id": "KR20110133617A_claim21",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 353,
+      "total_tokens": 2558
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120017033A_claim9",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 182,
+      "total_tokens": 2387
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120017358A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 306,
+      "total_tokens": 1975
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120017362A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 153,
+      "total_tokens": 1822
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120029549A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 249,
+      "total_tokens": 578
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120062327A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 124,
+      "total_tokens": 721
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120072702A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 226,
+      "total_tokens": 823
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120083179A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 141,
+      "total_tokens": 738
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120088202A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 48,
+      "total_tokens": 1181
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120117190A_claim12",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 53,
+      "total_tokens": 650
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120124320A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 215,
+      "total_tokens": 1080
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120126459A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 96,
+      "total_tokens": 1497
+    },
+    {
+      "split": "train",
+      "record_id": "KR20120126599A_claim5",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 175,
+      "total_tokens": 1040
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130015645A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 112,
+      "total_tokens": 977
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130039717A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 152,
+      "total_tokens": 1285
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130049477A_claim5",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 68,
+      "total_tokens": 397
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130053614A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 131,
+      "total_tokens": 1800
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130057721A_claim8",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 110,
+      "total_tokens": 1511
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130085252A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 319,
+      "total_tokens": 1720
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130086578A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 191,
+      "total_tokens": 788
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130086893A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 94,
+      "total_tokens": 2031
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130086894A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 109,
+      "total_tokens": 1778
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130092391A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 329,
+      "total_tokens": 2266
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130096707A_claim7",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 236,
+      "total_tokens": 2441
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130098381A_claim24",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 169,
+      "total_tokens": 1570
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130114509A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 139,
+      "total_tokens": 468
+    },
+    {
+      "split": "train",
+      "record_id": "KR20130127513A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 174,
+      "total_tokens": 2379
+    },
+    {
+      "split": "train",
+      "record_id": "KR20140025380A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 249,
+      "total_tokens": 2454
+    },
+    {
+      "split": "train",
+      "record_id": "KR20140031559A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 124,
+      "total_tokens": 2329
+    },
+    {
+      "split": "train",
+      "record_id": "KR20140042143A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 167,
+      "total_tokens": 764
+    },
+    {
+      "split": "train",
+      "record_id": "KR20140050465A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 73,
+      "total_tokens": 2278
+    },
+    {
+      "split": "train",
+      "record_id": "KR20140078713A_claim20",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 229,
+      "total_tokens": 2434
+    },
+    {
+      "split": "train",
+      "record_id": "KR20140110944A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 299,
+      "total_tokens": 2504
+    },
+    {
+      "split": "train",
+      "record_id": "KR20140118680A_claim15",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 92,
+      "total_tokens": 1493
+    },
+    {
+      "split": "train",
+      "record_id": "KR20140141879A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 194,
+      "total_tokens": 1863
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150013209A_claim12",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 334,
+      "total_tokens": 2539
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150013213A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 117,
+      "total_tokens": 982
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150014469A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 184,
+      "total_tokens": 2389
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150014925A_claim80",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 124,
+      "total_tokens": 2329
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150023069A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 309,
+      "total_tokens": 906
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150039819A_claim12",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 491,
+      "total_tokens": 1624
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150040269A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 204,
+      "total_tokens": 1069
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150064112A_claim13",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 296,
+      "total_tokens": 2501
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150064115A_claim17",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 342,
+      "total_tokens": 2547
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150102881A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 213,
+      "total_tokens": 1078
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150106520A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 128,
+      "total_tokens": 2333
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150117945A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 119,
+      "total_tokens": 1252
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150130387A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 68,
+      "total_tokens": 1737
+    },
+    {
+      "split": "train",
+      "record_id": "KR20150139639A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 185,
+      "total_tokens": 1854
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160015079A_claim12",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 240,
+      "total_tokens": 2177
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160018208A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 190,
+      "total_tokens": 1055
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160018479A_claim124",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 174,
+      "total_tokens": 2379
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160060294A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 211,
+      "total_tokens": 1076
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160075568A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 185,
+      "total_tokens": 1854
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160094507A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 119,
+      "total_tokens": 716
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160124905A_claim10",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 93,
+      "total_tokens": 422
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160126688A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 305,
+      "total_tokens": 1974
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160132750A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 129,
+      "total_tokens": 2334
+    },
+    {
+      "split": "train",
+      "record_id": "KR20160148139A_claim8",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 123,
+      "total_tokens": 1524
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170007773A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 309,
+      "total_tokens": 2514
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170010361A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 882,
+      "total_tokens": 3087
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170033295A_claim20",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 156,
+      "total_tokens": 2361
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170047151A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 250,
+      "total_tokens": 579
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170050399A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 103,
+      "total_tokens": 968
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170055936A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 171,
+      "total_tokens": 1036
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170059471A_claim17",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 398,
+      "total_tokens": 2603
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170059472A_claim16",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 320,
+      "total_tokens": 2525
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170089812A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 153,
+      "total_tokens": 1018
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170099785A_claim25",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 136,
+      "total_tokens": 2341
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170099786A_claim20",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 186,
+      "total_tokens": 2391
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170115157A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 587,
+      "total_tokens": 1720
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170118766A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 219,
+      "total_tokens": 2424
+    },
+    {
+      "split": "train",
+      "record_id": "KR20170132856A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 350,
+      "total_tokens": 2555
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180009772A_claim30",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 313,
+      "total_tokens": 2518
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180016734A_claim11",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 189,
+      "total_tokens": 518
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180025295A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 166,
+      "total_tokens": 763
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180033454A_claim44",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 130,
+      "total_tokens": 1799
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180054828A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 154,
+      "total_tokens": 2359
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180090742A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 221,
+      "total_tokens": 1890
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180095275A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 131,
+      "total_tokens": 1532
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180095483A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 99,
+      "total_tokens": 1500
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180097640A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 123,
+      "total_tokens": 1256
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180098241A_claim22",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 171,
+      "total_tokens": 2108
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180112783A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 175,
+      "total_tokens": 2380
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180116526A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 132,
+      "total_tokens": 997
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180129080A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 226,
+      "total_tokens": 1627
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180130640A_claim8",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 219,
+      "total_tokens": 1352
+    },
+    {
+      "split": "train",
+      "record_id": "KR20180133406A_claim28",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 194,
+      "total_tokens": 2399
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190012677A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 323,
+      "total_tokens": 2528
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190024158A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 325,
+      "total_tokens": 1994
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190026255A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 97,
+      "total_tokens": 694
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190031873A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 127,
+      "total_tokens": 456
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190044613A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 204,
+      "total_tokens": 2409
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190053879A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 507,
+      "total_tokens": 2712
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190058357A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 307,
+      "total_tokens": 1708
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190066037A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 345,
+      "total_tokens": 2550
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190074733A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 437,
+      "total_tokens": 2642
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190075010A_claim20",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 124,
+      "total_tokens": 2329
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190083297A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 212,
+      "total_tokens": 2417
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190084267A_claim50",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 380,
+      "total_tokens": 2585
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190095080A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 411,
+      "total_tokens": 2348
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190097336A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 55,
+      "total_tokens": 1188
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190099328A_claim15",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 467,
+      "total_tokens": 2136
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190112731A_claim18",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 431,
+      "total_tokens": 2636
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190114625A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 242,
+      "total_tokens": 2447
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190123997A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 117,
+      "total_tokens": 446
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190124024A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 440,
+      "total_tokens": 1573
+    },
+    {
+      "split": "train",
+      "record_id": "KR20190124134A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 218,
+      "total_tokens": 2423
+    },
+    {
+      "split": "train",
+      "record_id": "KR20200013238A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 545,
+      "total_tokens": 2482
+    },
+    {
+      "split": "train",
+      "record_id": "KR20200015896A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 110,
+      "total_tokens": 2315
+    },
+    {
+      "split": "train",
+      "record_id": "KR20200020004A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 111,
+      "total_tokens": 2316
+    },
+    {
+      "split": "train",
+      "record_id": "KR20200032639A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 934,
+      "total_tokens": 3139
+    },
+    {
+      "split": "train",
+      "record_id": "KR20200034774A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 154,
+      "total_tokens": 483
+    },
+    {
+      "split": "train",
+      "record_id": "KR20200057720A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 118,
+      "total_tokens": 2323
+    },
+    {
+      "split": "train",
+      "record_id": "KR20200061692A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 120,
+      "total_tokens": 717
+    },
+    {
+      "split": "train",
+      "record_id": "KR20200084725A_claim6",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 291,
+      "total_tokens": 1424
+    },
+    {
+      "split": "train",
+      "record_id": "KR20200136380A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 92,
+      "total_tokens": 2297
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210018150A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 82,
+      "total_tokens": 947
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210028277A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 195,
+      "total_tokens": 2400
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210039326A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 117,
+      "total_tokens": 2322
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210045361A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 80,
+      "total_tokens": 2285
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210050041A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 95,
+      "total_tokens": 1228
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210050674A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 285,
+      "total_tokens": 1954
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210072425A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 313,
+      "total_tokens": 1982
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210076854A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 317,
+      "total_tokens": 2522
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210078510A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 295,
+      "total_tokens": 2500
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210079186A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 119,
+      "total_tokens": 1520
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210079957A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 290,
+      "total_tokens": 1959
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210081335A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 333,
+      "total_tokens": 2538
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210083489A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 123,
+      "total_tokens": 452
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210093157A_claim11",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 418,
+      "total_tokens": 1819
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210094583A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 303,
+      "total_tokens": 900
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210103932A_claim10",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 194,
+      "total_tokens": 1863
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210104835A_claim74",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 80,
+      "total_tokens": 2285
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210112008A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 90,
+      "total_tokens": 687
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210112841A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 184,
+      "total_tokens": 781
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210117600A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 241,
+      "total_tokens": 2446
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210119869A_claim31",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 430,
+      "total_tokens": 2635
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210122513A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 248,
+      "total_tokens": 1113
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210132039A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 291,
+      "total_tokens": 2496
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210132861A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 192,
+      "total_tokens": 2397
+    },
+    {
+      "split": "train",
+      "record_id": "KR20210134599A_claim11",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 298,
+      "total_tokens": 2503
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220004578A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 113,
+      "total_tokens": 2318
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220012920A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 355,
+      "total_tokens": 2560
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220024766A_claim56",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 122,
+      "total_tokens": 2327
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220028636A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 362,
+      "total_tokens": 691
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220029016A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 129,
+      "total_tokens": 2334
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220037760A_claim12",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 308,
+      "total_tokens": 2513
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220042727A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 83,
+      "total_tokens": 2288
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220045590A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 370,
+      "total_tokens": 2575
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220046751A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 157,
+      "total_tokens": 1558
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220046803A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 160,
+      "total_tokens": 1561
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220053582A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 240,
+      "total_tokens": 2445
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220054242A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 218,
+      "total_tokens": 1887
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220062302A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 166,
+      "total_tokens": 2371
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220076416A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 339,
+      "total_tokens": 2544
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220081789A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 127,
+      "total_tokens": 2332
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220084297A_claim25",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 277,
+      "total_tokens": 2482
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220095646A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 213,
+      "total_tokens": 1614
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220097838A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 76,
+      "total_tokens": 2013
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220104523A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 198,
+      "total_tokens": 2403
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220105801A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 206,
+      "total_tokens": 2411
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220111688A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 385,
+      "total_tokens": 2590
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220114771A_claim10",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 279,
+      "total_tokens": 1412
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220122244A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 247,
+      "total_tokens": 844
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220123327A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 106,
+      "total_tokens": 2311
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220135432A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 74,
+      "total_tokens": 939
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220144284A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 163,
+      "total_tokens": 1564
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220153007A_claim13",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 409,
+      "total_tokens": 2078
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220157269A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 70,
+      "total_tokens": 1471
+    },
+    {
+      "split": "train",
+      "record_id": "KR20220170634A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 95,
+      "total_tokens": 1764
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230009244A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 122,
+      "total_tokens": 719
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230021120A_claim20",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 62,
+      "total_tokens": 659
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230024417A_claim20",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 453,
+      "total_tokens": 2658
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230026031A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 215,
+      "total_tokens": 812
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230029575A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 332,
+      "total_tokens": 2269
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230034214A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 231,
+      "total_tokens": 2168
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230041660A_claim27",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 197,
+      "total_tokens": 1866
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230051861A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 142,
+      "total_tokens": 1275
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230053647A_claim18",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 661,
+      "total_tokens": 2866
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230058320A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 213,
+      "total_tokens": 2418
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230058321A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 309,
+      "total_tokens": 2514
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230062838A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 321,
+      "total_tokens": 2526
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230067592A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 162,
+      "total_tokens": 1563
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230076827A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 358,
+      "total_tokens": 2563
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230113032A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 133,
+      "total_tokens": 2338
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230116245A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 102,
+      "total_tokens": 967
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230121260A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 83,
+      "total_tokens": 2288
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230121262A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 137,
+      "total_tokens": 2342
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230123873A_claim22",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 141,
+      "total_tokens": 2346
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230126863A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 294,
+      "total_tokens": 1427
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230136761A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 613,
+      "total_tokens": 1210
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230137040A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 190,
+      "total_tokens": 2395
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230141094A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 93,
+      "total_tokens": 2298
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230145620A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 215,
+      "total_tokens": 1616
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230150262A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 131,
+      "total_tokens": 2336
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230150703A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 281,
+      "total_tokens": 1414
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230155183A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 176,
+      "total_tokens": 773
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230159894A_claim36",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 115,
+      "total_tokens": 2320
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230168930A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 195,
+      "total_tokens": 1596
+    },
+    {
+      "split": "train",
+      "record_id": "KR20230175195A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 350,
+      "total_tokens": 2555
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240004222A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 250,
+      "total_tokens": 2455
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240004232A_claim41",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 193,
+      "total_tokens": 2398
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240011563A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 189,
+      "total_tokens": 1322
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240012357A_claim27",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 114,
+      "total_tokens": 2319
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240017854A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 189,
+      "total_tokens": 1858
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240027088A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 179,
+      "total_tokens": 2384
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240033140A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 170,
+      "total_tokens": 2107
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240039413A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 137,
+      "total_tokens": 2342
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240059057A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 277,
+      "total_tokens": 1946
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240080154A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 355,
+      "total_tokens": 2292
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240092833A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 149,
+      "total_tokens": 1550
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240094777A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 194,
+      "total_tokens": 1327
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240095169A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 127,
+      "total_tokens": 2332
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240095174A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 168,
+      "total_tokens": 1301
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240108803A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 251,
+      "total_tokens": 1116
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240122681A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 199,
+      "total_tokens": 1868
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240124708A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 66,
+      "total_tokens": 395
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240127618A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 280,
+      "total_tokens": 877
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240131038A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 267,
+      "total_tokens": 864
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240135197A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 191,
+      "total_tokens": 2396
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240137608A_claim43",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 171,
+      "total_tokens": 2376
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240140095A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 151,
+      "total_tokens": 2356
+    },
+    {
+      "split": "train",
+      "record_id": "KR20240172288A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 70,
+      "total_tokens": 2275
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250006553A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 255,
+      "total_tokens": 1388
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250010847A_claim6",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 133,
+      "total_tokens": 1266
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250015133A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 193,
+      "total_tokens": 1862
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250020773A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 278,
+      "total_tokens": 875
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250022239A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 234,
+      "total_tokens": 2439
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250022456A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 470,
+      "total_tokens": 1871
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250023075A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 89,
+      "total_tokens": 2294
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250023076A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 138,
+      "total_tokens": 2343
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250035953A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 204,
+      "total_tokens": 1337
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250037618A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 256,
+      "total_tokens": 2461
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250049258A_claim8",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 154,
+      "total_tokens": 2359
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250051105A_claim37",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 326,
+      "total_tokens": 2531
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250067853A_claim45",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 203,
+      "total_tokens": 2408
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250072699A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 548,
+      "total_tokens": 2753
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250081630A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 98,
+      "total_tokens": 963
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250085253A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 147,
+      "total_tokens": 1548
+    },
+    {
+      "split": "train",
+      "record_id": "KR20250092688A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 107,
+      "total_tokens": 972
+    },
+    {
+      "split": "train",
+      "record_id": "US20030064400A1_claim14",
+      "n_images": 3,
+      "prompt_tokens": 831,
+      "target_tokens": 54,
+      "total_tokens": 885
+    },
+    {
+      "split": "train",
+      "record_id": "US20040184954A1_claim37",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 125,
+      "total_tokens": 678
+    },
+    {
+      "split": "train",
+      "record_id": "US20040189311A1_claim120",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 79,
+      "total_tokens": 632
+    },
+    {
+      "split": "train",
+      "record_id": "US20050013732A1_claim14",
+      "n_images": 1,
+      "prompt_tokens": 299,
+      "target_tokens": 106,
+      "total_tokens": 405
+    },
+    {
+      "split": "train",
+      "record_id": "US20060172336A1_claim17",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 150,
+      "total_tokens": 703
+    },
+    {
+      "split": "train",
+      "record_id": "US20060172642A1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 261,
+      "total_tokens": 814
+    },
+    {
+      "split": "train",
+      "record_id": "US20070059204A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 62,
+      "total_tokens": 869
+    },
+    {
+      "split": "train",
+      "record_id": "US20070217953A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 90,
+      "total_tokens": 897
+    },
+    {
+      "split": "train",
+      "record_id": "US20080318232A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 120,
+      "total_tokens": 927
+    },
+    {
+      "split": "train",
+      "record_id": "US20090148933A1_claim38",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 191,
+      "total_tokens": 998
+    },
+    {
+      "split": "train",
+      "record_id": "US20100070054A1_claim2",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 200,
+      "total_tokens": 1007
+    },
+    {
+      "split": "train",
+      "record_id": "US20100129789A1_claim4",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 153,
+      "total_tokens": 960
+    },
+    {
+      "split": "train",
+      "record_id": "US20110281320A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 65,
+      "total_tokens": 872
+    },
+    {
+      "split": "train",
+      "record_id": "US20110294685A1_claim18",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 135,
+      "total_tokens": 688
+    },
+    {
+      "split": "train",
+      "record_id": "US20120244047A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 97,
+      "total_tokens": 904
+    },
+    {
+      "split": "train",
+      "record_id": "US20150024436A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 46,
+      "total_tokens": 853
+    },
+    {
+      "split": "train",
+      "record_id": "US20170065978A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 124,
+      "total_tokens": 931
+    },
+    {
+      "split": "train",
+      "record_id": "US20170081712A1_claim16",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 176,
+      "total_tokens": 983
+    },
+    {
+      "split": "train",
+      "record_id": "US20170131236A1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 65,
+      "total_tokens": 618
+    },
+    {
+      "split": "train",
+      "record_id": "US20180273914A1_claim25",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 103,
+      "total_tokens": 910
+    },
+    {
+      "split": "train",
+      "record_id": "US20190249171A1_claim8",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 65,
+      "total_tokens": 872
+    },
+    {
+      "split": "train",
+      "record_id": "US20200114352A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 86,
+      "total_tokens": 893
+    },
+    {
+      "split": "train",
+      "record_id": "US20200121234A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 55,
+      "total_tokens": 862
+    },
+    {
+      "split": "train",
+      "record_id": "US20200406257A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 258,
+      "total_tokens": 1065
+    },
+    {
+      "split": "train",
+      "record_id": "US20210054447A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 64,
+      "total_tokens": 871
+    },
+    {
+      "split": "train",
+      "record_id": "US20210230690A1_claim2",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 24,
+      "total_tokens": 831
+    },
+    {
+      "split": "train",
+      "record_id": "US20210259556A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 135,
+      "total_tokens": 942
+    },
+    {
+      "split": "train",
+      "record_id": "US20210283595A1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1107,
+      "target_tokens": 107,
+      "total_tokens": 1214
+    },
+    {
+      "split": "train",
+      "record_id": "US20210395807A1_claim20",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 389,
+      "total_tokens": 1196
+    },
+    {
+      "split": "train",
+      "record_id": "US20220016624A1_claim190",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 209,
+      "total_tokens": 762
+    },
+    {
+      "split": "train",
+      "record_id": "US20220162686A1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 248,
+      "total_tokens": 801
+    },
+    {
+      "split": "train",
+      "record_id": "US20220186294A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 163,
+      "total_tokens": 970
+    },
+    {
+      "split": "train",
+      "record_id": "US20220235408A1_claim14",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 69,
+      "total_tokens": 876
+    },
+    {
+      "split": "train",
+      "record_id": "US20220258168A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 162,
+      "total_tokens": 969
+    },
+    {
+      "split": "train",
+      "record_id": "US20220364077A1_claim6",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 254,
+      "total_tokens": 1061
+    },
+    {
+      "split": "train",
+      "record_id": "US20230055471A1_claim12",
+      "n_images": 5,
+      "prompt_tokens": 1354,
+      "target_tokens": 208,
+      "total_tokens": 1562
+    },
+    {
+      "split": "train",
+      "record_id": "US20230091060A1_claim1",
+      "n_images": 1,
+      "prompt_tokens": 299,
+      "target_tokens": 68,
+      "total_tokens": 367
+    },
+    {
+      "split": "train",
+      "record_id": "US20230092634A1_claim11",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 295,
+      "total_tokens": 1102
+    },
+    {
+      "split": "train",
+      "record_id": "US20230182142A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 77,
+      "total_tokens": 884
+    },
+    {
+      "split": "train",
+      "record_id": "US20230242970A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 131,
+      "total_tokens": 938
+    },
+    {
+      "split": "train",
+      "record_id": "US20230295708A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 78,
+      "total_tokens": 885
+    },
+    {
+      "split": "train",
+      "record_id": "US20240001369A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 126,
+      "total_tokens": 933
+    },
+    {
+      "split": "train",
+      "record_id": "US20240002919A1_claim1",
+      "n_images": 1,
+      "prompt_tokens": 299,
+      "target_tokens": 234,
+      "total_tokens": 533
+    },
+    {
+      "split": "train",
+      "record_id": "US20240002957A1_claim57",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 165,
+      "total_tokens": 972
+    },
+    {
+      "split": "train",
+      "record_id": "US20240050955A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 473,
+      "total_tokens": 1280
+    },
+    {
+      "split": "train",
+      "record_id": "US20240058820A1_claim1",
+      "n_images": 1,
+      "prompt_tokens": 299,
+      "target_tokens": 132,
+      "total_tokens": 431
+    },
+    {
+      "split": "train",
+      "record_id": "US20240068988A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 86,
+      "total_tokens": 893
+    },
+    {
+      "split": "train",
+      "record_id": "US20240084408A1_claim1",
+      "n_images": 1,
+      "prompt_tokens": 299,
+      "target_tokens": 262,
+      "total_tokens": 561
+    },
+    {
+      "split": "train",
+      "record_id": "US20240091781A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 137,
+      "total_tokens": 944
+    },
+    {
+      "split": "train",
+      "record_id": "US20240142445A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 112,
+      "total_tokens": 919
+    },
+    {
+      "split": "train",
+      "record_id": "US20240197213A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 189,
+      "total_tokens": 996
+    },
+    {
+      "split": "train",
+      "record_id": "US20240278233A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 128,
+      "total_tokens": 935
+    },
+    {
+      "split": "train",
+      "record_id": "US20240301470A1_claim11",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 167,
+      "total_tokens": 720
+    },
+    {
+      "split": "train",
+      "record_id": "US20240369547A1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 90,
+      "total_tokens": 643
+    },
+    {
+      "split": "train",
+      "record_id": "US20240390886A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 849,
+      "target_tokens": 161,
+      "total_tokens": 1010
+    },
+    {
+      "split": "train",
+      "record_id": "US20240418719A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 167,
+      "total_tokens": 974
+    },
+    {
+      "split": "train",
+      "record_id": "US20250001417A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 101,
+      "total_tokens": 908
+    },
+    {
+      "split": "train",
+      "record_id": "US20250051863A1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 581,
+      "target_tokens": 104,
+      "total_tokens": 685
+    },
+    {
+      "split": "train",
+      "record_id": "US20250102531A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 849,
+      "target_tokens": 146,
+      "total_tokens": 995
+    },
+    {
+      "split": "train",
+      "record_id": "US20250129410A1_claim20",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 82,
+      "total_tokens": 889
+    },
+    {
+      "split": "train",
+      "record_id": "US20250199024A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 176,
+      "total_tokens": 983
+    },
+    {
+      "split": "train",
+      "record_id": "US20250222460A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 171,
+      "total_tokens": 978
+    },
+    {
+      "split": "train",
+      "record_id": "US20250269368A1_claim53",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 125,
+      "total_tokens": 932
+    },
+    {
+      "split": "train",
+      "record_id": "US20250327824A1_claim45",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 163,
+      "total_tokens": 716
+    },
+    {
+      "split": "train",
+      "record_id": "US20260009789A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 849,
+      "target_tokens": 166,
+      "total_tokens": 1015
+    },
+    {
+      "split": "train",
+      "record_id": "US20260028578A1_claim20",
+      "n_images": 3,
+      "prompt_tokens": 849,
+      "target_tokens": 114,
+      "total_tokens": 963
+    },
+    {
+      "split": "train",
+      "record_id": "US20260084157A1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 166,
+      "total_tokens": 719
+    },
+    {
+      "split": "train",
+      "record_id": "US20260158464A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 67,
+      "total_tokens": 874
+    },
+    {
+      "split": "train",
+      "record_id": "US20260199895A1_claim21",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 163,
+      "total_tokens": 716
+    },
+    {
+      "split": "train",
+      "record_id": "US20260233218A1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 205,
+      "total_tokens": 758
+    },
+    {
+      "split": "train",
+      "record_id": "US20260249299A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 108,
+      "total_tokens": 915
+    },
+    {
+      "split": "validation",
+      "record_id": "KR100639816B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 275,
+      "total_tokens": 2480
+    },
+    {
+      "split": "validation",
+      "record_id": "KR100762202B1_claim8",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 163,
+      "total_tokens": 1296
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101292536B1_claim26",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 219,
+      "total_tokens": 2424
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101397879B1_claim17",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 317,
+      "total_tokens": 2522
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101471246B1_claim21",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 277,
+      "total_tokens": 2482
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101506147B1_claim11",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 147,
+      "total_tokens": 2352
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101508670B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 270,
+      "total_tokens": 2475
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101546826B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 173,
+      "total_tokens": 2110
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101666978B1_claim15",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 248,
+      "total_tokens": 2185
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101702117B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 307,
+      "total_tokens": 1708
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101723025B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 224,
+      "total_tokens": 2429
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101760425B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 194,
+      "total_tokens": 1595
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101768065B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 356,
+      "total_tokens": 2561
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101774749B1_claim9",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 270,
+      "total_tokens": 1671
+    },
+    {
+      "split": "validation",
+      "record_id": "KR101909930B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 513,
+      "total_tokens": 1914
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102051811B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 213,
+      "total_tokens": 2150
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102065001B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 160,
+      "total_tokens": 1025
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102110197B1_claim10",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 193,
+      "total_tokens": 2398
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102144585B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 305,
+      "total_tokens": 1438
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102352618B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 197,
+      "total_tokens": 1866
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102375991B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 501,
+      "total_tokens": 2706
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102392567B1_claim6",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 400,
+      "total_tokens": 2605
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102395365B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 112,
+      "total_tokens": 2317
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102483325B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 212,
+      "total_tokens": 809
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102514711B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 162,
+      "total_tokens": 1027
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102519720B1_claim10",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 244,
+      "total_tokens": 1377
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102539869B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 268,
+      "total_tokens": 865
+    },
+    {
+      "split": "validation",
+      "record_id": "KR102710382B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 289,
+      "total_tokens": 1422
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20060136481A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 181,
+      "total_tokens": 2386
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20100021656A_claim6",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 52,
+      "total_tokens": 2257
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20100044202A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 79,
+      "total_tokens": 2284
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20100082037A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 181,
+      "total_tokens": 2386
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20120014122A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 424,
+      "total_tokens": 753
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20120044918A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 224,
+      "total_tokens": 2429
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20120086281A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 378,
+      "total_tokens": 1243
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20120101396A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 404,
+      "total_tokens": 2341
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20120132816A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 74,
+      "total_tokens": 403
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20130099069A_claim7",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 98,
+      "total_tokens": 963
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20140143140A_claim31",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 139,
+      "total_tokens": 2344
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20150119353A_claim47",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 138,
+      "total_tokens": 2343
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20150130314A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 371,
+      "total_tokens": 2576
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20160134796A_claim56",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 156,
+      "total_tokens": 1289
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20160143795A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 72,
+      "total_tokens": 2277
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20170099787A_claim31",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 192,
+      "total_tokens": 2397
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20180040511A_claim40",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 141,
+      "total_tokens": 2346
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20180124789A_claim24",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 204,
+      "total_tokens": 2409
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20200134689A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 278,
+      "total_tokens": 2215
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20220005009A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 501,
+      "total_tokens": 2706
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20220041770A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 303,
+      "total_tokens": 1168
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20220102059A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 45,
+      "total_tokens": 2250
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20230029684A_claim22",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 353,
+      "total_tokens": 2558
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20230062572A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 172,
+      "total_tokens": 2377
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20230134530A_claim3",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 113,
+      "total_tokens": 2318
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20230169935A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 487,
+      "total_tokens": 2692
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20240134361A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 231,
+      "total_tokens": 2436
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20240177569A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 126,
+      "total_tokens": 723
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20250007159A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 146,
+      "total_tokens": 1011
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20250047294A_claim14",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 298,
+      "total_tokens": 2503
+    },
+    {
+      "split": "validation",
+      "record_id": "KR20250049355A_claim18",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 187,
+      "total_tokens": 2392
+    },
+    {
+      "split": "validation",
+      "record_id": "US20130337432A1_claim59",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 100,
+      "total_tokens": 907
+    },
+    {
+      "split": "validation",
+      "record_id": "US20210283596A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 838,
+      "target_tokens": 72,
+      "total_tokens": 910
+    },
+    {
+      "split": "validation",
+      "record_id": "US20250033046A1_claim17",
+      "n_images": 3,
+      "prompt_tokens": 849,
+      "target_tokens": 324,
+      "total_tokens": 1173
+    },
+    {
+      "split": "validation",
+      "record_id": "US20250091053A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 162,
+      "total_tokens": 969
+    },
+    {
+      "split": "validation",
+      "record_id": "US20250297303A1_claim16",
+      "n_images": 3,
+      "prompt_tokens": 849,
+      "target_tokens": 176,
+      "total_tokens": 1025
+    },
+    {
+      "split": "validation",
+      "record_id": "US20260124617A1_claim13",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 161,
+      "total_tokens": 968
+    },
+    {
+      "split": "test",
+      "record_id": "KR100249683B1_claim13",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 66,
+      "total_tokens": 1735
+    },
+    {
+      "split": "test",
+      "record_id": "KR100305306B1_claim34",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 217,
+      "total_tokens": 2422
+    },
+    {
+      "split": "test",
+      "record_id": "KR100777363B1_claim4",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 157,
+      "total_tokens": 2362
+    },
+    {
+      "split": "test",
+      "record_id": "KR101360829B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 192,
+      "total_tokens": 1593
+    },
+    {
+      "split": "test",
+      "record_id": "KR101407545B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 138,
+      "total_tokens": 1003
+    },
+    {
+      "split": "test",
+      "record_id": "KR101512161B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 187,
+      "total_tokens": 1588
+    },
+    {
+      "split": "test",
+      "record_id": "KR101541221B1_claim9",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 139,
+      "total_tokens": 2344
+    },
+    {
+      "split": "test",
+      "record_id": "KR101753153B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 641,
+      "total_tokens": 1774
+    },
+    {
+      "split": "test",
+      "record_id": "KR101802875B1_claim6",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 702,
+      "total_tokens": 1299
+    },
+    {
+      "split": "test",
+      "record_id": "KR101854240B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 357,
+      "total_tokens": 1490
+    },
+    {
+      "split": "test",
+      "record_id": "KR101891048B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 265,
+      "total_tokens": 2470
+    },
+    {
+      "split": "test",
+      "record_id": "KR101950210B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 357,
+      "total_tokens": 2026
+    },
+    {
+      "split": "test",
+      "record_id": "KR102002057B1_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 220,
+      "total_tokens": 1621
+    },
+    {
+      "split": "test",
+      "record_id": "KR102006487B1_claim11",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 253,
+      "total_tokens": 1654
+    },
+    {
+      "split": "test",
+      "record_id": "KR102145460B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 326,
+      "total_tokens": 2531
+    },
+    {
+      "split": "test",
+      "record_id": "KR102281805B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 630,
+      "total_tokens": 1495
+    },
+    {
+      "split": "test",
+      "record_id": "KR102330236B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 144,
+      "total_tokens": 741
+    },
+    {
+      "split": "test",
+      "record_id": "KR102350660B1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 267,
+      "total_tokens": 1132
+    },
+    {
+      "split": "test",
+      "record_id": "KR102370566B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 455,
+      "total_tokens": 1052
+    },
+    {
+      "split": "test",
+      "record_id": "KR102378388B1_claim38",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 129,
+      "total_tokens": 2334
+    },
+    {
+      "split": "test",
+      "record_id": "KR102392752B1_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 167,
+      "total_tokens": 2104
+    },
+    {
+      "split": "test",
+      "record_id": "KR102442502B1_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 416,
+      "total_tokens": 2085
+    },
+    {
+      "split": "test",
+      "record_id": "KR102449073B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 307,
+      "total_tokens": 904
+    },
+    {
+      "split": "test",
+      "record_id": "KR102573785B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 270,
+      "total_tokens": 1403
+    },
+    {
+      "split": "test",
+      "record_id": "KR102582297B1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 281,
+      "total_tokens": 878
+    },
+    {
+      "split": "test",
+      "record_id": "KR102657576B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 416,
+      "total_tokens": 2621
+    },
+    {
+      "split": "test",
+      "record_id": "KR102674109B1_claim8",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 228,
+      "total_tokens": 2433
+    },
+    {
+      "split": "test",
+      "record_id": "KR102759203B1_claim3",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 269,
+      "total_tokens": 1134
+    },
+    {
+      "split": "test",
+      "record_id": "KR102791448B1_claim4",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 642,
+      "total_tokens": 1775
+    },
+    {
+      "split": "test",
+      "record_id": "KR102811559B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 251,
+      "total_tokens": 2456
+    },
+    {
+      "split": "test",
+      "record_id": "KR102814100B1_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 584,
+      "total_tokens": 1717
+    },
+    {
+      "split": "test",
+      "record_id": "KR102819088B1_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 247,
+      "total_tokens": 2452
+    },
+    {
+      "split": "test",
+      "record_id": "KR20010052333A_claim139",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 65,
+      "total_tokens": 2270
+    },
+    {
+      "split": "test",
+      "record_id": "KR20050037991A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 239,
+      "total_tokens": 1908
+    },
+    {
+      "split": "test",
+      "record_id": "KR20080096567A_claim31",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 169,
+      "total_tokens": 2374
+    },
+    {
+      "split": "test",
+      "record_id": "KR20100050543A_claim11",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 432,
+      "total_tokens": 2637
+    },
+    {
+      "split": "test",
+      "record_id": "KR20120044197A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 894,
+      "total_tokens": 3099
+    },
+    {
+      "split": "test",
+      "record_id": "KR20120045922A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 186,
+      "total_tokens": 1051
+    },
+    {
+      "split": "test",
+      "record_id": "KR20120063162A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 83,
+      "total_tokens": 2288
+    },
+    {
+      "split": "test",
+      "record_id": "KR20120099724A_claim23",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 99,
+      "total_tokens": 2304
+    },
+    {
+      "split": "test",
+      "record_id": "KR20130014053A_claim22",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 268,
+      "total_tokens": 2473
+    },
+    {
+      "split": "test",
+      "record_id": "KR20130049181A_claim12",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 90,
+      "total_tokens": 2295
+    },
+    {
+      "split": "test",
+      "record_id": "KR20130099703A_claim1",
+      "n_images": 6,
+      "prompt_tokens": 1669,
+      "target_tokens": 121,
+      "total_tokens": 1790
+    },
+    {
+      "split": "test",
+      "record_id": "KR20140023326A_claim15",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 271,
+      "total_tokens": 868
+    },
+    {
+      "split": "test",
+      "record_id": "KR20140126116A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 133,
+      "total_tokens": 2338
+    },
+    {
+      "split": "test",
+      "record_id": "KR20150065149A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 170,
+      "total_tokens": 1035
+    },
+    {
+      "split": "test",
+      "record_id": "KR20160052557A_claim48",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 185,
+      "total_tokens": 2390
+    },
+    {
+      "split": "test",
+      "record_id": "KR20180095319A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 64,
+      "total_tokens": 1465
+    },
+    {
+      "split": "test",
+      "record_id": "KR20190066039A_claim22",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 248,
+      "total_tokens": 1649
+    },
+    {
+      "split": "test",
+      "record_id": "KR20190101544A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 135,
+      "total_tokens": 2072
+    },
+    {
+      "split": "test",
+      "record_id": "KR20190123101A_claim29",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 86,
+      "total_tokens": 2023
+    },
+    {
+      "split": "test",
+      "record_id": "KR20200003008A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 267,
+      "total_tokens": 1132
+    },
+    {
+      "split": "test",
+      "record_id": "KR20200061686A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 59,
+      "total_tokens": 656
+    },
+    {
+      "split": "test",
+      "record_id": "KR20200079264A_claim19",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 554,
+      "total_tokens": 2759
+    },
+    {
+      "split": "test",
+      "record_id": "KR20200132117A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 522,
+      "total_tokens": 2727
+    },
+    {
+      "split": "test",
+      "record_id": "KR20210006337A_claim31",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 46,
+      "total_tokens": 2251
+    },
+    {
+      "split": "test",
+      "record_id": "KR20210150402A_claim126",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 230,
+      "total_tokens": 2435
+    },
+    {
+      "split": "test",
+      "record_id": "KR20220061893A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 83,
+      "total_tokens": 1216
+    },
+    {
+      "split": "test",
+      "record_id": "KR20220085602A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 101,
+      "total_tokens": 430
+    },
+    {
+      "split": "test",
+      "record_id": "KR20220156058A_claim1",
+      "n_images": 5,
+      "prompt_tokens": 1401,
+      "target_tokens": 170,
+      "total_tokens": 1571
+    },
+    {
+      "split": "test",
+      "record_id": "KR20230002898A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 213,
+      "total_tokens": 2418
+    },
+    {
+      "split": "test",
+      "record_id": "KR20230032656A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 189,
+      "total_tokens": 2126
+    },
+    {
+      "split": "test",
+      "record_id": "KR20230039163A_claim1",
+      "n_images": 3,
+      "prompt_tokens": 865,
+      "target_tokens": 452,
+      "total_tokens": 1317
+    },
+    {
+      "split": "test",
+      "record_id": "KR20230049323A_claim1",
+      "n_images": 4,
+      "prompt_tokens": 1133,
+      "target_tokens": 195,
+      "total_tokens": 1328
+    },
+    {
+      "split": "test",
+      "record_id": "KR20230088992A_claim1",
+      "n_images": 1,
+      "prompt_tokens": 329,
+      "target_tokens": 125,
+      "total_tokens": 454
+    },
+    {
+      "split": "test",
+      "record_id": "KR20230091941A_claim1",
+      "n_images": 2,
+      "prompt_tokens": 597,
+      "target_tokens": 200,
+      "total_tokens": 797
+    },
+    {
+      "split": "test",
+      "record_id": "KR20240087696A_claim9",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 371,
+      "total_tokens": 2576
+    },
+    {
+      "split": "test",
+      "record_id": "KR20240093455A_claim14",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 272,
+      "total_tokens": 2477
+    },
+    {
+      "split": "test",
+      "record_id": "KR20240156062A_claim1",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 238,
+      "total_tokens": 2443
+    },
+    {
+      "split": "test",
+      "record_id": "KR20250017227A_claim23",
+      "n_images": 8,
+      "prompt_tokens": 2205,
+      "target_tokens": 304,
+      "total_tokens": 2509
+    },
+    {
+      "split": "test",
+      "record_id": "KR20250034707A_claim1",
+      "n_images": 7,
+      "prompt_tokens": 1937,
+      "target_tokens": 175,
+      "total_tokens": 2112
+    },
+    {
+      "split": "test",
+      "record_id": "US20060210985A1_claim12",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 48,
+      "total_tokens": 855
+    },
+    {
+      "split": "test",
+      "record_id": "US20200232024A1_claim1",
+      "n_images": 2,
+      "prompt_tokens": 553,
+      "target_tokens": 82,
+      "total_tokens": 635
+    },
+    {
+      "split": "test",
+      "record_id": "US20250025878A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 73,
+      "total_tokens": 880
+    },
+    {
+      "split": "test",
+      "record_id": "US20250155438A1_claim1",
+      "n_images": 3,
+      "prompt_tokens": 807,
+      "target_tokens": 182,
+      "total_tokens": 989
+    }
+  ],
+  "recommended_max_new_tokens": 2401,
+  "ZERO_TARGET_TRUNCATION_PASS": true
+}

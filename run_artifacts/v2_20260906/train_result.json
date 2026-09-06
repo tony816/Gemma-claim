@@ -1,0 +1,27 @@
+{
+  "train_runtime_metrics": {
+    "train_runtime": 3688.6058,
+    "train_samples_per_second": 0.451,
+    "train_steps_per_second": 0.113,
+    "total_flos": 5.417546169705778e+17,
+    "train_loss": 1.2361134465078083,
+    "epoch": 3.0
+  },
+  "final_validation_metrics": {
+    "eval_loss": 1.366241216659546,
+    "eval_model_preparation_time": 0.0311,
+    "eval_runtime": 53.7232,
+    "eval_samples_per_second": 1.21,
+    "eval_steps_per_second": 1.21,
+    "epoch": 3.0
+  },
+  "baseline_validation_metrics": {
+    "baseline_loss": 1.549530267715454,
+    "baseline_model_preparation_time": 0.0311,
+    "baseline_runtime": 55.5362,
+    "baseline_samples_per_second": 1.17,
+    "baseline_steps_per_second": 1.17,
+    "epoch": 0
+  },
+  "TRAINING_COMPLETE": true
+}

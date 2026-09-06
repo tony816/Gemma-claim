@@ -1,0 +1,893 @@
+BOOT 2026-09-06T04:29:06Z
+[boot] attempt 1 (epoch v2-20260906, limit 6)
+[boot] code tree verified
+[boot] pod_guard started (deadline 5h, idle 20m) -> /workspace/outputs/pod_guard.log
+=================== ENVIRONMENT ===================
+Sun Sep  6 04:29:06 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H200                    On  |   00000000:3B:00.0 Off |                    0 |
+| N/A   23C    P0             77W /  700W |       0MiB / 143771MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md6        200G  222M  200G   1% /workspace
+               total        used        free      shared  buff/cache   available
+Mem:            2015          35        1227           0         762        1980
+Swap:              0           0           0
+=================== STAGE setup ===================
+WARNING: huggingface-hub 1.30.0 does not provide the extra 'hf-transfer'
+/workspace/venv/lib/python3.12/site-packages/huggingface_hub/constants.py:299: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+transformers 5.16.1 torch 2.8.0+cu128
+gpu NVIDIA H200 139.8 GiB
+[stage] setup OK
+=================== STAGE prefetch ===================
+/workspace/venv/lib/python3.12/site-packages/huggingface_hub/constants.py:299: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+[prefetch] Downloading google/gemma-4-31B-it@main weights.
+[prefetch] Base model cached at /workspace/hf_home/hub/models--google--gemma-4-31B-it/snapshots/842da3794eaa0b77d5f08bae87a17459d91ff475
+[prefetch] Resolved revision sha=842da3794eaa0b77d5f08bae87a17459d91ff475
+[stage] prefetch OK
+=================== STAGE fetch ===================
+[fetch] attempt 1
+/workspace/venv/lib/python3.12/site-packages/huggingface_hub/constants.py:299: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+[fetch] Downloading dataset repo 'Mepeng22/gemma-claim-v2-approved-20260902' into /workspace/data/v2
+[fetch] Package root: /workspace/data/v2
+[fetch] train.jsonl sha256=69c780015eb37da06257cb33795963d77db5d8b60fd0602620ab18b792b561d3
+[fetch] validation.jsonl sha256=69c28ae4b5205a9a13ed5cec2081231936e991a123100f8264c6b54e110d2db0
+[fetch] test.jsonl sha256=db5533a8c06cd97fff8b953b15c2f5b9da36cff631947479d69182c0f366fe3c
+[fetch] Every split file matches the hash the conversion produced.
+[fetch] Record counts: {'train': 554, 'validation': 65, 'test': 75}
+[fetch] DATA_DOWNLOAD_VERIFIED=true
+[stage] fetch OK
+=================== STAGE preflight ===================
+[preflight] Observed schema: {'train': {'raw_top_level_keys': ['id', 'images', 'messages'], 'n_messages': 2, 'roles': ['user', 'assistant'], 'n_images': 3, 'images_per_record': {3: 86, 5: 57, 8: 222, 7: 31, 4: 43, 2: 53, 6: 43, 1: 19}, 'target_chars': {'min': 80, 'max': 3475}}, 'validation': {'raw_top_level_keys': ['id', 'images', 'messages'], 'n_messages': 2, 'roles': ['user', 'assistant'], 'n_images': 8, 'images_per_record': {8: 33, 4: 5, 7: 5, 5: 4, 3: 12, 6: 1, 2: 3, 1: 2}, 'target_chars': {'min': 81, 'max': 1771}}, 'test': {'raw_top_level_keys': ['id', 'images', 'messages'], 'n_messages': 2, 'roles': ['user', 'assistant'], 'n_images': 6, 'images_per_record': {6: 5, 8: 29, 5: 7, 3: 11, 4: 7, 2: 9, 7: 5, 1: 2}, 'target_chars': {'min': 83, 'max': 1306}}}
+[preflight] record key whitelist clean: every record carries exactly ['id', 'images', 'messages']
+[preflight] DATASET_VALIDATOR_PASS=true MULTI_IMAGE_CONTRACT_PASS=true
+[stage] preflight OK
+=================== STAGE audit ===================
+/workspace/venv/lib/python3.12/site-packages/huggingface_hub/constants.py:299: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+[audit] train: {'n': 554, 'max_total_tokens': 4075, 'max_target_tokens': 1870, 'max_prompt_tokens': 2205, 'mean_total_tokens': 1811.8}
+[audit] validation: {'n': 65, 'max_total_tokens': 2706, 'max_target_tokens': 513, 'max_prompt_tokens': 2205, 'mean_total_tokens': 1891.3}
+[audit] test: {'n': 75, 'max_total_tokens': 3099, 'max_target_tokens': 894, 'max_prompt_tokens': 2205, 'mean_total_tokens': 1787.3}
+[audit] ZERO_TARGET_TRUNCATION_PASS=true max_total=4075 max_target=1870 rec_max_new_tokens=2401
+[stage] audit OK
+=================== STAGE rehearse ===================
+Rehearsing the pipeline for google/gemma-4-31B-it@main — no GPU, no weights.
+/workspace/venv/lib/python3.12/site-packages/huggingface_hub/constants.py:299: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+[  ok  ] versions — torch 2.8.0+cu128, transformers 5.16.1, accelerate 1.14.0, peft 0.20.0, safetensors 0.8.0
+[  ok  ] TrainingArguments signature — all 17 essential args accepted on 5.16.1
+[  ok  ] chat template renders a strict prefix — real processor, prompt 266 chars, target 653 chars
+[  ok  ] loss is masked to the assistant span — 104/954 tokens supervised, contiguous from 850
+[  ok  ] training samples free generations, not just loss — sampler wired into Trainer, hooks ['on_evaluate', 'on_step_end', 'on_train_begin'], static check only — the generations themselves need the GPU
+[rehearse] LoRA targets: 410 modules, suffixes ['down_proj', 'gate_proj', 'k_proj', 'o_proj', 'q_proj', 'up_proj', 'v_proj'], in_features [5376, 8192, 16384, 21504]
+[rehearse] LoRA target sample: ['model.language_model.layers.0.self_attn.q_proj', 'model.language_model.layers.0.self_attn.k_proj', 'model.language_model.layers.0.self_attn.v_proj'] ... model.language_model.layers.59.mlp.down_proj
+[  ok  ] LoRA targets avoid the vision tower — 410 modules from the real config
+[rehearse] LoRA targets: 410 modules, suffixes ['down_proj', 'gate_proj', 'k_proj', 'o_proj', 'q_proj', 'up_proj', 'v_proj'], in_features [5376, 8192, 16384, 21504]
+[rehearse] LoRA target sample: ['model.language_model.layers.0.self_attn.q_proj', 'model.language_model.layers.0.self_attn.k_proj', 'model.language_model.layers.0.self_attn.v_proj'] ... model.language_model.layers.59.mlp.down_proj
+[  ok  ] resume adapter loads trainable and matches this base — 410 of 410 adaptable modules, r=16; adapter_config has inference_mode=true; is_trainable=True is required
+[  ok  ] dataset contracts — {'train': 554, 'validation': 65, 'test': 75}
+8 passed, 0 failed, 0 skipped
+Every gate passed. The pipeline is safe to put on a GPU.
+[stage] rehearse OK
+=================== STAGE train ===================
+/workspace/venv/lib/python3.12/site-packages/huggingface_hub/constants.py:299: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+[train] python=3.12.3
+platform=Linux-6.8.0-94-generic-x86_64-with-glibc2.39
+torch=2.8.0+cu128
+cuda_available=True
+gpu0=NVIDIA H200 vram_gb=139.8
+torch_cuda=12.8
+transformers=5.16.1
+peft=0.20.0
+accelerate=1.14.0
+datasets=<unavailable: No module named 'datasets'>
+safetensors=0.8.0
+[train] Encoding splits (no truncation is applied at any point).
+[train] train=554 validation=65
+[train] Loading google/gemma-4-31B-it@main in bfloat16.
+[train] LoRA targets: 410 modules, suffixes ['down_proj', 'gate_proj', 'k_proj', 'o_proj', 'q_proj', 'up_proj', 'v_proj'], in_features [5376, 8192, 16384, 21504]
+[train] LoRA target sample: ['model.language_model.layers.0.self_attn.q_proj', 'model.language_model.layers.0.self_attn.k_proj', 'model.language_model.layers.0.self_attn.v_proj'] ... model.language_model.layers.59.mlp.down_proj
+[train] Continuing training from adapter 'Mepeng22/gemma-4-31b-claim-lora' rather than a fresh LoRA.
+[train] adapter targets 410 modules, all present (410 adaptable here); r=16 alpha=32
+[train] trainable=122,429,440 / total=31,395,515,952 (0.3900%)
+[train] effective_batch_size=4 steps/epoch=139 total_steps=417
+[train] [train] TrainingArguments: warmup_ratio=0.1 expressed as warmup_steps=42 of 417
+[train] Measuring base-model validation baseline before any optimiser step.
+[train] [sample eval-step0 step=0] KR100639816B1_claim1 chrf=9.5 words=71 (ref 118)
+[train]   GEN: 【청구항 1】
+제1 기판;
+상기 제1 기판 상에 형성된 제1 유로;
+상기 제1 기판 상에 형성된 제1 유로 상에 배치되어, 상기 제1 유로를 개방 또는 폐쇄하는 제1 밸브;
+상기 제1 기판 상에 형성된 제1 유로 상에 배치되어, 상기 제1 유로를 개방 또는 폐쇄하는 제2 밸브; 및
+상기 제1 기판 상에 형성된 제1 유로 상에 배치되어, 상기 제1 유로를 개방 또는 폐쇄하는 제3 밸브를 포함하는 것을 특징으로 하는, 바이오·분자진단용 마이크로 유체 칩.
+[train]   REF: 핵산을 함유하는 샘플을 주입하기 위한 샘플주입 수단; 상기 샘플로부터 DNA 혹은 RNA을 준비하기 위한 프렙 챔버; 상기 DNA 혹은 RNA를 증폭하기 위한 PCR 챔버; 상기 증폭된 DNA를 캡처 프로브와 혼성화시키기 위한 어레이 챔버; 상기 혼성화되지 않은 찌거기들을 모으기 위한 
+[train] [sample eval-step0 step=0] KR100762202B1_claim8 chrf=4.63 words=139 (ref 64)
+[train]   GEN: 미생물 검출 장치에 있어서,
+물 입구가 형성된 외부 용기;
+상기 외부 용기 내부에 배치되며, 상기 외부 용기 내부에 형성된 물 입구와 연통되는 내부 용기를 포함하고, 상기 내부 용기의 상부에 질소 출구 및 물 출구가 형성된 내부 용기;
+상기 내부 용기 내부에 배치되며, 상기 내부 용기의 상부에 형성된 질소 출구 및 물 출구와 연통되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내
+[train]   REF: (1) 표준 미생물 시료; (2) 미생물 특이 검색시약을 포함하는 리포좀; (3) 신호 측정기; (4) 각종 반응 용액; 및 (5) 완충용액들을 포함하여 구성된 바이오센서로서, 첨가되는 미생물 시료에 대해 상기 미생물 특이 검색 시약을 포함하는 리포좀이 미생물 시료 내의 용혈성 미생물에
+[train] [sample eval-step0 step=0] KR101292536B1_claim26 chrf=10.71 words=50 (ref 87)
+[train]   GEN: 【청구항 1】
+바이오·분자진단 장치에 있어서,
+상부 기판(1) 및 하부 기판(3) 사이에 배치되어, 상부 기판(1) 및 하부 기판(3)에 의해 밀폐되어 형성된 채널(16a)을 포함하는 다층 구조체(100a);
+상기 채널(16a) 내에 배치되어, 상기 채널(16a)을 폐쇄하거나 개방하여 상기 채널(16a) 내의 유체를 제어하는 밸브(10); 및
+상기 밸브(10)를 구동하여 상기 밸브(10)의 위치를 제어하는 구동부(5a)를 포함하는 바이오·분자진단 장치.
+[train]   REF: 샘플 주입구; 버퍼 용액 또는 반응 용액을 저장할 수 있는 챔버(chamber); 기질 상에 바이오 물질들이 고정화되어 있는 분석 사이트(assay site); 상기 챔버와 분석 사이트 사이에 유체가 흐를 수 있는 유로(channel); 상기 유로를 연결시키는 유공; 및 상기 유공을 개
+[train] [sample eval-step0] mean chrf=8.28 over 3 generation(s)
+[transformers] early stopping required metric_for_best_model, but did not find eval_loss so early stopping is disabled
+[train] baseline_validation_loss=1.549530267715454
+[train] [sample step0 step=0] KR100639816B1_claim1 chrf=9.5 words=71 (ref 118)
+[train]   GEN: 【청구항 1】
+제1 기판;
+상기 제1 기판 상에 형성된 제1 유로;
+상기 제1 기판 상에 형성된 제1 유로 상에 배치되어, 상기 제1 유로를 개방 또는 폐쇄하는 제1 밸브;
+상기 제1 기판 상에 형성된 제1 유로 상에 배치되어, 상기 제1 유로를 개방 또는 폐쇄하는 제2 밸브; 및
+상기 제1 기판 상에 형성된 제1 유로 상에 배치되어, 상기 제1 유로를 개방 또는 폐쇄하는 제3 밸브를 포함하는 것을 특징으로 하는, 바이오·분자진단용 마이크로 유체 칩.
+[train]   REF: 핵산을 함유하는 샘플을 주입하기 위한 샘플주입 수단; 상기 샘플로부터 DNA 혹은 RNA을 준비하기 위한 프렙 챔버; 상기 DNA 혹은 RNA를 증폭하기 위한 PCR 챔버; 상기 증폭된 DNA를 캡처 프로브와 혼성화시키기 위한 어레이 챔버; 상기 혼성화되지 않은 찌거기들을 모으기 위한 
+[train] [sample step0 step=0] KR100762202B1_claim8 chrf=4.63 words=139 (ref 64)
+[train]   GEN: 미생물 검출 장치에 있어서,
+물 입구가 형성된 외부 용기;
+상기 외부 용기 내부에 배치되며, 상기 외부 용기 내부에 형성된 물 입구와 연통되는 내부 용기를 포함하고, 상기 내부 용기의 상부에 질소 출구 및 물 출구가 형성된 내부 용기;
+상기 내부 용기 내부에 배치되며, 상기 내부 용기의 상부에 형성된 질소 출구 및 물 출구와 연통되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내부에 배치되는 내부 용기 내
+[train]   REF: (1) 표준 미생물 시료; (2) 미생물 특이 검색시약을 포함하는 리포좀; (3) 신호 측정기; (4) 각종 반응 용액; 및 (5) 완충용액들을 포함하여 구성된 바이오센서로서, 첨가되는 미생물 시료에 대해 상기 미생물 특이 검색 시약을 포함하는 리포좀이 미생물 시료 내의 용혈성 미생물에
+[train] [sample step0 step=0] KR101292536B1_claim26 chrf=10.71 words=50 (ref 87)
+[train]   GEN: 【청구항 1】
+바이오·분자진단 장치에 있어서,
+상부 기판(1) 및 하부 기판(3) 사이에 배치되어, 상부 기판(1) 및 하부 기판(3)에 의해 밀폐되어 형성된 채널(16a)을 포함하는 다층 구조체(100a);
+상기 채널(16a) 내에 배치되어, 상기 채널(16a)을 폐쇄하거나 개방하여 상기 채널(16a) 내의 유체를 제어하는 밸브(10); 및
+상기 밸브(10)를 구동하여 상기 밸브(10)의 위치를 제어하는 구동부(5a)를 포함하는 바이오·분자진단 장치.
+[train]   REF: 샘플 주입구; 버퍼 용액 또는 반응 용액을 저장할 수 있는 챔버(chamber); 기질 상에 바이오 물질들이 고정화되어 있는 분석 사이트(assay site); 상기 챔버와 분석 사이트 사이에 유체가 흐를 수 있는 유로(channel); 상기 유로를 연결시키는 유공; 및 상기 유공을 개
+[train] [sample step0] mean chrf=8.28 over 3 generation(s)
+                                               {'loss': '1.399', 'grad_norm': '1.453', 'learning_rate': '0', 'epoch': '0.00722'}
+                                               {'loss': '1.282', 'grad_norm': '8.11', 'learning_rate': '1.19e-06', 'epoch': '0.01444'}
+                                               {'loss': '0.6318', 'grad_norm': '4.532', 'learning_rate': '2.381e-06', 'epoch': '0.02166'}
+                                               {'loss': '1.47', 'grad_norm': '3.396', 'learning_rate': '3.571e-06', 'epoch': '0.02888'}
+                                               {'loss': '1.431', 'grad_norm': '31.98', 'learning_rate': '4.762e-06', 'epoch': '0.0361'}
+                                               {'loss': '1.141', 'grad_norm': '13.39', 'learning_rate': '5.952e-06', 'epoch': '0.04332'}
+                                               {'loss': '1.666', 'grad_norm': '85.64', 'learning_rate': '7.143e-06', 'epoch': '0.05054'}
+                                                 {'loss': '1.718', 'grad_norm': '2.737', 'learning_rate': '8.333e-06', 'epoch': '0.05776'}
+                                               {'loss': '1.532', 'grad_norm': '2.814', 'learning_rate': '9.524e-06', 'epoch': '0.06498'}
+                                                  {'loss': '1.155', 'grad_norm': '1.809', 'learning_rate': '1.071e-05', 'epoch': '0.0722'}
+                                                  {'loss': '1.662', 'grad_norm': '19.94', 'learning_rate': '1.19e-05', 'epoch': '0.07942'}
+                                                  {'loss': '1.376', 'grad_norm': '2.601', 'learning_rate': '1.31e-05', 'epoch': '0.08664'}
+                                                {'loss': '1.51', 'grad_norm': '2.835', 'learning_rate': '1.429e-05', 'epoch': '0.09386'}
+                                                {'loss': '1.43', 'grad_norm': '3.204', 'learning_rate': '1.548e-05', 'epoch': '0.1011'}
+                                                {'loss': '1.311', 'grad_norm': '9.287', 'learning_rate': '1.667e-05', 'epoch': '0.1083'}
+                                                {'loss': '1.424', 'grad_norm': '6.996', 'learning_rate': '1.786e-05', 'epoch': '0.1155'}
+                                                {'loss': '1.305', 'grad_norm': '3.209', 'learning_rate': '1.905e-05', 'epoch': '0.1227'}
+                                                {'loss': '1.127', 'grad_norm': '3.269', 'learning_rate': '2.024e-05', 'epoch': '0.13'}
+                                                  {'loss': '1.439', 'grad_norm': '4.927', 'learning_rate': '2.143e-05', 'epoch': '0.1372'}
+                                                  {'loss': '1.341', 'grad_norm': '3.211', 'learning_rate': '2.262e-05', 'epoch': '0.1444'}
+                                                {'loss': '1.61', 'grad_norm': '2.995', 'learning_rate': '2.381e-05', 'epoch': '0.1516'}
+                                                {'loss': '1.356', 'grad_norm': '6.383', 'learning_rate': '2.5e-05', 'epoch': '0.1588'}
+                                                {'loss': '1.586', 'grad_norm': '3.418', 'learning_rate': '2.619e-05', 'epoch': '0.1661'}
+                                                {'loss': '1.542', 'grad_norm': '84.46', 'learning_rate': '2.738e-05', 'epoch': '0.1733'}
+[train]   GEN: 시료를 주입하는 주입구; 상기 주입구로부터 시료를 수용하는 시료 수용부; 상기 시료 수용부로부터 시료를 수용하는 반응부; 상기 반응부로부터 시료를 수용하는 검출부; 상기 시료 수용부, 상기 반응부 및 상기 검출부를 연결하는 유로; 상기 유로의 일부에 형성되는 밸브; 및 상기 밸브를 개폐하는 밸브 작동부를 포함하는 바이오칩.
+[train]   REF: 핵산을 함유하는 샘플을 주입하기 위한 샘플주입 수단; 상기 샘플로부터 DNA 혹은 RNA을 준비하기 위한 프렙 챔버; 상기 DNA 혹은 RNA를 증폭하기 위한 PCR 챔버; 상기 증폭된 DNA를 캡처 프로브와 혼성화시키기 위한 어레이 챔버; 상기 혼성화되지 않은 찌거기들을 모으기 위한 
+[train] [sample step25 step=25] KR100762202B1_claim8 chrf=7.53 words=38 (ref 64)
+[train]   GEN: 미생물 검출 장치에 있어서,
+(a) 전극이 포함된 전해질 용액이 수용된 반응조;
+(b) 상기 반응조에 연결된 전해질 용액 공급 장치;
+(c) 상기 반응조에 연결된 가스 제거 장치; 및
+(d) 상기 반응조에 연결된 가스 공급 장치를 포함하는 미생물 검출 장치.
+[train]   REF: (1) 표준 미생물 시료; (2) 미생물 특이 검색시약을 포함하는 리포좀; (3) 신호 측정기; (4) 각종 반응 용액; 및 (5) 완충용액들을 포함하여 구성된 바이오센서로서, 첨가되는 미생물 시료에 대해 상기 미생물 특이 검색 시약을 포함하는 리포좀이 미생물 시료 내의 용혈성 미생물에
+[train] [sample step25 step=25] KR101292536B1_claim26 chrf=8.15 words=28 (ref 87)
+[train]   GEN: 생체 시료를 포함하는 액체 시료를 주입하는 주입구; 상기 주입구로부터 상기 액체 시료가 흐르는 채널; 상기 채널의 일부에 형성되는 밸브; 및 상기 채널의 일부에 형성되는 반응부;를 포함하는 바이오·분자진단 장치.
+[train]   REF: 샘플 주입구; 버퍼 용액 또는 반응 용액을 저장할 수 있는 챔버(chamber); 기질 상에 바이오 물질들이 고정화되어 있는 분석 사이트(assay site); 상기 챔버와 분석 사이트 사이에 유체가 흐를 수 있는 유로(channel); 상기 유로를 연결시키는 유공; 및 상기 유공을 개
+[train] [sample step25] mean chrf=7.89 over 3 generation(s)
+                                                  {'loss': '1.599', 'grad_norm': '19.74', 'learning_rate': '2.857e-05', 'epoch': '0.1805'}
+                                                  {'loss': '1.205', 'grad_norm': '3.136', 'learning_rate': '2.976e-05', 'epoch': '0.1877'}
+                                                  {'loss': '0.8905', 'grad_norm': '37.96', 'learning_rate': '3.095e-05', 'epoch': '0.1949'}
+                                                  {'loss': '2.249', 'grad_norm': '3.966', 'learning_rate': '3.214e-05', 'epoch': '0.2022'}
+                                                {'loss': '1.282', 'grad_norm': '11.24', 'learning_rate': '3.333e-05', 'epoch': '0.2094'}
+                                                {'loss': '1.431', 'grad_norm': '9.103', 'learning_rate': '3.452e-05', 'epoch': '0.2166'}
+                                                {'loss': '1.668', 'grad_norm': '255.4', 'learning_rate': '3.571e-05', 'epoch': '0.2238'}
+                                                {'loss': '1.309', 'grad_norm': '3.883', 'learning_rate': '3.69e-05', 'epoch': '0.231'}
+                                                {'loss': '1.251', 'grad_norm': '3.976', 'learning_rate': '3.81e-05', 'epoch': '0.2383'}
+                                                {'loss': '1.326', 'grad_norm': '2.507', 'learning_rate': '3.929e-05', 'epoch': '0.2455'}
+                                                {'loss': '1.494', 'grad_norm': '1.877', 'learning_rate': '4.048e-05', 'epoch': '0.2527'}
+                                                {'loss': '1.128', 'grad_norm': '1.4', 'learning_rate': '4.167e-05', 'epoch': '0.2599'}
+                                                {'loss': '1.355', 'grad_norm': '2.365', 'learning_rate': '4.286e-05', 'epoch': '0.2671'}
+                                                {'loss': '1.091', 'grad_norm': '1.662', 'learning_rate': '4.405e-05', 'epoch': '0.2744'}
+                                                {'loss': '1.854', 'grad_norm': '8.296', 'learning_rate': '4.524e-05', 'epoch': '0.2816'}
+                                                {'loss': '1.544', 'grad_norm': '9.247', 'learning_rate': '4.643e-05', 'epoch': '0.2888'}
+                                                {'loss': '1.878', 'grad_norm': '10.01', 'learning_rate': '4.762e-05', 'epoch': '0.296'}
+                                                {'loss': '1.14', 'grad_norm': '2.927', 'learning_rate': '4.881e-05', 'epoch': '0.3032'}
+                                                {'loss': '1.282', 'grad_norm': '1.174', 'learning_rate': '5e-05', 'epoch': '0.3105'}
+                                                {'loss': '1.538', 'grad_norm': '1.453', 'learning_rate': '5e-05', 'epoch': '0.3177'}
+                                                {'loss': '1.372', 'grad_norm': '1.35', 'learning_rate': '5e-05', 'epoch': '0.3249'}
+                                                {'loss': '1.448', 'grad_norm': '2.44', 'learning_rate': '4.999e-05', 'epoch': '0.3321'}
+                                                {'loss': '1.125', 'grad_norm': '3.016', 'learning_rate': '4.999e-05', 'epoch': '0.3394'}
+                                                {'loss': '1.656', 'grad_norm': '1.627', 'learning_rate': '4.998e-05', 'epoch': '0.3466'}
+                                                {'loss': '1.431', 'grad_norm': '1.332', 'learning_rate': '4.997e-05', 'epoch': '0.3538'}
+[train]   GEN: 시료를 주입하는 주입구; 상기 주입구로부터 주입된 시료를 수용하는 챔버; 상기 챔버로부터 시료를 수용하는 챔버로 시료를 이동시키는 유로; 상기 유로를 개폐하는 밸브; 상기 챔버로부터 시료를 수용하는 챔버로 시료를 이동시키는 유로를 개폐하는 밸브; 상기 챔버로부터 시료를 수용하는 챔버로 시료를 이동시키는 유로를 개폐하는 밸브; 상기 챔버로부터 시료를 수용하는 챔버로 시료를 이동시키는 유로를 개폐하는 밸브; 상기 챔버로부터 시료를 수용하는 챔버로 시료를 이동시키는 유로를 개폐하는 밸브; 상기 챔버로부터 시료를 수용하는 챔버로 시료를 이
+[train]   REF: 핵산을 함유하는 샘플을 주입하기 위한 샘플주입 수단; 상기 샘플로부터 DNA 혹은 RNA을 준비하기 위한 프렙 챔버; 상기 DNA 혹은 RNA를 증폭하기 위한 PCR 챔버; 상기 증폭된 DNA를 캡처 프로브와 혼성화시키기 위한 어레이 챔버; 상기 혼성화되지 않은 찌거기들을 모으기 위한 
+[train] [sample step50 step=50] KR100762202B1_claim8 chrf=14.26 words=36 (ref 64)
+[train]   GEN: 미생물에 의한 매개물질의 분해를 전기화학적으로 검출하는 장치로서, 매개물질이 포집된 리포좀을 포함하는 반응 용기; 상기 반응 용기에 삽입되는 전극; 상기 전극의 표면에 형성되는 내부 셀 격막; 및 상기 전극의 신호를 측정하는 신호 측정기를 포함하는, 미생물 검출 장치.
+[train]   REF: (1) 표준 미생물 시료; (2) 미생물 특이 검색시약을 포함하는 리포좀; (3) 신호 측정기; (4) 각종 반응 용액; 및 (5) 완충용액들을 포함하여 구성된 바이오센서로서, 첨가되는 미생물 시료에 대해 상기 미생물 특이 검색 시약을 포함하는 리포좀이 미생물 시료 내의 용혈성 미생물에
+[train] [sample step50 step=50] KR101292536B1_claim26 chrf=2.33 words=58 (ref 87)
+[train]   GEN: (a) 100a: 1, 2, 3; (b) 10: 10a, 10b; (c) 4a, 4b, 4c: 12a, 12b, 12c; (d) 16a: 16a; (e) 70a, 70b, 70c: 70a, 70b, 70c; (f) 120: 121; (g) 130, 131, 132, 133: 130, 131, 132, 133; (h) 140, 141, 142, 143, 144: 140, 141, 142, 143, 144; (i) 170: 170; (j) 188: 188; (k) 101: 1
+[train]   REF: 샘플 주입구; 버퍼 용액 또는 반응 용액을 저장할 수 있는 챔버(chamber); 기질 상에 바이오 물질들이 고정화되어 있는 분석 사이트(assay site); 상기 챔버와 분석 사이트 사이에 유체가 흐를 수 있는 유로(channel); 상기 유로를 연결시키는 유공; 및 상기 유공을 개
+[train] [sample step50] mean chrf=8.99 over 3 generation(s)
+                                                  {'loss': '1.723', 'grad_norm': '2.518', 'learning_rate': '4.996e-05', 'epoch': '0.361'}
+                                                  {'loss': '1.372', 'grad_norm': '3.572', 'learning_rate': '4.994e-05', 'epoch': '0.3682'}
+                                                  {'loss': '1.477', 'grad_norm': '4.005', 'learning_rate': '4.993e-05', 'epoch': '0.3755'}
+                                                  {'loss': '1.399', 'grad_norm': '2.771', 'learning_rate': '4.991e-05', 'epoch': '0.3827'}
+                                                  {'loss': '1.509', 'grad_norm': '3.47', 'learning_rate': '4.989e-05', 'epoch': '0.3899'}
+                                                {'loss': '1.089', 'grad_norm': '4.622', 'learning_rate': '4.987e-05', 'epoch': '0.3971'}
+                                                {'loss': '1.38', 'grad_norm': '3.656', 'learning_rate': '4.985e-05', 'epoch': '0.4043'}
+                                                {'loss': '1.373', 'grad_norm': '2.016', 'learning_rate': '4.983e-05', 'epoch': '0.4116'}
+                                                {'loss': '1.413', 'grad_norm': '13.1', 'learning_rate': '4.98e-05', 'epoch': '0.4188'}
+                                                {'loss': '1.187', 'grad_norm': '2.599', 'learning_rate': '4.978e-05', 'epoch': '0.426'}
+                                                {'loss': '1.61', 'grad_norm': '10.57', 'learning_rate': '4.975e-05', 'epoch': '0.4332'}
+                                                {'loss': '1.519', 'grad_norm': '1.775', 'learning_rate': '4.972e-05', 'epoch': '0.4404'}
+                                                {'loss': '1.466', 'grad_norm': '13.77', 'learning_rate': '4.968e-05', 'epoch': '0.4477'}
+                                                {'loss': '1.229', 'grad_norm': '10.2', 'learning_rate': '4.965e-05', 'epoch': '0.4549'}
+                                                {'loss': '1.412', 'grad_norm': '3.21', 'learning_rate': '4.961e-05', 'epoch': '0.4621'}
+                                                {'loss': '1.259', 'grad_norm': '31.92', 'learning_rate': '4.958e-05', 'epoch': '0.4693'}
+                                                {'loss': '1.333', 'grad_norm': '2.801', 'learning_rate': '4.954e-05', 'epoch': '0.4765'}
+                                                {'loss': '0.9153', 'grad_norm': '1.903', 'learning_rate': '4.95e-05', 'epoch': '0.4838'}
+                                                {'loss': '1.492', 'grad_norm': '3.722', 'learning_rate': '4.945e-05', 'epoch': '0.491'}
+                                                {'loss': '1.314', 'grad_norm': '2.669', 'learning_rate': '4.941e-05', 'epoch': '0.4982'}
+                                                {'loss': '1.561', 'grad_norm': '1.655', 'learning_rate': '4.936e-05', 'epoch': '0.5054'}
+                                                {'loss': '1.692', 'grad_norm': '10.51', 'learning_rate': '4.932e-05', 'epoch': '0.5126'}
+                                                {'loss': '1.173', 'grad_norm': '6.179', 'learning_rate': '4.927e-05', 'epoch': '0.5199'}
+                                                {'loss': '1.551', 'grad_norm': '2.332', 'learning_rate': '4.921e-05', 'epoch': '0.5271'}
+                                                {'loss': '1.584', 'grad_norm': '2.994', 'learning_rate': '4.916e-05', 'epoch': '0.5343'}
+                                                {'loss': '1.624', 'grad_norm': '4.175', 'learning_rate': '4.911e-05', 'epoch': '0.5415'}
+                                                {'loss': '1.279', 'grad_norm': '2.043', 'learning_rate': '4.905e-05', 'epoch': '0.5487'}
+                                                {'loss': '1.112', 'grad_norm': '4.907', 'learning_rate': '4.899e-05', 'epoch': '0.556'}
+                                                {'loss': '1.389', 'grad_norm': '2.788', 'learning_rate': '4.893e-05', 'epoch': '0.5632'}
+                                                {'loss': '1.584', 'grad_norm': '1.646', 'learning_rate': '4.887e-05', 'epoch': '0.5704'}
+                                                {'loss': '1.523', 'grad_norm': '7.276', 'learning_rate': '4.881e-05', 'epoch': '0.5776'}
+                                                {'loss': '1.51', 'grad_norm': '1.936', 'learning_rate': '4.874e-05', 'epoch': '0.5848'}
+                                                {'loss': '1.502', 'grad_norm': '3.75', 'learning_rate': '4.868e-05', 'epoch': '0.5921'}
+                                                {'loss': '1.25', 'grad_norm': '1.449', 'learning_rate': '4.861e-05', 'epoch': '0.5993'}
+                                                {'loss': '1.311', 'grad_norm': '5.636', 'learning_rate': '4.854e-05', 'epoch': '0.6065'}
+                                                {'loss': '1.53', 'grad_norm': '3.017', 'learning_rate': '4.847e-05', 'epoch': '0.6137'}
+                                                {'loss': '1.688', 'grad_norm': '1.728', 'learning_rate': '4.84e-05', 'epoch': '0.6209'}
+                                                {'loss': '1.317', 'grad_norm': '24.26', 'learning_rate': '4.832e-05', 'epoch': '0.6282'}
+                                                {'loss': '1.613', 'grad_norm': '26.97', 'learning_rate': '4.824e-05', 'epoch': '0.6354'}
+                                                {'loss': '1.701', 'grad_norm': '3.788', 'learning_rate': '4.817e-05', 'epoch': '0.6426'}
+                                                {'loss': '1.329', 'grad_norm': '1.918', 'learning_rate': '4.809e-05', 'epoch': '0.6498'}
+                                                {'loss': '1.332', 'grad_norm': '2.117', 'learning_rate': '4.801e-05', 'epoch': '0.657'}
+                                                {'loss': '1.628', 'grad_norm': '9.128', 'learning_rate': '4.792e-05', 'epoch': '0.6643'}
+                                                {'loss': '1.495', 'grad_norm': '4.577', 'learning_rate': '4.784e-05', 'epoch': '0.6715'}
+                                                {'loss': '1.418', 'grad_norm': '8.229', 'learning_rate': '4.775e-05', 'epoch': '0.6787'}
+                                                {'loss': '1.37', 'grad_norm': '3.901', 'learning_rate': '4.767e-05', 'epoch': '0.6859'}
+                                                {'loss': '1.594', 'grad_norm': '5.787', 'learning_rate': '4.758e-05', 'epoch': '0.6931'}
+                                                {'loss': '1.365', 'grad_norm': '1.357', 'learning_rate': '4.749e-05', 'epoch': '0.7004'}
+                                                {'loss': '1.354', 'grad_norm': '20.63', 'learning_rate': '4.739e-05', 'epoch': '0.7076'}
+                                                {'loss': '1.347', 'grad_norm': '62.03', 'learning_rate': '4.73e-05', 'epoch': '0.7148'}
+                                                 {'loss': '1.205', 'grad_norm': '1.172', 'learning_rate': '4.72e-05', 'epoch': '0.722'}
+                                                 {'loss': '1.474', 'grad_norm': '1.335', 'learning_rate': '4.711e-05', 'epoch': '0.7292'}
+                                                 {'loss': '1.637', 'grad_norm': '5.378', 'learning_rate': '4.701e-05', 'epoch': '0.7365'}
+                                                 {'loss': '1.181', 'grad_norm': '4.59', 'learning_rate': '4.691e-05', 'epoch': '0.7437'}
+                                                 {'loss': '1.28', 'grad_norm': '4.773', 'learning_rate': '4.681e-05', 'epoch': '0.7509'}
+                                                 {'loss': '1.642', 'grad_norm': '7.564', 'learning_rate': '4.67e-05', 'epoch': '0.7581'}
+                                                 {'loss': '1.166', 'grad_norm': '2.297', 'learning_rate': '4.66e-05', 'epoch': '0.7653'}
+                                                 {'loss': '1.152', 'grad_norm': '1.232', 'learning_rate': '4.649e-05', 'epoch': '0.7726'}
+                                                 {'loss': '1.156', 'grad_norm': '295.3', 'learning_rate': '4.638e-05', 'epoch': '0.7798'}
+                                                 {'loss': '1.627', 'grad_norm': '8.379', 'learning_rate': '4.627e-05', 'epoch': '0.787'}
+                                                 {'loss': '1.613', 'grad_norm': '4.039', 'learning_rate': '4.616e-05', 'epoch': '0.7942'}
+                                                 {'loss': '1.568', 'grad_norm': '3.068', 'learning_rate': '4.605e-05', 'epoch': '0.8014'}
+                                                 {'loss': '2.089', 'grad_norm': '17.17', 'learning_rate': '4.594e-05', 'epoch': '0.8087'}
+                                                 {'loss': '1.539', 'grad_norm': '2.233', 'learning_rate': '4.582e-05', 'epoch': '0.8159'}
+                                                 {'loss': '1.332', 'grad_norm': '10.91', 'learning_rate': '4.571e-05', 'epoch': '0.8231'}
+                                                 {'loss': '1.225', 'grad_norm': '5.193', 'learning_rate': '4.559e-05', 'epoch': '0.8303'}
+                                                 {'loss': '1.388', 'grad_norm': '2.482', 'learning_rate': '4.547e-05', 'epoch': '0.8375'}
+                                                 {'loss': '1.237', 'grad_norm': '3.403', 'learning_rate': '4.535e-05', 'epoch': '0.8448'}
+                                                 {'loss': '1.593', 'grad_norm': '2.328', 'learning_rate': '4.523e-05', 'epoch': '0.852'}
+                                                 {'loss': '1.257', 'grad_norm': '12.76', 'learning_rate': '4.51e-05', 'epoch': '0.8592'}
+                                                 {'loss': '1.15', 'grad_norm': '1982', 'learning_rate': '4.498e-05', 'epoch': '0.8664'}
+                                                 {'loss': '1.071', 'grad_norm': '3.632', 'learning_rate': '4.485e-05', 'epoch': '0.8736'}
+                                                 {'loss': '1.139', 'grad_norm': '7.7', 'learning_rate': '4.472e-05', 'epoch': '0.8809'}
+                                                 {'loss': '1.158', 'grad_norm': '6.432', 'learning_rate': '4.459e-05', 'epoch': '0.8881'}
+                                                 {'loss': '1.365', 'grad_norm': '143.5', 'learning_rate': '4.446e-05', 'epoch': '0.8953'}
+                                                 {'loss': '1.271', 'grad_norm': '19.21', 'learning_rate': '4.433e-05', 'epoch': '0.9025'}
+                                                 {'loss': '1.328', 'grad_norm': '9.881', 'learning_rate': '4.42e-05', 'epoch': '0.9097'}
+                                                 {'loss': '1.333', 'grad_norm': '10.66', 'learning_rate': '4.406e-05', 'epoch': '0.917'}
+                                                 {'loss': '1.571', 'grad_norm': '5.509', 'learning_rate': '4.392e-05', 'epoch': '0.9242'}
+                                                 {'loss': '1.236', 'grad_norm': '5.177', 'learning_rate': '4.379e-05', 'epoch': '0.9314'}
+                                                 {'loss': '1.25', 'grad_norm': '4.29', 'learning_rate': '4.365e-05', 'epoch': '0.9386'}
+                                                 {'loss': '1.402', 'grad_norm': '40.74', 'learning_rate': '4.351e-05', 'epoch': '0.9458'}
+                                                 {'loss': '1.365', 'grad_norm': '6.047', 'learning_rate': '4.337e-05', 'epoch': '0.9531'}
+                                                 {'loss': '1.37', 'grad_norm': '9.764', 'learning_rate': '4.322e-05', 'epoch': '0.9603'}
+                                                 {'loss': '1.106', 'grad_norm': '3.361', 'learning_rate': '4.308e-05', 'epoch': '0.9675'}
+                                                 {'loss': '1.269', 'grad_norm': '1.255', 'learning_rate': '4.293e-05', 'epoch': '0.9747'}
+                                                 {'loss': '1.278', 'grad_norm': '5.404', 'learning_rate': '4.279e-05', 'epoch': '0.9819'}
+                                                 {'loss': '1.427', 'grad_norm': '9.809', 'learning_rate': '4.264e-05', 'epoch': '0.9892'}
+                                                 {'loss': '1.502', 'grad_norm': '4.26', 'learning_rate': '4.249e-05', 'epoch': '0.9964'}
+                                                 {'loss': '1.121', 'grad_norm': '2.538', 'learning_rate': '4.234e-05', 'epoch': '1'}
+                                               [A{'eval_loss': '1.383', 'eval_model_preparation_time': '0.0311', 'eval_runtime': '54.9', 'eval_samples_per_second': '1.184', 'eval_steps_per_second': '1.184', 'epoch': '1'}
+[train]   GEN: 상기 제1 기판, 제2 기판 및 제3 기판을 포함하는 제1 층; 상기 제1 층에 형성된 제1 유로; 상기 제1 유로에 연결된 제2 유로; 상기 제2 유로에 연결된 제3 유로; 상기 제3 유로에 연결된 제4 유로; 상기 제4 유로에 연결된 제5 유로; 상기 제5 유로에 연결된 제6 유로; 상기 제6 유로에 연결된 제7 유로; 상기 제7 유로에 연결된 제8 유로; 상기 제8 유로에 연결된 제9 유로; 상기 제9 유로에 연결된 제10 유로; 상기 제10 유로에 연결된 제11 유로; 상기 제11 유로에 연결된 제12 유로; 상기 제12 유
+[train]   REF: 핵산을 함유하는 샘플을 주입하기 위한 샘플주입 수단; 상기 샘플로부터 DNA 혹은 RNA을 준비하기 위한 프렙 챔버; 상기 DNA 혹은 RNA를 증폭하기 위한 PCR 챔버; 상기 증폭된 DNA를 캡처 프로브와 혼성화시키기 위한 어레이 챔버; 상기 혼성화되지 않은 찌거기들을 모으기 위한 
+[train] [sample eval-step139 step=139] KR100762202B1_claim8 chrf=16.87 words=40 (ref 64)
+[train]   GEN: 미생물 검출을 위한 전기화학적 센서로서, (a) 미생물 샘플을 수용하는 챔버; (b) 상기 챔버 내에 위치하며, 미생물에 의해 분해될 수 있는 매개물질을 포함하는 리포좀을 포함하는 전극; 및 (c) 상기 전극에 연결되어 상기 매개물질의 환원 상태를 측정하는 신호 측정기를 포함하는, 전기화학적 센서.
+[train]   REF: (1) 표준 미생물 시료; (2) 미생물 특이 검색시약을 포함하는 리포좀; (3) 신호 측정기; (4) 각종 반응 용액; 및 (5) 완충용액들을 포함하여 구성된 바이오센서로서, 첨가되는 미생물 시료에 대해 상기 미생물 특이 검색 시약을 포함하는 리포좀이 미생물 시료 내의 용혈성 미생물에
+[train] [sample eval-step139 step=139] KR101292536B1_claim26 chrf=5.81 words=83 (ref 87)
+[train]   GEN: 제1 기판; 상기 제1 기판에 형성된 제1 채널; 상기 제1 채널에 형성된 제1 챔버; 상기 제1 챔버에 형성된 제1 밸브; 상기 제1 밸브에 형성된 제1 펌버; 상기 제1 펌버에 형성된 제1 펌버주입구; 상기 제1 펌버에 형성된 제1 펌버배기구; 상기 제1 펌버에 형성된 제1 펌버의 펌버를 제어하는 제1 펌버제어부; 상기 제1 펌버의 펌버를 제어하는 제1 펌버제어부; 상기 제1 펌버의 펌버를 제어하는 제1 펌버제어부; 상기 제1 펌버의 펌버를 제어하는 제1 펌버제어부; 상기 제1 펌버의 펌버를 제어하는 제1 펌버제어부; 상기 제1
+[train]   REF: 샘플 주입구; 버퍼 용액 또는 반응 용액을 저장할 수 있는 챔버(chamber); 기질 상에 바이오 물질들이 고정화되어 있는 분석 사이트(assay site); 상기 챔버와 분석 사이트 사이에 유체가 흐를 수 있는 유로(channel); 상기 유로를 연결시키는 유공; 및 상기 유공을 개
+[train] [sample eval-step139] mean chrf=9.57 over 3 generation(s)
+                                               [A 34%|███▎      | 140/417 [21:15<3:02:42, 39.58s/it][train] {"time": 1788671388.5269067, "step": 140, "epoch": 1.0072202166064983, "loss": 1.1865944862365723, "grad_norm": 1.3382502794265747, "learning_rate": 4.218986470337419e-05}
+                                                   {'loss': '1.187', 'grad_norm': '1.338', 'learning_rate': '4.219e-05', 'epoch': '1.007'}
+                                                   {'loss': '1.258', 'grad_norm': '2.043', 'learning_rate': '4.204e-05', 'epoch': '1.014'}
+                                                   {'loss': '1.142', 'grad_norm': '2.421', 'learning_rate': '4.188e-05', 'epoch': '1.022'}
+                                                   {'loss': '0.9848', 'grad_norm': '4.962', 'learning_rate': '4.173e-05', 'epoch': '1.029'}
+                                                   {'loss': '0.8166', 'grad_norm': '5.08', 'learning_rate': '4.157e-05', 'epoch': '1.036'}
+                                                   {'loss': '1.412', 'grad_norm': '2.893', 'learning_rate': '4.141e-05', 'epoch': '1.043'}
+                                                 {'loss': '1.276', 'grad_norm': '13.63', 'learning_rate': '4.126e-05', 'epoch': '1.051'}
+                                                 {'loss': '1.254', 'grad_norm': '3.487', 'learning_rate': '4.11e-05', 'epoch': '1.058'}
+                                                 {'loss': '1.1', 'grad_norm': '6.148', 'learning_rate': '4.094e-05', 'epoch': '1.065'}
+                                                 {'loss': '1.027', 'grad_norm': '3.206', 'learning_rate': '4.077e-05', 'epoch': '1.072'}
+                                                 {'loss': '1.541', 'grad_norm': '2.452', 'learning_rate': '4.061e-05', 'epoch': '1.079'}
+                                                 {'loss': '1.048', 'grad_norm': '3.278', 'learning_rate': '4.045e-05', 'epoch': '1.087'}
+                                                 {'loss': '1.454', 'grad_norm': '2.138', 'learning_rate': '4.028e-05', 'epoch': '1.094'}
+                                                 {'loss': '1.056', 'grad_norm': '13.93', 'learning_rate': '4.011e-05', 'epoch': '1.101'}
+                                                 {'loss': '1.51', 'grad_norm': '1.795', 'learning_rate': '3.995e-05', 'epoch': '1.108'}
+                                                 {'loss': '1.303', 'grad_norm': '6.167', 'learning_rate': '3.978e-05', 'epoch': '1.116'}
+                                                 {'loss': '1.26', 'grad_norm': '1.538', 'learning_rate': '3.961e-05', 'epoch': '1.123'}
+                                                 {'loss': '1.231', 'grad_norm': '3.361', 'learning_rate': '3.944e-05', 'epoch': '1.13'}
+                                                 {'loss': '1.028', 'grad_norm': '5.918', 'learning_rate': '3.927e-05', 'epoch': '1.137'}
+                                                 {'loss': '1.199', 'grad_norm': '2.929', 'learning_rate': '3.91e-05', 'epoch': '1.144'}
+                                                 {'loss': '1.567', 'grad_norm': '2.761', 'learning_rate': '3.892e-05', 'epoch': '1.152'}
+                                                 {'loss': '1.815', 'grad_norm': '19.71', 'learning_rate': '3.875e-05', 'epoch': '1.159'}
+                                                 {'loss': '1.306', 'grad_norm': '68.59', 'learning_rate': '3.857e-05', 'epoch': '1.166'}
+                                                 {'loss': '0.9972', 'grad_norm': '12.16', 'learning_rate': '3.84e-05', 'epoch': '1.173'}
+                                                 {'loss': '1.438', 'grad_norm': '3.302', 'learning_rate': '3.822e-05', 'epoch': '1.181'}
+                                                 {'loss': '1.435', 'grad_norm': '79.56', 'learning_rate': '3.804e-05', 'epoch': '1.188'}
+                                                 {'loss': '1.397', 'grad_norm': '1.801', 'learning_rate': '3.786e-05', 'epoch': '1.195'}
+                                                 {'loss': '1.19', 'grad_norm': '6.537', 'learning_rate': '3.768e-05', 'epoch': '1.202'}
+                                                 {'loss': '1.229', 'grad_norm': '30.97', 'learning_rate': '3.75e-05', 'epoch': '1.209'}
+                                                 {'loss': '0.7502', 'grad_norm': '16.02', 'learning_rate': '3.732e-05', 'epoch': '1.217'}
+                                                 {'loss': '0.9305', 'grad_norm': '1.824', 'learning_rate': '3.714e-05', 'epoch': '1.224'}
+                                                 {'loss': '1.138', 'grad_norm': '7.266', 'learning_rate': '3.695e-05', 'epoch': '1.231'}
+                                                 {'loss': '1.393', 'grad_norm': '18.84', 'learning_rate': '3.677e-05', 'epoch': '1.238'}
+                                                 {'loss': '1.191', 'grad_norm': '3.134', 'learning_rate': '3.658e-05', 'epoch': '1.245'}
+                                                 {'loss': '1.201', 'grad_norm': '3.754', 'learning_rate': '3.64e-05', 'epoch': '1.253'}
+                                                 {'loss': '1.251', 'grad_norm': '40.71', 'learning_rate': '3.621e-05', 'epoch': '1.26'}
+                                                 {'loss': '1.286', 'grad_norm': '32.94', 'learning_rate': '3.602e-05', 'epoch': '1.267'}
+                                                 {'loss': '1.576', 'grad_norm': '6.492', 'learning_rate': '3.583e-05', 'epoch': '1.274'}
+                                                 {'loss': '1.173', 'grad_norm': '1.4', 'learning_rate': '3.564e-05', 'epoch': '1.282'}
+                                                 {'loss': '1.066', 'grad_norm': '6.041', 'learning_rate': '3.545e-05', 'epoch': '1.289'}
+                                                 {'loss': '1.286', 'grad_norm': '3.375', 'learning_rate': '3.526e-05', 'epoch': '1.296'}
+                                                 {'loss': '0.8512', 'grad_norm': '24.29', 'learning_rate': '3.507e-05', 'epoch': '1.303'}
+                                                 {'loss': '0.9561', 'grad_norm': '4.479', 'learning_rate': '3.488e-05', 'epoch': '1.31'}
+                                                 {'loss': '1.164', 'grad_norm': '5.425', 'learning_rate': '3.469e-05', 'epoch': '1.318'}
+                                                 {'loss': '1.296', 'grad_norm': '6.487', 'learning_rate': '3.449e-05', 'epoch': '1.325'}
+                                                 {'loss': '1.341', 'grad_norm': '2.669', 'learning_rate': '3.43e-05', 'epoch': '1.332'}
+                                                 {'loss': '1.178', 'grad_norm': '1.611', 'learning_rate': '3.411e-05', 'epoch': '1.339'}
+                                                 {'loss': '1.239', 'grad_norm': '2.32', 'learning_rate': '3.391e-05', 'epoch': '1.347'}
+                                                 {'loss': '1.044', 'grad_norm': '1.311', 'learning_rate': '3.371e-05', 'epoch': '1.354'}
+                                                 {'loss': '1.492', 'grad_norm': '3.757', 'learning_rate': '3.352e-05', 'epoch': '1.361'}
+                                                 {'loss': '1.129', 'grad_norm': '56.17', 'learning_rate': '3.332e-05', 'epoch': '1.368'}
+                                                 {'loss': '1.246', 'grad_norm': '5.534', 'learning_rate': '3.312e-05', 'epoch': '1.375'}
+                                                 {'loss': '1.272', 'grad_norm': '3.875', 'learning_rate': '3.292e-05', 'epoch': '1.383'}
+                                                 {'loss': '1.614', 'grad_norm': '4.068', 'learning_rate': '3.273e-05', 'epoch': '1.39'}
+                                                 {'loss': '1.646', 'grad_norm': '2.52', 'learning_rate': '3.253e-05', 'epoch': '1.397'}
+                                                 {'loss': '1.452', 'grad_norm': '3.985', 'learning_rate': '3.233e-05', 'epoch': '1.404'}
+                                                 {'loss': '1.434', 'grad_norm': '3.591', 'learning_rate': '3.213e-05', 'epoch': '1.412'}
+                                                 {'loss': '1.108', 'grad_norm': '3.11', 'learning_rate': '3.192e-05', 'epoch': '1.419'}
+                                                 {'loss': '1.195', 'grad_norm': '1.865', 'learning_rate': '3.172e-05', 'epoch': '1.426'}
+                                                 {'loss': '1.092', 'grad_norm': '3.896', 'learning_rate': '3.152e-05', 'epoch': '1.433'}
+                                                 {'loss': '1.354', 'grad_norm': '2.714', 'learning_rate': '3.132e-05', 'epoch': '1.44'}
+                                                 {'loss': '1.492', 'grad_norm': '2.771', 'learning_rate': '3.112e-05', 'epoch': '1.448'}
+                                                 {'loss': '1.174', 'grad_norm': '48.77', 'learning_rate': '3.091e-05', 'epoch': '1.455'}
+                                                 {'loss': '1.201', 'grad_norm': '1.577', 'learning_rate': '3.071e-05', 'epoch': '1.462'}
+                                                 {'loss': '1.152', 'grad_norm': '210.2', 'learning_rate': '3.05e-05', 'epoch': '1.469'}
+                                                 {'loss': '1.345', 'grad_norm': '2.034', 'learning_rate': '3.03e-05', 'epoch': '1.477'}
+                                                 {'loss': '1.387', 'grad_norm': '5.436', 'learning_rate': '3.01e-05', 'epoch': '1.484'}
+                                                 {'loss': '1.277', 'grad_norm': '2.404', 'learning_rate': '2.989e-05', 'epoch': '1.491'}
+                                                 {'loss': '1.259', 'grad_norm': '1.853', 'learning_rate': '2.968e-05', 'epoch': '1.498'}
+                                                 {'loss': '1.254', 'grad_norm': '12.32', 'learning_rate': '2.948e-05', 'epoch': '1.505'}
+                                                 {'loss': '1.287', 'grad_norm': '6.73', 'learning_rate': '2.927e-05', 'epoch': '1.513'}
+                                                 {'loss': '1.186', 'grad_norm': '4.682', 'learning_rate': '2.907e-05', 'epoch': '1.52'}
+                                                 {'loss': '1.295', 'grad_norm': '17.08', 'learning_rate': '2.886e-05', 'epoch': '1.527'}
+                                                 {'loss': '1.033', 'grad_norm': '2.428', 'learning_rate': '2.865e-05', 'epoch': '1.534'}
+                                                 {'loss': '1.312', 'grad_norm': '4.552', 'learning_rate': '2.844e-05', 'epoch': '1.542'}
+                                                 {'loss': '1.384', 'grad_norm': '2.56', 'learning_rate': '2.824e-05', 'epoch': '1.549'}
+                                                 {'loss': '1.3', 'grad_norm': '7.235', 'learning_rate': '2.803e-05', 'epoch': '1.556'}
+                                                 {'loss': '1.286', 'grad_norm': '5.532', 'learning_rate': '2.782e-05', 'epoch': '1.563'}
+                                                 {'loss': '0.9669', 'grad_norm': '6.995', 'learning_rate': '2.761e-05', 'epoch': '1.57'}
+                                                 {'loss': '1.018', 'grad_norm': '33.67', 'learning_rate': '2.74e-05', 'epoch': '1.578'}
+                                                 {'loss': '1.347', 'grad_norm': '3.004', 'learning_rate': '2.72e-05', 'epoch': '1.585'}
+                                                 {'loss': '0.9247', 'grad_norm': '2.35', 'learning_rate': '2.699e-05', 'epoch': '1.592'}
+                                                 {'loss': '1.348', 'grad_norm': '3.017', 'learning_rate': '2.678e-05', 'epoch': '1.599'}
+                                                 {'loss': '1.397', 'grad_norm': '6.474', 'learning_rate': '2.657e-05', 'epoch': '1.606'}
+                                                 {'loss': '1.309', 'grad_norm': '8.198', 'learning_rate': '2.636e-05', 'epoch': '1.614'}
+                                                 {'loss': '1.095', 'grad_norm': '55.71', 'learning_rate': '2.615e-05', 'epoch': '1.621'}
+                                                 {'loss': '0.9422', 'grad_norm': '2.603', 'learning_rate': '2.594e-05', 'epoch': '1.628'}
+                                                 {'loss': '0.9478', 'grad_norm': '8.809', 'learning_rate': '2.573e-05', 'epoch': '1.635'}
+                                                 {'loss': '1.201', 'grad_norm': '2.459', 'learning_rate': '2.552e-05', 'epoch': '1.643'}
+                                                 {'loss': '1.124', 'grad_norm': '7.694', 'learning_rate': '2.531e-05', 'epoch': '1.65'}
+                                                 {'loss': '1.21', 'grad_norm': '2.417', 'learning_rate': '2.51e-05', 'epoch': '1.657'}
+                                                 {'loss': '1.231', 'grad_norm': '2.5', 'learning_rate': '2.49e-05', 'epoch': '1.664'}
+                                                 {'loss': '1.237', 'grad_norm': '4.305', 'learning_rate': '2.469e-05', 'epoch': '1.671'}
+                                                 {'loss': '1.227', 'grad_norm': '7.692', 'learning_rate': '2.448e-05', 'epoch': '1.679'}
+                                                 {'loss': '1.155', 'grad_norm': '3.418', 'learning_rate': '2.427e-05', 'epoch': '1.686'}
+                                                 {'loss': '1.077', 'grad_norm': '2.214', 'learning_rate': '2.406e-05', 'epoch': '1.693'}
+                                                 {'loss': '1.15', 'grad_norm': '1.407', 'learning_rate': '2.385e-05', 'epoch': '1.7'}
+                                                 {'loss': '1.274', 'grad_norm': '6.724', 'learning_rate': '2.364e-05', 'epoch': '1.708'}
+                                                 {'loss': '1.497', 'grad_norm': '3.324', 'learning_rate': '2.343e-05', 'epoch': '1.715'}
+                                                 {'loss': '1.385', 'grad_norm': '32.26', 'learning_rate': '2.322e-05', 'epoch': '1.722'}
+                                                 {'loss': '1.24', 'grad_norm': '3.282', 'learning_rate': '2.301e-05', 'epoch': '1.729'}
+                                                 {'loss': '1.275', 'grad_norm': '3.116', 'learning_rate': '2.28e-05', 'epoch': '1.736'}
+                                                 {'loss': '1.57', 'grad_norm': '2.855', 'learning_rate': '2.26e-05', 'epoch': '1.744'}
+                                                 {'loss': '1.21', 'grad_norm': '2.745', 'learning_rate': '2.239e-05', 'epoch': '1.751'}
+                                                 {'loss': '0.9588', 'grad_norm': '1.87', 'learning_rate': '2.218e-05', 'epoch': '1.758'}
+                                                 {'loss': '1.184', 'grad_norm': '9.42', 'learning_rate': '2.197e-05', 'epoch': '1.765'}
+                                                 {'loss': '1.533', 'grad_norm': '5.654', 'learning_rate': '2.176e-05', 'epoch': '1.773'}
+                                                 {'loss': '1.109', 'grad_norm': '5.368', 'learning_rate': '2.156e-05', 'epoch': '1.78'}
+                                                 {'loss': '1.326', 'grad_norm': '2.31', 'learning_rate': '2.135e-05', 'epoch': '1.787'}
+                                                 {'loss': '1.223', 'grad_norm': '2.39', 'learning_rate': '2.114e-05', 'epoch': '1.794'}
+                                                 {'loss': '1.081', 'grad_norm': '5.454', 'learning_rate': '2.093e-05', 'epoch': '1.801'}
+                                                 {'loss': '1.487', 'grad_norm': '2.708', 'learning_rate': '2.073e-05', 'epoch': '1.809'}
+                                                 {'loss': '1.535', 'grad_norm': '14.2', 'learning_rate': '2.052e-05', 'epoch': '1.816'}
+                                                 {'loss': '1.012', 'grad_norm': '3.671', 'learning_rate': '2.032e-05', 'epoch': '1.823'}
+                                                 {'loss': '1.325', 'grad_norm': '2.627', 'learning_rate': '2.011e-05', 'epoch': '1.83'}
+                                                 {'loss': '0.9908', 'grad_norm': '14.86', 'learning_rate': '1.99e-05', 'epoch': '1.838'}
+                                                 {'loss': '1.074', 'grad_norm': '2.195', 'learning_rate': '1.97e-05', 'epoch': '1.845'}
+                                                 {'loss': '1.432', 'grad_norm': '2.928', 'learning_rate': '1.95e-05', 'epoch': '1.852'}
+                                                 {'loss': '1.108', 'grad_norm': '8.877', 'learning_rate': '1.929e-05', 'epoch': '1.859'}
+                                                 {'loss': '1.041', 'grad_norm': '1.656', 'learning_rate': '1.909e-05', 'epoch': '1.866'}
+                                                 {'loss': '1.085', 'grad_norm': '1.893', 'learning_rate': '1.888e-05', 'epoch': '1.874'}
+                                                 {'loss': '1.047', 'grad_norm': '5.022', 'learning_rate': '1.868e-05', 'epoch': '1.881'}
+                                                 {'loss': '1.188', 'grad_norm': '3.758', 'learning_rate': '1.848e-05', 'epoch': '1.888'}
+                                                 {'loss': '1.273', 'grad_norm': '3.768', 'learning_rate': '1.828e-05', 'epoch': '1.895'}
+                                                 {'loss': '1.366', 'grad_norm': '38.76', 'learning_rate': '1.808e-05', 'epoch': '1.903'}
+                                                 {'loss': '1.183', 'grad_norm': '2.584', 'learning_rate': '1.787e-05', 'epoch': '1.91'}
+                                                 {'loss': '1.368', 'grad_norm': '16.77', 'learning_rate': '1.767e-05', 'epoch': '1.917'}
+                                                 {'loss': '1.09', 'grad_norm': '18.25', 'learning_rate': '1.747e-05', 'epoch': '1.924'}
+                                                 {'loss': '1.448', 'grad_norm': '2.246', 'learning_rate': '1.727e-05', 'epoch': '1.931'}
+                                                 {'loss': '0.9861', 'grad_norm': '159.8', 'learning_rate': '1.708e-05', 'epoch': '1.939'}
+                                                 {'loss': '1.261', 'grad_norm': '3.443', 'learning_rate': '1.688e-05', 'epoch': '1.946'}
+                                                 {'loss': '1.1', 'grad_norm': '3.324', 'learning_rate': '1.668e-05', 'epoch': '1.953'}
+                                                 {'loss': '1.086', 'grad_norm': '8.258', 'learning_rate': '1.648e-05', 'epoch': '1.96'}
+                                                 {'loss': '1.113', 'grad_norm': '4.232', 'learning_rate': '1.629e-05', 'epoch': '1.968'}
+                                                 {'loss': '1.221', 'grad_norm': '3.493', 'learning_rate': '1.609e-05', 'epoch': '1.975'}
+                                                 {'loss': '1.259', 'grad_norm': '2.066', 'learning_rate': '1.589e-05', 'epoch': '1.982'}
+                                                 {'loss': '1.223', 'grad_norm': '2.803', 'learning_rate': '1.57e-05', 'epoch': '1.989'}
+                                                 {'loss': '1.1', 'grad_norm': '11.4', 'learning_rate': '1.551e-05', 'epoch': '1.996'}
+                                                 {'loss': '1.466', 'grad_norm': '14.69', 'learning_rate': '1.531e-05', 'epoch': '2'}
+                                               [A{'eval_loss': '1.366', 'eval_model_preparation_time': '0.0311', 'eval_runtime': '54.03', 'eval_samples_per_second': '1.203', 'eval_steps_per_second': '1.203', 'epoch': '2'}
+[train]   GEN: 상부 기판; 상기 상부 기판의 하부에 배치되며, 상기 상부 기판의 하부면과 접촉하는 밸브를 구비하는 밸브 기판; 및 상기 밸브 기판의 하부에 배치되며, 상기 밸브 기판의 하부면과 접촉하는 밸브를 구비하는 하부 기판; 을 포함하고, 상기 밸브는, 상기 상부 기판의 하부면과 상기 밸브 기판의 상부면이 접촉하는 접촉면을 구비하는 상부 밸브; 상기 밸브 기판의 하부면과 상기 하부 기판의 상부면이 접촉하는 접촉면을 구비하는 하부 밸브; 및 상기 상부 밸브와 상기 하부 밸브를 관통하는 유로; 를 포함하는 것을 특징으로 하는 밸브.
+[train]   REF: 핵산을 함유하는 샘플을 주입하기 위한 샘플주입 수단; 상기 샘플로부터 DNA 혹은 RNA을 준비하기 위한 프렙 챔버; 상기 DNA 혹은 RNA를 증폭하기 위한 PCR 챔버; 상기 증폭된 DNA를 캡처 프로브와 혼성화시키기 위한 어레이 챔버; 상기 혼성화되지 않은 찌거기들을 모으기 위한 
+[train] [sample eval-step278 step=278] KR100762202B1_claim8 chrf=16.4 words=40 (ref 64)
+[train]   GEN: 미생물 검출을 위한 전기화학적 센서로서, 상기 센서는, (a) 미생물에 의해 분해될 수 있는 매개물질을 포함하는 리포좀; (b) 상기 매개물질이 리포좀으로부터 방출된 후, 상기 매개물질이 환원될 수 있는 전기화학적 센서; 및 (c) 상기 전기화학적 센서에 연결된 신호 측정기를 포함하는, 전기화학적 센서.
+[train]   REF: (1) 표준 미생물 시료; (2) 미생물 특이 검색시약을 포함하는 리포좀; (3) 신호 측정기; (4) 각종 반응 용액; 및 (5) 완충용액들을 포함하여 구성된 바이오센서로서, 첨가되는 미생물 시료에 대해 상기 미생물 특이 검색 시약을 포함하는 리포좀이 미생물 시료 내의 용혈성 미생물에
+[train] [sample eval-step278 step=278] KR101292536B1_claim26 chrf=6.94 words=46 (ref 87)
+[train]   GEN: 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의
+[train]   REF: 샘플 주입구; 버퍼 용액 또는 반응 용액을 저장할 수 있는 챔버(chamber); 기질 상에 바이오 물질들이 고정화되어 있는 분석 사이트(assay site); 상기 챔버와 분석 사이트 사이에 유체가 흐를 수 있는 유로(channel); 상기 유로를 연결시키는 유공; 및 상기 유공을 개
+[train] [sample eval-step278] mean chrf=10.90 over 3 generation(s)
+                                               [A 67%|██████▋   | 279/417 [40:55<1:24:57, 36.94s/it][train] {"time": 1788672568.94771, "step": 279, "epoch": 2.0072202166064983, "loss": 1.093786597251892, "grad_norm": 2.730562925338745, "learning_rate": 1.5119377994892094e-05}
+                                                   {'loss': '1.094', 'grad_norm': '2.731', 'learning_rate': '1.512e-05', 'epoch': '2.007'}
+                                                   {'loss': '1.302', 'grad_norm': '1.982', 'learning_rate': '1.493e-05', 'epoch': '2.014'}
+                                                 {'loss': '1.095', 'grad_norm': '33.09', 'learning_rate': '1.474e-05', 'epoch': '2.022'}
+                                                 {'loss': '1.158', 'grad_norm': '60.11', 'learning_rate': '1.455e-05', 'epoch': '2.029'}
+                                                 {'loss': '0.989', 'grad_norm': '1.94', 'learning_rate': '1.436e-05', 'epoch': '2.036'}
+                                                 {'loss': '1.355', 'grad_norm': '1.944', 'learning_rate': '1.417e-05', 'epoch': '2.043'}
+                                                 {'loss': '1.089', 'grad_norm': '8.958', 'learning_rate': '1.398e-05', 'epoch': '2.051'}
+                                                 {'loss': '0.95', 'grad_norm': '2.598', 'learning_rate': '1.379e-05', 'epoch': '2.058'}
+                                                 {'loss': '1.09', 'grad_norm': '2.7', 'learning_rate': '1.36e-05', 'epoch': '2.065'}
+                                                 {'loss': '1.347', 'grad_norm': '113.6', 'learning_rate': '1.342e-05', 'epoch': '2.072'}
+                                                 {'loss': '1.325', 'grad_norm': '9.709', 'learning_rate': '1.323e-05', 'epoch': '2.079'}
+                                                 {'loss': '1.058', 'grad_norm': '2.621', 'learning_rate': '1.305e-05', 'epoch': '2.087'}
+                                                 {'loss': '0.9487', 'grad_norm': '2.237', 'learning_rate': '1.286e-05', 'epoch': '2.094'}
+                                                 {'loss': '1.369', 'grad_norm': '2.388', 'learning_rate': '1.268e-05', 'epoch': '2.101'}
+                                                 {'loss': '1.19', 'grad_norm': '2.176', 'learning_rate': '1.25e-05', 'epoch': '2.108'}
+                                                 {'loss': '1.053', 'grad_norm': '3.716', 'learning_rate': '1.232e-05', 'epoch': '2.116'}
+                                                 {'loss': '1.171', 'grad_norm': '10.91', 'learning_rate': '1.214e-05', 'epoch': '2.123'}
+                                                 {'loss': '1.132', 'grad_norm': '4.043', 'learning_rate': '1.196e-05', 'epoch': '2.13'}
+                                                 {'loss': '1.328', 'grad_norm': '3.561', 'learning_rate': '1.178e-05', 'epoch': '2.137'}
+                                                 {'loss': '0.9751', 'grad_norm': '1.658', 'learning_rate': '1.16e-05', 'epoch': '2.144'}
+                                                 {'loss': '1.113', 'grad_norm': '4.386', 'learning_rate': '1.143e-05', 'epoch': '2.152'}
+                                                 {'loss': '1.12', 'grad_norm': '2.387', 'learning_rate': '1.125e-05', 'epoch': '2.159'}
+                                                 {'loss': '1.26', 'grad_norm': '2.172', 'learning_rate': '1.108e-05', 'epoch': '2.166'}
+                                                 {'loss': '1.703', 'grad_norm': '42.63', 'learning_rate': '1.09e-05', 'epoch': '2.173'}
+                                                 {'loss': '1.229', 'grad_norm': '5.918', 'learning_rate': '1.073e-05', 'epoch': '2.181'}
+                                                 {'loss': '1.038', 'grad_norm': '7.285', 'learning_rate': '1.056e-05', 'epoch': '2.188'}
+                                                 {'loss': '1.142', 'grad_norm': '3.542', 'learning_rate': '1.039e-05', 'epoch': '2.195'}
+                                                 {'loss': '1.305', 'grad_norm': '2.579', 'learning_rate': '1.022e-05', 'epoch': '2.202'}
+                                                 {'loss': '1.219', 'grad_norm': '4.692', 'learning_rate': '1.005e-05', 'epoch': '2.209'}
+                                                 {'loss': '0.8451', 'grad_norm': '3.33', 'learning_rate': '9.885e-06', 'epoch': '2.217'}
+                                                 {'loss': '1.15', 'grad_norm': '2.675', 'learning_rate': '9.719e-06', 'epoch': '2.224'}
+                                                 {'loss': '1.265', 'grad_norm': '2.89', 'learning_rate': '9.554e-06', 'epoch': '2.231'}
+                                                 {'loss': '0.9126', 'grad_norm': '4.154', 'learning_rate': '9.389e-06', 'epoch': '2.238'}
+                                                 {'loss': '0.715', 'grad_norm': '1.638', 'learning_rate': '9.226e-06', 'epoch': '2.245'}
+                                                 {'loss': '1.047', 'grad_norm': '6.386', 'learning_rate': '9.064e-06', 'epoch': '2.253'}
+                                                 {'loss': '0.9885', 'grad_norm': '2.382', 'learning_rate': '8.904e-06', 'epoch': '2.26'}
+                                                 {'loss': '0.9653', 'grad_norm': '2.491', 'learning_rate': '8.744e-06', 'epoch': '2.267'}
+                                                 {'loss': '1.227', 'grad_norm': '3.148', 'learning_rate': '8.585e-06', 'epoch': '2.274'}
+                                                 {'loss': '1.094', 'grad_norm': '4.482', 'learning_rate': '8.428e-06', 'epoch': '2.282'}
+                                                 {'loss': '1.414', 'grad_norm': '2.995', 'learning_rate': '8.272e-06', 'epoch': '2.289'}
+                                                 {'loss': '1.159', 'grad_norm': '128.8', 'learning_rate': '8.117e-06', 'epoch': '2.296'}
+                                                 {'loss': '1.089', 'grad_norm': '2.482', 'learning_rate': '7.963e-06', 'epoch': '2.303'}
+                                                 {'loss': '0.9475', 'grad_norm': '2.799', 'learning_rate': '7.81e-06', 'epoch': '2.31'}
+                                                 {'loss': '1.209', 'grad_norm': '2.053', 'learning_rate': '7.659e-06', 'epoch': '2.318'}
+                                                 {'loss': '1.09', 'grad_norm': '4.439', 'learning_rate': '7.508e-06', 'epoch': '2.325'}
+                                                 {'loss': '1.15', 'grad_norm': '7.346', 'learning_rate': '7.359e-06', 'epoch': '2.332'}
+                                                 {'loss': '0.9345', 'grad_norm': '9.573', 'learning_rate': '7.212e-06', 'epoch': '2.339'}
+                                                 {'loss': '0.9743', 'grad_norm': '2.912', 'learning_rate': '7.065e-06', 'epoch': '2.347'}
+                                                 {'loss': '1.211', 'grad_norm': '6.072', 'learning_rate': '6.92e-06', 'epoch': '2.354'}
+                                                 {'loss': '0.9499', 'grad_norm': '3.247', 'learning_rate': '6.776e-06', 'epoch': '2.361'}
+                                                 {'loss': '0.9772', 'grad_norm': '3.924', 'learning_rate': '6.633e-06', 'epoch': '2.368'}
+                                                 {'loss': '0.8913', 'grad_norm': '28.93', 'learning_rate': '6.492e-06', 'epoch': '2.375'}
+                                                 {'loss': '1.167', 'grad_norm': '2.58', 'learning_rate': '6.351e-06', 'epoch': '2.383'}
+                                                 {'loss': '1.284', 'grad_norm': '3.124', 'learning_rate': '6.213e-06', 'epoch': '2.39'}
+                                                 {'loss': '1.198', 'grad_norm': '674.8', 'learning_rate': '6.075e-06', 'epoch': '2.397'}
+                                                 {'loss': '1.017', 'grad_norm': '18.29', 'learning_rate': '5.939e-06', 'epoch': '2.404'}
+                                                 {'loss': '1.033', 'grad_norm': '2.355', 'learning_rate': '5.804e-06', 'epoch': '2.412'}
+                                                 {'loss': '0.9277', 'grad_norm': '4.385', 'learning_rate': '5.671e-06', 'epoch': '2.419'}
+                                                 {'loss': '1.012', 'grad_norm': '2.661', 'learning_rate': '5.538e-06', 'epoch': '2.426'}
+                                                 {'loss': '1.134', 'grad_norm': '5.542', 'learning_rate': '5.408e-06', 'epoch': '2.433'}
+                                                 {'loss': '1.028', 'grad_norm': '7.51', 'learning_rate': '5.278e-06', 'epoch': '2.44'}
+                                                 {'loss': '0.9915', 'grad_norm': '3.285', 'learning_rate': '5.15e-06', 'epoch': '2.448'}
+                                                 {'loss': '1.003', 'grad_norm': '33.94', 'learning_rate': '5.024e-06', 'epoch': '2.455'}
+                                                 {'loss': '0.9969', 'grad_norm': '1.823', 'learning_rate': '4.898e-06', 'epoch': '2.462'}
+                                                 {'loss': '1.004', 'grad_norm': '2.416', 'learning_rate': '4.775e-06', 'epoch': '2.469'}
+                                                 {'loss': '0.7946', 'grad_norm': '2.104', 'learning_rate': '4.652e-06', 'epoch': '2.477'}
+                                                 {'loss': '0.9397', 'grad_norm': '5.305', 'learning_rate': '4.531e-06', 'epoch': '2.484'}
+                                                 {'loss': '0.983', 'grad_norm': '5.066', 'learning_rate': '4.412e-06', 'epoch': '2.491'}
+                                                 {'loss': '1.192', 'grad_norm': '10.1', 'learning_rate': '4.294e-06', 'epoch': '2.498'}
+                                                 {'loss': '0.9387', 'grad_norm': '9', 'learning_rate': '4.177e-06', 'epoch': '2.505'}
+                                                 {'loss': '1.085', 'grad_norm': '2.962', 'learning_rate': '4.062e-06', 'epoch': '2.513'}
+                                                 {'loss': '1.399', 'grad_norm': '3.037', 'learning_rate': '3.948e-06', 'epoch': '2.52'}
+                                                 {'loss': '1.124', 'grad_norm': '7.83', 'learning_rate': '3.836e-06', 'epoch': '2.527'}
+                                                 {'loss': '0.7573', 'grad_norm': '6.755', 'learning_rate': '3.725e-06', 'epoch': '2.534'}
+                                                 {'loss': '1.198', 'grad_norm': '16.86', 'learning_rate': '3.616e-06', 'epoch': '2.542'}
+                                                 {'loss': '1.175', 'grad_norm': '3.596', 'learning_rate': '3.508e-06', 'epoch': '2.549'}
+                                                 {'loss': '1.092', 'grad_norm': '5.933', 'learning_rate': '3.402e-06', 'epoch': '2.556'}
+                                                 {'loss': '0.8999', 'grad_norm': '5.298', 'learning_rate': '3.297e-06', 'epoch': '2.563'}
+                                                 {'loss': '1.138', 'grad_norm': '3.133', 'learning_rate': '3.194e-06', 'epoch': '2.57'}
+                                                 {'loss': '1.075', 'grad_norm': '4.21', 'learning_rate': '3.092e-06', 'epoch': '2.578'}
+                                                 {'loss': '1.224', 'grad_norm': '3.529', 'learning_rate': '2.992e-06', 'epoch': '2.585'}
+                                                 {'loss': '1.178', 'grad_norm': '60.84', 'learning_rate': '2.894e-06', 'epoch': '2.592'}
+                                                 {'loss': '0.9401', 'grad_norm': '5.01', 'learning_rate': '2.797e-06', 'epoch': '2.599'}
+                                                 {'loss': '1.114', 'grad_norm': '3.066', 'learning_rate': '2.701e-06', 'epoch': '2.606'}
+                                                 {'loss': '1.182', 'grad_norm': '3.06', 'learning_rate': '2.607e-06', 'epoch': '2.614'}
+                                                 {'loss': '1.071', 'grad_norm': '4.593', 'learning_rate': '2.515e-06', 'epoch': '2.621'}
+                                                 {'loss': '0.9922', 'grad_norm': '3.942', 'learning_rate': '2.424e-06', 'epoch': '2.628'}
+                                                 {'loss': '1.309', 'grad_norm': '15.13', 'learning_rate': '2.335e-06', 'epoch': '2.635'}
+                                                 {'loss': '1.221', 'grad_norm': '2.456', 'learning_rate': '2.247e-06', 'epoch': '2.643'}
+                                                 {'loss': '1.039', 'grad_norm': '3.113', 'learning_rate': '2.161e-06', 'epoch': '2.65'}
+                                                 {'loss': '0.9332', 'grad_norm': '2.325', 'learning_rate': '2.077e-06', 'epoch': '2.657'}
+                                                 {'loss': '1.341', 'grad_norm': '7.436', 'learning_rate': '1.994e-06', 'epoch': '2.664'}
+                                                 {'loss': '0.9844', 'grad_norm': '1.852', 'learning_rate': '1.913e-06', 'epoch': '2.671'}
+                                                 {'loss': '0.6866', 'grad_norm': '4.742', 'learning_rate': '1.834e-06', 'epoch': '2.679'}
+                                                 {'loss': '0.6452', 'grad_norm': '4.043', 'learning_rate': '1.756e-06', 'epoch': '2.686'}
+                                                 {'loss': '1.12', 'grad_norm': '3.22', 'learning_rate': '1.679e-06', 'epoch': '2.693'}
+                                                 {'loss': '0.6265', 'grad_norm': '2.126', 'learning_rate': '1.605e-06', 'epoch': '2.7'}
+                                                 {'loss': '0.9988', 'grad_norm': '14.45', 'learning_rate': '1.532e-06', 'epoch': '2.708'}
+                                                 {'loss': '0.89', 'grad_norm': '3.751', 'learning_rate': '1.46e-06', 'epoch': '2.715'}
+                                                 {'loss': '1.017', 'grad_norm': '2.996', 'learning_rate': '1.391e-06', 'epoch': '2.722'}
+                                                 {'loss': '1.075', 'grad_norm': '3.705', 'learning_rate': '1.323e-06', 'epoch': '2.729'}
+                                                 {'loss': '1.302', 'grad_norm': '2.276', 'learning_rate': '1.256e-06', 'epoch': '2.736'}
+                                                 {'loss': '1.034', 'grad_norm': '45.29', 'learning_rate': '1.191e-06', 'epoch': '2.744'}
+                                                 {'loss': '1.287', 'grad_norm': '3.74', 'learning_rate': '1.128e-06', 'epoch': '2.751'}
+                                                 {'loss': '1.228', 'grad_norm': '2.962', 'learning_rate': '1.067e-06', 'epoch': '2.758'}
+                                                 {'loss': '0.9823', 'grad_norm': '39.5', 'learning_rate': '1.007e-06', 'epoch': '2.765'}
+                                                 {'loss': '1.094', 'grad_norm': '3.404', 'learning_rate': '9.493e-07', 'epoch': '2.773'}
+                                                 {'loss': '1.105', 'grad_norm': '17.21', 'learning_rate': '8.93e-07', 'epoch': '2.78'}
+                                                 {'loss': '1.26', 'grad_norm': '38.16', 'learning_rate': '8.384e-07', 'epoch': '2.787'}
+                                                 {'loss': '1.277', 'grad_norm': '265.9', 'learning_rate': '7.854e-07', 'epoch': '2.794'}
+                                                 {'loss': '1.067', 'grad_norm': '3.061', 'learning_rate': '7.342e-07', 'epoch': '2.801'}
+                                                 {'loss': '1.101', 'grad_norm': '2.979', 'learning_rate': '6.847e-07', 'epoch': '2.809'}
+                                                 {'loss': '1.135', 'grad_norm': '44.03', 'learning_rate': '6.368e-07', 'epoch': '2.816'}
+                                                 {'loss': '1.096', 'grad_norm': '2.761', 'learning_rate': '5.907e-07', 'epoch': '2.823'}
+                                                 {'loss': '0.9401', 'grad_norm': '3.302', 'learning_rate': '5.463e-07', 'epoch': '2.83'}
+                                                 {'loss': '0.8727', 'grad_norm': '4.269', 'learning_rate': '5.036e-07', 'epoch': '2.838'}
+                                                 {'loss': '1.124', 'grad_norm': '10.5', 'learning_rate': '4.627e-07', 'epoch': '2.845'}
+                                                 {'loss': '0.9333', 'grad_norm': '3.393', 'learning_rate': '4.234e-07', 'epoch': '2.852'}
+                                                 {'loss': '1.083', 'grad_norm': '10.35', 'learning_rate': '3.859e-07', 'epoch': '2.859'}
+                                                 {'loss': '1.108', 'grad_norm': '2.03', 'learning_rate': '3.501e-07', 'epoch': '2.866'}
+                                                 {'loss': '0.9702', 'grad_norm': '18.44', 'learning_rate': '3.16e-07', 'epoch': '2.874'}
+                                                 {'loss': '1.061', 'grad_norm': '13.56', 'learning_rate': '2.837e-07', 'epoch': '2.881'}
+                                                 {'loss': '0.9075', 'grad_norm': '9.613', 'learning_rate': '2.531e-07', 'epoch': '2.888'}
+                                                 {'loss': '0.9835', 'grad_norm': '3.841', 'learning_rate': '2.243e-07', 'epoch': '2.895'}
+                                                 {'loss': '0.9383', 'grad_norm': '16.64', 'learning_rate': '1.971e-07', 'epoch': '2.903'}
+                                                 {'loss': '0.8063', 'grad_norm': '4.631', 'learning_rate': '1.718e-07', 'epoch': '2.91'}
+                                                 {'loss': '1.393', 'grad_norm': '4.32', 'learning_rate': '1.481e-07', 'epoch': '2.917'}
+                                                 {'loss': '1.285', 'grad_norm': '3.92', 'learning_rate': '1.262e-07', 'epoch': '2.924'}
+                                                 {'loss': '0.868', 'grad_norm': '3.204', 'learning_rate': '1.061e-07', 'epoch': '2.931'}
+                                                 {'loss': '1.016', 'grad_norm': '2.881', 'learning_rate': '8.768e-08', 'epoch': '2.939'}
+                                                 {'loss': '0.9703', 'grad_norm': '1.812', 'learning_rate': '7.103e-08', 'epoch': '2.946'}
+                                                 {'loss': '1.046', 'grad_norm': '18.21', 'learning_rate': '5.613e-08', 'epoch': '2.953'}
+                                                 {'loss': '0.9851', 'grad_norm': '2.472', 'learning_rate': '4.298e-08', 'epoch': '2.96'}
+                                                 {'loss': '1.035', 'grad_norm': '4.443', 'learning_rate': '3.158e-08', 'epoch': '2.968'}
+                                                 {'loss': '1.098', 'grad_norm': '3.266', 'learning_rate': '2.193e-08', 'epoch': '2.975'}
+                                                 {'loss': '1.08', 'grad_norm': '3.459', 'learning_rate': '1.404e-08', 'epoch': '2.982'}
+                                                 {'loss': '1.047', 'grad_norm': '2.872', 'learning_rate': '7.895e-09', 'epoch': '2.989'}
+                                                 {'loss': '0.9586', 'grad_norm': '8.117', 'learning_rate': '3.509e-09', 'epoch': '2.996'}
+                                                 {'loss': '1.123', 'grad_norm': '4.993', 'learning_rate': '8.773e-10', 'epoch': '3'}
+                                               [A{'eval_loss': '1.384', 'eval_model_preparation_time': '0.0311', 'eval_runtime': '53.86', 'eval_samples_per_second': '1.207', 'eval_steps_per_second': '1.207', 'epoch': '3'}
+[train]   GEN: 상기 제1 기판의 상부에 배치되고, 상기 제1 기판의 상부에 형성된 제1 유로의 상부에 배치되는 제2 기판; 상기 제2 기판의 하부에 배치되고, 상기 제2 기판의 하부에 형성된 제2 유로의 하부에 배치되는 제3 기판; 상기 제1 기판의 상부에 형성되고, 상기 제2 기판의 상부에 형성된 제1 유로와 연통하는 제1 유공; 상기 제2 기판의 하부에 형성되고, 상기 제3 기판의 하부에 형성된 제2 유로와 연통하는 제2 유공; 및 상기 제1 유공과 상기 제2 유공의 사이에 배치되고, 상기 제1 유공과 상기 제2 유공을 연통하는 제3 유공을 
+[train]   REF: 핵산을 함유하는 샘플을 주입하기 위한 샘플주입 수단; 상기 샘플로부터 DNA 혹은 RNA을 준비하기 위한 프렙 챔버; 상기 DNA 혹은 RNA를 증폭하기 위한 PCR 챔버; 상기 증폭된 DNA를 캡처 프로브와 혼성화시키기 위한 어레이 챔버; 상기 혼성화되지 않은 찌거기들을 모으기 위한 
+[train] [sample eval-step417 step=417] KR100762202B1_claim8 chrf=15.19 words=60 (ref 64)
+[train]   GEN: 미생물 검출을 위한 전기화학적 바이오센서로서, 상기 바이오센서는, (a) 미생물 샘플을 수용하기 위한 반응 챔버; (b) 상기 반응 챔버 내에 배치된 작업 전극; (c) 상기 반응 챔버 내에 배치된 기준 전극; (d) 상기 반응 챔버 내에 배치된 대항 전극; (e) 상기 작업 전극에 연결된 전기화학 측정기; 및 (f) 상기 반응 챔버 내에 배치된 리포좀을 포함하고, 상기 리포좀은 매개물질을 포함하는, 전기화학적 바이오센서.
+[train]   REF: (1) 표준 미생물 시료; (2) 미생물 특이 검색시약을 포함하는 리포좀; (3) 신호 측정기; (4) 각종 반응 용액; 및 (5) 완충용액들을 포함하여 구성된 바이오센서로서, 첨가되는 미생물 시료에 대해 상기 미생물 특이 검색 시약을 포함하는 리포좀이 미생물 시료 내의 용혈성 미생물에
+[train] [sample eval-step417 step=417] KR101292536B1_claim26 chrf=6.92 words=92 (ref 87)
+[train]   GEN: 상부에 위치하는 제1기판; 상기 제1기판의 하부에 위치하는 제2기판; 상기 제1기판과 상기 제2기판 사이에 위치하는 겔(gel)층; 상기 겔층의 상부에 위치하는 제1전극; 상기 겔층의 하부에 위치하는 제2전극; 상기 제1기판의 상부에 위치하는 시료 주입구; 상기 제1기판의 상부에 위치하는 시료 배출구; 상기 제1기판의 상부에 위치하는 시료 주입구와 상기 시료 배출구를 연결하는 채널; 상기 제1기판의 상부에 위치하는 시료 주입구와 상기 시료 배출구를 연결하는 채널의 내부에 위치하는 펌버; 상기 제1기판의 상부에 위치하는 시료 주입구와
+[train]   REF: 샘플 주입구; 버퍼 용액 또는 반응 용액을 저장할 수 있는 챔버(chamber); 기질 상에 바이오 물질들이 고정화되어 있는 분석 사이트(assay site); 상기 챔버와 분석 사이트 사이에 유체가 흐를 수 있는 유로(channel); 상기 유로를 연결시키는 유공; 및 상기 유공을 개
+[train] [sample eval-step417] mean chrf=10.34 over 3 generation(s)
+                                               [A[train] {"time": 1788673755.398907, "step": 417, "epoch": 3.0, "train_runtime": 3688.6058, "train_samples_per_second": 0.451, "train_steps_per_second": 0.113, "total_flos": 5.417546169705778e+17, "train_loss": 1.2361134465078083}
+                                                 {'train_runtime': '3689', 'train_samples_per_second': '0.451', 'train_steps_per_second': '0.113', 'train_loss': '1.236', 'epoch': '3'}
+[train] TRAINING_COMPLETE=true best_checkpoint=/workspace/outputs/checkpoints/checkpoint-278 best_eval_loss=1.366241216659546 peak_vram_gib=77.04
+[stage] train OK
+=================== STAGE evaluate ===================
+/workspace/venv/lib/python3.12/site-packages/huggingface_hub/constants.py:299: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+[evaluate] max_new_tokens=1024 (from token audit, no target is truncated)
+[evaluate] Loading base model (bf16).
+[evaluate] ===== validation (n=65) =====
+[evaluate] base/validation: loss=2.5424 scored_tokens=14952
+[evaluate]   [base/validation] KR100639816B1_claim1: 356 words
+[evaluate]   [base/validation] KR100762202B1_claim8: 340 words
+[evaluate]   [base/validation] KR101292536B1_claim26: 332 words
+[evaluate]   [base/validation] KR101397879B1_claim17: 372 words
+[evaluate]   [base/validation] KR101471246B1_claim21: 400 words
+[evaluate]   [base/validation] KR101506147B1_claim11: 363 words
+[evaluate]   [base/validation] KR101508670B1_claim1: 368 words
+[evaluate]   [base/validation] KR101546826B1_claim1: 330 words
+[evaluate]   [base/validation] KR101666978B1_claim15: 400 words
+[evaluate]   [base/validation] KR101702117B1_claim1: 375 words
+[evaluate]   [base/validation] KR101723025B1_claim1: 346 words
+[evaluate]   [base/validation] KR101760425B1_claim1: 374 words
+[evaluate]   [base/validation] KR101768065B1_claim1: 352 words
+[evaluate]   [base/validation] KR101774749B1_claim9: 259 words
+[evaluate]   [base/validation] KR101909930B1_claim1: 281 words
+[evaluate]   [base/validation] KR102051811B1_claim1: 354 words
+[evaluate]   [base/validation] KR102065001B1_claim1: 249 words
+[evaluate]   [base/validation] KR102110197B1_claim10: 353 words
+[evaluate]   [base/validation] KR102144585B1_claim1: 355 words
+[evaluate]   [base/validation] KR102352618B1_claim1: 360 words
+[evaluate]   [base/validation] KR102375991B1_claim1: 332 words
+[evaluate]   [base/validation] KR102392567B1_claim6: 280 words
+[evaluate]   [base/validation] KR102395365B1_claim1: 318 words
+[evaluate]   [base/validation] KR102483325B1_claim1: 320 words
+[evaluate]   [base/validation] KR102514711B1_claim1: 327 words
+[evaluate]   [base/validation] KR102519720B1_claim10: 318 words
+[evaluate]   [base/validation] KR102539869B1_claim1: 309 words
+[evaluate]   [base/validation] KR102710382B1_claim1: 281 words
+[evaluate]   [base/validation] KR20060136481A_claim1: 396 words
+[evaluate]   [base/validation] KR20100021656A_claim6: 338 words
+[evaluate]   [base/validation] KR20100044202A_claim1: 388 words
+[evaluate]   [base/validation] KR20100082037A_claim1: 367 words
+[evaluate]   [base/validation] KR20120014122A_claim1: 340 words
+[evaluate]   [base/validation] KR20120044918A_claim1: 362 words
+[evaluate]   [base/validation] KR20120086281A_claim1: 368 words
+[evaluate]   [base/validation] KR20120101396A_claim1: 361 words
+[evaluate]   [base/validation] KR20120132816A_claim1: 398 words
+[evaluate]   [base/validation] KR20130099069A_claim7: 296 words
+[evaluate]   [base/validation] KR20140143140A_claim31: 267 words
+[evaluate]   [base/validation] KR20150119353A_claim47: 368 words
+[evaluate]   [base/validation] KR20150130314A_claim1: 343 words
+[evaluate]   [base/validation] KR20160134796A_claim56: 369 words
+[evaluate]   [base/validation] KR20160143795A_claim1: 375 words
+[evaluate]   [base/validation] KR20170099787A_claim31: 295 words
+[evaluate]   [base/validation] KR20180040511A_claim40: 373 words
+[evaluate]   [base/validation] KR20180124789A_claim24: 354 words
+[evaluate]   [base/validation] KR20200134689A_claim1: 317 words
+[evaluate]   [base/validation] KR20220005009A_claim1: 371 words
+[evaluate]   [base/validation] KR20220041770A_claim1: 354 words
+[evaluate]   [base/validation] KR20220102059A_claim1: 318 words
+[evaluate]   [base/validation] KR20230029684A_claim22: 360 words
+[evaluate]   [base/validation] KR20230062572A_claim1: 364 words
+[evaluate]   [base/validation] KR20230134530A_claim3: 347 words
+[evaluate]   [base/validation] KR20230169935A_claim1: 363 words
+[evaluate]   [base/validation] KR20240134361A_claim1: 363 words
+[evaluate]   [base/validation] KR20240177569A_claim1: 392 words
+[evaluate]   [base/validation] KR20250007159A_claim1: 341 words
+[evaluate]   [base/validation] KR20250047294A_claim14: 336 words
+[evaluate]   [base/validation] KR20250049355A_claim18: 355 words
+[evaluate]   [base/validation] US20130337432A1_claim59: 397 words
+[evaluate]   [base/validation] US20210283596A1_claim1: 363 words
+[evaluate]   [base/validation] US20250033046A1_claim17: 430 words
+[evaluate]   [base/validation] US20250091053A1_claim1: 422 words
+[evaluate]   [base/validation] US20250297303A1_claim16: 352 words
+[evaluate]   [base/validation] US20260124617A1_claim13: 415 words
+[evaluate] tuned/validation: loss=1.2861 scored_tokens=14952
+[evaluate]   [tuned/validation] KR100639816B1_claim1: 436 words
+[evaluate]   [tuned/validation] KR100762202B1_claim8: 47 words
+[evaluate]   [tuned/validation] KR101292536B1_claim26: 183 words
+[evaluate]   [tuned/validation] KR101397879B1_claim17: 56 words
+[evaluate]   [tuned/validation] KR101471246B1_claim21: 49 words
+[evaluate]   [tuned/validation] KR101506147B1_claim11: 38 words
+[evaluate]   [tuned/validation] KR101508670B1_claim1: 71 words
+[evaluate]   [tuned/validation] KR101546826B1_claim1: 45 words
+[evaluate]   [tuned/validation] KR101666978B1_claim15: 33 words
+[evaluate]   [tuned/validation] KR101702117B1_claim1: 31 words
+[evaluate]   [tuned/validation] KR101723025B1_claim1: 128 words
+[evaluate]   [tuned/validation] KR101760425B1_claim1: 43 words
+[evaluate]   [tuned/validation] KR101768065B1_claim1: 85 words
+[evaluate]   [tuned/validation] KR101774749B1_claim9: 27 words
+[evaluate]   [tuned/validation] KR101909930B1_claim1: 151 words
+[evaluate]   [tuned/validation] KR102051811B1_claim1: 16 words
+[evaluate]   [tuned/validation] KR102065001B1_claim1: 93 words
+[evaluate]   [tuned/validation] KR102110197B1_claim10: 330 words
+[evaluate]   [tuned/validation] KR102144585B1_claim1: 67 words
+[evaluate]   [tuned/validation] KR102352618B1_claim1: 25 words
+[evaluate]   [tuned/validation] KR102375991B1_claim1: 71 words
+[evaluate]   [tuned/validation] KR102392567B1_claim6: 74 words
+[evaluate]   [tuned/validation] KR102395365B1_claim1: 45 words
+[evaluate]   [tuned/validation] KR102483325B1_claim1: 76 words
+[evaluate]   [tuned/validation] KR102514711B1_claim1: 425 words
+[evaluate]   [tuned/validation] KR102519720B1_claim10: 31 words
+[evaluate]   [tuned/validation] KR102539869B1_claim1: 37 words
+[evaluate]   [tuned/validation] KR102710382B1_claim1: 101 words
+[evaluate]   [tuned/validation] KR20060136481A_claim1: 53 words
+[evaluate]   [tuned/validation] KR20100021656A_claim6: 27 words
+[evaluate]   [tuned/validation] KR20100044202A_claim1: 43 words
+[evaluate]   [tuned/validation] KR20100082037A_claim1: 56 words
+[evaluate]   [tuned/validation] KR20120014122A_claim1: 64 words
+[evaluate]   [tuned/validation] KR20120044918A_claim1: 421 words
+[evaluate]   [tuned/validation] KR20120086281A_claim1: 424 words
+[evaluate]   [tuned/validation] KR20120101396A_claim1: 26 words
+[evaluate]   [tuned/validation] KR20120132816A_claim1: 49 words
+[evaluate]   [tuned/validation] KR20130099069A_claim7: 38 words
+[evaluate]   [tuned/validation] KR20140143140A_claim31: 41 words
+[evaluate]   [tuned/validation] KR20150119353A_claim47: 440 words
+[evaluate]   [tuned/validation] KR20150130314A_claim1: 73 words
+[evaluate]   [tuned/validation] KR20160134796A_claim56: 91 words
+[evaluate]   [tuned/validation] KR20160143795A_claim1: 38 words
+[evaluate]   [tuned/validation] KR20170099787A_claim31: 17 words
+[evaluate]   [tuned/validation] KR20180040511A_claim40: 418 words
+[evaluate]   [tuned/validation] KR20180124789A_claim24: 33 words
+[evaluate]   [tuned/validation] KR20200134689A_claim1: 45 words
+[evaluate]   [tuned/validation] KR20220005009A_claim1: 39 words
+[evaluate]   [tuned/validation] KR20220041770A_claim1: 25 words
+[evaluate]   [tuned/validation] KR20220102059A_claim1: 473 words
+[evaluate]   [tuned/validation] KR20230029684A_claim22: 34 words
+[evaluate]   [tuned/validation] KR20230062572A_claim1: 79 words
+[evaluate]   [tuned/validation] KR20230134530A_claim3: 25 words
+[evaluate]   [tuned/validation] KR20230169935A_claim1: 48 words
+[evaluate]   [tuned/validation] KR20240134361A_claim1: 44 words
+[evaluate]   [tuned/validation] KR20240177569A_claim1: 56 words
+[evaluate]   [tuned/validation] KR20250007159A_claim1: 54 words
+[evaluate]   [tuned/validation] KR20250047294A_claim14: 43 words
+[evaluate]   [tuned/validation] KR20250049355A_claim18: 80 words
+[evaluate]   [tuned/validation] US20130337432A1_claim59: 67 words
+[evaluate]   [tuned/validation] US20210283596A1_claim1: 78 words
+[evaluate]   [tuned/validation] US20250033046A1_claim17: 75 words
+[evaluate]   [tuned/validation] US20250091053A1_claim1: 166 words
+[evaluate]   [tuned/validation] US20250297303A1_claim16: 118 words
+[evaluate]   [tuned/validation] US20260124617A1_claim13: 53 words
+[evaluate] validation base : {'loss': 2.542392, 'perplexity': 12.71, 'scored_target_tokens': 14952, 'rougeL_f': 0.0893, 'chrf': 19.2581, 'qualitative': {'n': 65, 'empty_responses': 0, 'looks_dependent': 21, 'missing_apparatus_noun': 0, 'missing_transition_phrase': 0, 'unterminated_no_final_period': 33, 'excessive_repetition_gt_0_3': 0, 'well_formed_independent_claims': 22, 'well_formed_rate': 0.3385, 'mean_words': 349.6}, 'by_language': {'en': {'n': 6, 'rougeL_f': 0.1664, 'chrf': 36.4289, 'qualitative': {'n': 6, 'empty_responses': 0, 'looks_dependent': 0, 'missing_apparatus_noun': 0, 'missing_transition_phrase': 0, 'unterminated_no_final_period': 0, 'excessive_repetition_gt_0_3': 0, 'well_formed_independent_claims': 6, 'well_formed_rate': 1.0, 'mean_words': 396.5}, 'language_drift': 0}, 'ko': {'n': 59, 'rougeL_f': 0.0815, 'chrf': 15.5325, 'qualitative': {'n': 59, 'empty_responses': 0, 'looks_dependent': 21, 'missing_apparatus_noun': 0, 'missing_transition_phrase': 0, 'unterminated_no_final_period': 33, 'excessive_repetition_gt_0_3': 0, 'well_formed_independent_claims': 16, 'well_formed_rate': 0.2712, 'mean_words': 344.8}, 'language_drift': 0}}}
+[evaluate] validation tuned: {'loss': 1.28607, 'perplexity': 3.6185, 'scored_target_tokens': 14952, 'rougeL_f': 0.0745, 'chrf': 13.1206, 'qualitative': {'n': 65, 'empty_responses': 0, 'looks_dependent': 0, 'missing_apparatus_noun': 19, 'missing_transition_phrase': 8, 'unterminated_no_final_period': 9, 'excessive_repetition_gt_0_3': 9, 'well_formed_independent_claims': 40, 'well_formed_rate': 0.6154, 'mean_words': 104.1}, 'by_language': {'en': {'n': 6, 'rougeL_f': 0.2294, 'chrf': 25.6642, 'qualitative': {'n': 6, 'empty_responses': 0, 'looks_dependent': 0, 'missing_apparatus_noun': 0, 'missing_transition_phrase': 0, 'unterminated_no_final_period': 0, 'excessive_repetition_gt_0_3': 0, 'well_formed_independent_claims': 6, 'well_formed_rate': 1.0, 'mean_words': 92.8}, 'language_drift': 0}, 'ko': {'n': 59, 'rougeL_f': 0.0587, 'chrf': 10.1701, 'qualitative': {'n': 59, 'empty_responses': 0, 'looks_dependent': 0, 'missing_apparatus_noun': 19, 'missing_transition_phrase': 8, 'unterminated_no_final_period': 9, 'excessive_repetition_gt_0_3': 9, 'well_formed_independent_claims': 34, 'well_formed_rate': 0.5763, 'mean_words': 105.3}, 'language_drift': 0}}}
+[evaluate] EVALUATION_DONE
+[stage] evaluate OK
+=================== STAGE push ===================
+/workspace/venv/lib/python3.12/site-packages/huggingface_hub/constants.py:299: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+[push] Authenticated to the Hub as Mepeng22.
+[push] Creating and pushing adapter repo Mepeng22/gemma-4-31b-claim-lora-v2 (private=True).
+[push] Adapter pushed: https://huggingface.co/Mepeng22/gemma-4-31b-claim-lora-v2
+[push] HUB_PUSH_COMPLETE {"adapter_repo": "https://huggingface.co/Mepeng22/gemma-4-31b-claim-lora-v2", "private": true}
+[stage] push OK
+=================== STAGE report ===================
+[report] STATUS FLAGS:
+DATA_DOWNLOAD_VERIFIED: true
+DATASET_VALIDATOR_PASS: true
+MULTI_IMAGE_CONTRACT_PASS: true
+ZERO_TARGET_TRUNCATION_PASS: true
+TRAINING_COMPLETE: true
+VALIDATION_COMPLETE: true
+TEST_EVALUATION_COMPLETE: false
+ARTIFACTS_READY: false
+[report] Report written to /workspace/outputs/FINAL_TRAINING_REPORT.md
+[stage] report OK
+=================== FINAL REPORT ===================
+# Final training report - Gemma 31B claim generator
+## Status
+```
+DATA_DOWNLOAD_VERIFIED: true
+DATASET_VALIDATOR_PASS: true
+MULTI_IMAGE_CONTRACT_PASS: true
+ZERO_TARGET_TRUNCATION_PASS: true
+TRAINING_COMPLETE: true
+VALIDATION_COMPLETE: true
+TEST_EVALUATION_COMPLETE: false
+ARTIFACTS_READY: false
+```
+**Not a full success - at least one flag is false.**
+## Base model
+- Model: `google/gemma-4-31B-it`
+- Revision: `main`
+- Architecture: `Gemma4ForConditionalGeneration` (vision-language, image-text-to-text)
+- License: Gemma Terms of Use. Redistribution of derivatives must carry the same
+  terms and use restrictions; the fine-tuned repositories are published private.
+## Method and why
+LoRA (bf16, no quantisation). Chosen over full fine-tuning because 91 training records
+cannot support ~31B free parameters without memorisation, and because 62.5 GB of
+bf16 weights plus optimiser state exceeds every single GPU available. The vision
+tower is frozen; LoRA is applied to the language tower only, so visual features
+are not perturbed by 91 examples.
+- LoRA rank 16, alpha 32, dropout 0.05
+- Target modules: 410 language-tower projections, suffixes ['down_proj', 'gate_proj', 'k_proj', 'o_proj', 'q_proj', 'up_proj', 'v_proj']
+  (exact module list in the adapter's `adapter_config.json`)
+- Trainable parameters: 122,429,440 of 31,395,515,952 (0.3900%)
+## Data
+- Version `finetune_multilingual_approved_20260902`, SHA-256 verified against the frozen release
+- Counts: {'train': 554, 'validation': 65, 'test': 75}
+- Splits untouched; no re-partitioning, no merging of validation/test into train
+- Oracle, canonical, excluded and evaluation material never enters model input
+- Max total sequence: 4075 tokens against a
+  262144-token context, so no target is ever truncated
+## Training
+- GPU: gpu0=NVIDIA H200 vram_gb=139.8
+- Peak VRAM: 77.04 GiB
+- Seed: 42
+- Micro batch 1 x grad-accum 4
+  = effective batch 4
+- Epochs requested 3.0, ran 3.0;
+  417 optimiser steps
+- LR 5e-05 with cosine schedule,
+  warmup ratio 0.1
+- Best-checkpoint rule fixed before training: minimise `eval_loss`
+- Best checkpoint: `/workspace/outputs/checkpoints/checkpoint-278` (eval_loss 1.366241216659546)
+- Base-model validation baseline: loss 1.549530267715454,
+  perplexity 4.709257572646149
+- Wall clock: 3689.1 s
+## Results
+**validation** (n=65)
+| metric | base | fine-tuned |
+|---|---|---|
+| loss | 2.542392 | 1.28607 |
+| perplexity | 12.71 | 3.6185 |
+| ROUGE-L (F) | 0.0893 | 0.0745 |
+| chrF | 19.2581 | 13.1206 |
+| empty responses | 0 | 0 |
+| excessive repetition | 0 | 9 |
+| reads as dependent claim | 21 | 0 |
+| no closing period | 33 | 9 |
+| well-formed independent claims | 22/65 | 40/65 |
+| mean length (words) | 349.6 | 104.1 |
+_test: not evaluated_
+Base and fine-tuned rows come from one model object evaluated twice, with the
+adapter enabled and disabled, under identical decoding settings
+({'do_sample': False, 'num_beams': 1, 'max_new_tokens': 1024}).
+## Published models
+{
+  "adapter_repo": "https://huggingface.co/Mepeng22/gemma-4-31b-claim-lora-v2",
+  "private": true
+}
+## Artifacts
+All under `/workspace/outputs`:
+- `final_model_or_adapter`
+- `checkpoints`
+- `training_config.yaml`
+- `environment.txt`
+- `dataset_preflight.json`
+- `token_length_audit.json`
+- `train_log.jsonl`
+- `metrics.json`
+- `validation_predictions.jsonl`
+- `inference.py`
+- `reproduce.sh`
+- MISSING: `test_predictions.jsonl`
+## Reproduce
+```bash
+bash /workspace/outputs/reproduce.sh /path/to/final_dataset_v112.zip
+```
+PIPELINE_STATUS=SUCCESS
+PIPELINE_EXIT=0
+PIPELINE_DONE_MARKER
+PIPELINE_CONTAINER_EXITING rc=0

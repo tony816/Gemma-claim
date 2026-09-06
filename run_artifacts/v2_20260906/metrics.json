@@ -1,0 +1,129 @@
+{
+  "base_model": "google/gemma-4-31B-it",
+  "revision": "main",
+  "decoding": {
+    "do_sample": false,
+    "num_beams": 1,
+    "max_new_tokens": 1024
+  },
+  "base": {
+    "validation": {
+      "loss": 2.542392,
+      "perplexity": 12.71,
+      "scored_target_tokens": 14952,
+      "rougeL_f": 0.0893,
+      "chrf": 19.2581,
+      "qualitative": {
+        "n": 65,
+        "empty_responses": 0,
+        "looks_dependent": 21,
+        "missing_apparatus_noun": 0,
+        "missing_transition_phrase": 0,
+        "unterminated_no_final_period": 33,
+        "excessive_repetition_gt_0_3": 0,
+        "well_formed_independent_claims": 22,
+        "well_formed_rate": 0.3385,
+        "mean_words": 349.6
+      },
+      "by_language": {
+        "en": {
+          "n": 6,
+          "rougeL_f": 0.1664,
+          "chrf": 36.4289,
+          "qualitative": {
+            "n": 6,
+            "empty_responses": 0,
+            "looks_dependent": 0,
+            "missing_apparatus_noun": 0,
+            "missing_transition_phrase": 0,
+            "unterminated_no_final_period": 0,
+            "excessive_repetition_gt_0_3": 0,
+            "well_formed_independent_claims": 6,
+            "well_formed_rate": 1.0,
+            "mean_words": 396.5
+          },
+          "language_drift": 0
+        },
+        "ko": {
+          "n": 59,
+          "rougeL_f": 0.0815,
+          "chrf": 15.5325,
+          "qualitative": {
+            "n": 59,
+            "empty_responses": 0,
+            "looks_dependent": 21,
+            "missing_apparatus_noun": 0,
+            "missing_transition_phrase": 0,
+            "unterminated_no_final_period": 33,
+            "excessive_repetition_gt_0_3": 0,
+            "well_formed_independent_claims": 16,
+            "well_formed_rate": 0.2712,
+            "mean_words": 344.8
+          },
+          "language_drift": 0
+        }
+      }
+    }
+  },
+  "tuned": {
+    "validation": {
+      "loss": 1.28607,
+      "perplexity": 3.6185,
+      "scored_target_tokens": 14952,
+      "rougeL_f": 0.0745,
+      "chrf": 13.1206,
+      "qualitative": {
+        "n": 65,
+        "empty_responses": 0,
+        "looks_dependent": 0,
+        "missing_apparatus_noun": 19,
+        "missing_transition_phrase": 8,
+        "unterminated_no_final_period": 9,
+        "excessive_repetition_gt_0_3": 9,
+        "well_formed_independent_claims": 40,
+        "well_formed_rate": 0.6154,
+        "mean_words": 104.1
+      },
+      "by_language": {
+        "en": {
+          "n": 6,
+          "rougeL_f": 0.2294,
+          "chrf": 25.6642,
+          "qualitative": {
+            "n": 6,
+            "empty_responses": 0,
+            "looks_dependent": 0,
+            "missing_apparatus_noun": 0,
+            "missing_transition_phrase": 0,
+            "unterminated_no_final_period": 0,
+            "excessive_repetition_gt_0_3": 0,
+            "well_formed_independent_claims": 6,
+            "well_formed_rate": 1.0,
+            "mean_words": 92.8
+          },
+          "language_drift": 0
+        },
+        "ko": {
+          "n": 59,
+          "rougeL_f": 0.0587,
+          "chrf": 10.1701,
+          "qualitative": {
+            "n": 59,
+            "empty_responses": 0,
+            "looks_dependent": 0,
+            "missing_apparatus_noun": 19,
+            "missing_transition_phrase": 8,
+            "unterminated_no_final_period": 9,
+            "excessive_repetition_gt_0_3": 9,
+            "well_formed_independent_claims": 34,
+            "well_formed_rate": 0.5763,
+            "mean_words": 105.3
+          },
+          "language_drift": 0
+        }
+      }
+    }
+  },
+  "VALIDATION_COMPLETE": true,
+  "TEST_EVALUATION_COMPLETE": false
+}

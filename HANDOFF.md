@@ -4,6 +4,34 @@ Written 2026-09-02 at the end of a local session, for whoever picks this up in a
 cloud session. Read `CLAUDE.md` first; it is the record of what the previous run
 cost and why. This file is only the delta since then.
 
+## The run happened. Read this first.
+
+It ran on 2026-09-06 and finished: adapter at
+`Mepeng22/gemma-4-31b-claim-lora-v2` (private, 498 MB), full numbers in
+`run_artifacts/v2_20260906/RESULTS.md`. The pod is terminated.
+
+**The verdict: the fine-tune ties prompting on content and loses on
+well-formedness.** At balanced chrF (β=1) over the 59 Korean validation records
+it scores 11.85 against the prompted base model's 11.78 — noise. It calibrates
+length correctly (105.3 words against a 90.9-word reference, where prompting
+gives 41.8), and it collapses into repetition on 15% of generations, which
+prompting never does (34/59 well-formed against 58/59).
+
+Two traps in reading those numbers, both of which caught this session first:
+
+- **The default chrF favours the base model because the base model rambles.**
+  `evaluate.py` gives it no system prompt, so it writes 344.8 words against a
+  90.9-word reference, and sacrebleu's default β=2 weights recall twice as
+  heavily as precision. Truncating that same output to the reference length
+  drops it from 14.82 to 11.87. Report β=1, or report the length alongside.
+- **Teacher-forced loss fell 2.54 → 1.29 while content overlap did not move.**
+  That is the model learning the target's form and length, not the mapping from
+  drawings to claim. It is the 91-record failure again, milder.
+
+So the next thing to fix is the repetition collapse, not the data. Cheapest
+first: a repetition penalty at decode time, measurable for free on the saved
+`validation_predictions.jsonl`. The test split is still unspent.
+
 ## What the user decided
 
 1. **A new dataset is ready** and replaces `v1.1.2-independent-oracle-clean`:

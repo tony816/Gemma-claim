@@ -1,0 +1,530 @@
+[
+  {
+    "record_id": "KR100639816B1_claim1",
+    "reference": "핵산을 함유하는 샘플을 주입하기 위한 샘플주입 수단; 상기 샘플로부터 DNA 혹은 RNA을 준비하기 위한 프렙 챔버; 상기 DNA 혹은 RNA를 증폭하기 위한 PCR 챔버; 상기 증폭된 DNA를 캡처 프로브와 혼성화시키기 위한 어레이 챔버; 상기 혼성화되지 않은 찌거기들을 모으기 위한 트레쉬챔버: 상기 각각의 공정에 필요한 각종 효소 와 버퍼 용액을 저장하기 위한 복수개의 챔버들을 포함하는 핵산 분석 장치에 있어서, 상기 챔버들 사이에 유체의 흐름의 개폐와 유량을 제어하기 위하여 유체를 이동하기 위한 유로; 상기 유로를 연결시키기 위한 유공; 상기 유로 및 유공을 형성하는 박막형 몸체; 상기 몸체의 상하면의 마주보는 위치에 설치되어 자력선를 발생시키는 전자석들과; 상기 전자석들의 온오프 제어에 따라 상하 어느 한 방향으로 움직이면서 상기 유공을 개폐하는 초소형 구슬을 포함하는 미세(micro) 밸브 장치를 이용하는 것을 특징으로 하는 핵산 분석 장치.",
+    "train_prompt": {
+      "text": "상기 제1 기판의 상부에 배치되고, 상기 제1 기판의 상부에 형성된 제1 유로의 상부에 배치되는 제2 기판; 상기 제2 기판의 하부에 배치되고, 상기 제2 기판의 하부에 형성된 제2 유로의 하부에 배치되는 제3 기판; 상기 제1 기판의 상부에 형성된 제1 유로의 일측에 형성된 제1 유입구; 상기 제2 기판의 하부에 형성된 제2 유로의 일측에 형성된 제2 유입구; 상기 제3 기판의 상부에 형성된 제3 유로의 일측에 형성된 제3 유입구; 상기 제1 유입구, 상기 제2 유입구 및 상기 제3 유입구에 각각 배치되는 제1 밸브, 제2 밸브 및 제3 밸브; 상기 제1 유입구, 상기 제2 유입구 및 상기 제3 유입구에 각각 배치되는 제1 챔버, 제2 챔버 및 제3 챔버; 상기 제1 챔버, 상기 제2 챔버 및 상기 제3 챔버에 각각 배치되는 제1 반응 챔버, 제2 반응 챔버 및 제3 반응 챔버; 상기 제1 반응 챔버, 상기 제2 반응 챔버 및 상기 제3 반응 챔버에 각각 배치되는 제1 검출 챔버, 제2 검출 챔버 및 제3 검출 챔버; 상기 제1 챔버, 상기 제2 챔버 및 상기 제3 챔버에 각각 배치되는 제1 밸브, 제2 밸브 및 제3 밸브; 상기 제1 챔버, 상기 제2 챔버 및 상기 제3 챔버에 각각 배치되는 제1 밸브, 제2 밸브 및 제3 밸브; 상기 제1 챔버, 상기 제2 챔버 및 상기 제3 챔버에 각각 배치되는 제1 밸브, 제2 밸브 및 제3 밸브; 상기 제1 챔버, 상기 제2 챔버 및 상기 제3 챔버에 각각 배치되는 제1",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 7.73,
+      "chrf_sanitised": 7.73,
+      "words": 220,
+      "rep8": 0.286,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": false,
+        "has_transition_phrase": false,
+        "looks_dependent": false,
+        "ends_with_period": false,
+        "repetition_10gram": 0.2512,
+        "words": 220
+      }
+    },
+    "with_system": {
+      "text": "상부에 위치하는 제1 기판; 상기 제1 기판의 하부에 위치하며, 상기 제1 기판과 상기 제3 기판 사이에 위치하는 제2 기판; 및 상기 제2 기판의 하부에 위치하는 제3 기판;을 포함하고, 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판은 각각 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판, 상기 제2 기판 및 상기 제3 기판의 상기 제1 기판,",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 4.61,
+      "chrf_sanitised": 4.61,
+      "words": 242,
+      "rep8": 0.8,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": false,
+        "has_transition_phrase": false,
+        "looks_dependent": false,
+        "ends_with_period": false,
+        "repetition_10gram": 0.7897,
+        "words": 242
+      }
+    }
+  },
+  {
+    "record_id": "KR100762202B1_claim8",
+    "reference": "(1) 표준 미생물 시료; (2) 미생물 특이 검색시약을 포함하는 리포좀; (3) 신호 측정기; (4) 각종 반응 용액; 및 (5) 완충용액들을 포함하여 구성된 바이오센서로서, 첨가되는 미생물 시료에 대해 상기 미생물 특이 검색 시약을 포함하는 리포좀이 미생물 시료 내의 용혈성 미생물에 의해 선택적으로 파괴 또는 변형되면서 용출되는 반응 시약이 미생물과 반응하여 발생하는 신호를 상기 전기화학적 신호 측정기로 탐지하는 것을 특징으로 하는 용혈성 미생물을 선택적으로 진단하는 바이오센서.",
+    "train_prompt": {
+      "text": "미생물 검출을 위한 전기화학적 센서로서, 상기 센서는, (a) 미생물 샘플을 수용하기 위한 용기; (b) 상기 용기 내에 배치된 작업 전극; (c) 상기 용기 내에 배치된 기준 전극; (d) 상기 용기 내에 배치된 대향 전극; (e) 상기 용기 내에 배치된 리포좀, 상기 리포좀은 매개물질을 포함하는 것인, 전기화학적 센서.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 11.03,
+      "chrf_sanitised": 11.03,
+      "words": 47,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 47
+      }
+    },
+    "with_system": {
+      "text": "미생물 검출을 위한 전기화학적 센서로서, 미생물 샘플을 수용하는 반응 챔버; 상기 반응 챔버 내에 배치된 작업 전극, 기준 전극 및 대극; 및 상기 작업 전극, 기준 전극 및 대극에 전기적으로 연결된 포텐시오스탯을 포함하는 것을 특징으로 하는 미생물 검출을 위한 전기화학적 센서.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 14.09,
+      "chrf_sanitised": 14.09,
+      "words": 41,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 41
+      }
+    }
+  },
+  {
+    "record_id": "KR101292536B1_claim26",
+    "reference": "샘플 주입구; 버퍼 용액 또는 반응 용액을 저장할 수 있는 챔버(chamber); 기질 상에 바이오 물질들이 고정화되어 있는 분석 사이트(assay site); 상기 챔버와 분석 사이트 사이에 유체가 흐를 수 있는 유로(channel); 상기 유로를 연결시키는 유공; 및 상기 유공을 개폐시키기 위한 밸브(valve);를 포함하는 랩온어칩(Lab on a chip) 시스템을 포함하는 바이오 메모리 디스크로서, 상기 랩온어칩은 상기 디스크 상에 집적되고, 상기 밸브는 상기 유공에 위치한 박막형 원기둥 자석, 상기 박막형 원기둥 자석 상단에 위치한 박막형 영구자석, 및 상기 박막형 원기둥 자석 하단에 위치한 이동가능한 영구 자석을 포함하는 것인 바이오 메모리 디스크.",
+    "train_prompt": {
+      "text": "상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌버주입구(131a, 141a)와 상기 펌버의 펌버배기구(131b, 141b)를 포함하는 펌버; 상기 펌버의 펌",
+      "numerals": true,
+      "numerals_after_sanitise": false,
+      "chrf": 6.4,
+      "chrf_sanitised": 5.94,
+      "words": 93,
+      "rep8": 0.872,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": false,
+        "repetition_10gram": 0.869,
+        "words": 93
+      }
+    },
+    "with_system": {
+      "text": "상부 기판, 하부 기판 및 상기 상부 기판과 하부 기판 사이에 배치되는 겔을 포함하는 겔 챔버; 상기 겔 챔버의 상부에 배치되는 펌버; 상기 펌버의 하부에 배치되는 밸브; 상기 밸브의 하부에 배치되는 채널; 상기 겔 챔버의 상부에 배치되는 펌버의 상부에 배치되는 펌버 주입구; 상기 펌버 주입구의 상부에 배치되는 펌버 배기구; 상기 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는 펌버 주입구의 하부에 배치되는",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 5.51,
+      "chrf_sanitised": 5.51,
+      "words": 190,
+      "rep8": 0.705,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": false,
+        "repetition_10gram": 0.7017,
+        "words": 190
+      }
+    }
+  },
+  {
+    "record_id": "KR101397879B1_claim17",
+    "reference": "복수개의 면역분석 반응물을 포함하는 카트리지를 포함하는 인플루엔자 바이러스 감염의 유형을 검출하는 유체 장치로서, 상기 복수개의 반응물 중 2개 이상은 피험체로부터의 체액 중의 인플루엔자 바이러스 입자 상에 존재하는 상이한 피분석물에 결합하며, 여기서, 상기 상이한 피분석물은 인플루엔자 감염의 서브타입을 나타내고, 상기 상이한 피분석물 중 하나 이상의 구성원은 H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11, H12, H13, H14, H15 및 H16으로 구성된 군으로부터 선택되는 헤마글루티닌이고, 상기 상이한 피분석물 중 하나 이상의 다른 구성원은 N1, N2, N3, N4 및 N5로 구성된 군으로부터 선택되는 뉴라미니다제이며, 상기 카트리지는 상기 체액이 상기 복수개의 반응물과 반응하여 상기 체액 중의 상기 인플루엔자 바이러스 입자 상에 동시에 존재하는 상기 상이한 피분석물의 존재를 나타내는 하나 이상의 검출 가능한 신호를 산출하도록 적합화된 것인 유체 장치.",
+    "train_prompt": {
+      "text": "생물학적 유체 샘플을 분석하기 위한 장치로서, 상기 장치는, 상기 생물학적 유체 샘플을 수용하기 위한 카트리지로서, 상기 카트리지는, 상기 생물학적 유체 샘플을 수용하기 위한 챔버; 상기 챔버 내에서 상기 생물학적 유체 샘플을 가열하기 위한 히터; 및 상기 생물학적 유체 샘플 내의 표적 분자를 검출하기 위한 센서를 포함하는, 카트리지; 및 상기 카트리지와 통신하기 위한 제어 장치를 포함하는, 장치.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 9.43,
+      "chrf_sanitised": 9.43,
+      "words": 56,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 56
+      }
+    },
+    "with_system": {
+      "text": "시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기 카트리지에 결합되고, 상기 시료를 수용하기 위한 적어도 하나의 챔버를 포함하는 적어도 하나의 카트리지; 상기",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 7.59,
+      "chrf_sanitised": 7.59,
+      "words": 205,
+      "rep8": 0.894,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": false,
+        "repetition_10gram": 0.8929,
+        "words": 205
+      }
+    }
+  },
+  {
+    "record_id": "KR101471246B1_claim21",
+    "reference": "특정 염기서열의 올리고뉴클레오타이드가 결합된 고체 지지체를 수용한 염기서열 분석 기판이 장착된 제1 스테이지; 상기 고체 지지체의 추출을 위해 상기 염기서열 분석 기판을 관찰하기 위한 제1 이미징 장치; 상기 염기서열 분석 기판과 마주 보는 위치에 배치된 대응 기판이 장착된 제2 스테이지; 상기 고체 지지체를 상기 염기서열 분석 기판으로부터 분리하여 상기 대응 기판으로 이동시키기 위한 추출 장치; 및 상기 고체 지지체의 분리를 위하여 상기 염기서열 분석 기판의 특정 영역이 상기 추출 장치와 대응되도록 위치시키는 제어 장치를 포함하되, 상기 추출 장치는 펄스 레이저 광원 및 집광 장치를 포함하고, 상기 위치시키는 동작은 상기 제1 이미징 장치로부터 얻어진 상기 고체 지지체의 실측 위치 정보와 상기 고체 지지체로부터 발생한 신호의 픽셀 정보의 맵핑 결과를 이용하여 수행되는 고순도 뉴클레오타이드의 대량 생산용 고체 지지체 추출 시스템.",
+    "train_prompt": {
+      "text": "고체 지지체 상에 올리고의 복제라이브러리를 갖는 염기서열 분석 기판; 상기 염기서열 분석 기판을 시퀀싱하여 픽셀 정보와 실측 위치 정보를 얻는 시퀀싱 장치; 상기 픽셀 정보와 실측 위치 정보를 매핑하여 고체 지지체를 추출하는 매핑 장치; 및 상기 추출된 고체 지지체의 올리고를 증폭하여 대량으로 복제하는 증폭 장치를 포함하는 염기서열 분석 시스템.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 18.33,
+      "chrf_sanitised": 18.33,
+      "words": 49,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 49
+      }
+    },
+    "with_system": {
+      "text": "시퀀싱 마이크로비드 플레이트 상에 고체 지지체에 고정된 핵산 분자 클론을 포함하는 시퀀싱 마이크로비드 플레이트; 상기 시퀀싱 마이크로비드 플레이트 상의 핵산 분자 클론을 시퀀싱하여 시퀀싱 데이터를 획득하는 시퀀싱 장치; 상기 시퀀싱 마이크로비드 플레이트 상의 핵산 분자 클론의 물리적 위치 정보를 획득하는 위치 정보 획득 장치; 상기 시퀀싱 데이터를 획득한 시퀀싱 장치와 상기 물리적 위치 정보를 획득한 위치 정보 획득 장치와 연결되어, 상기 시퀀싱 데이터와 상기 물리적 위치 정보를 매핑하여 상기 핵산 분자 클론의 시퀀싱 결과와 물리적 위치 정보를 매핑하는 매핑 장치; 및 상기 매핑 장치와 연결되어, 상기 매핑된 시퀀싱 결과와 물리적 위치 정보를 이용하여 상기 핵산 분자 클론을 추출하는 추출 장치를 포함하는 것을 특징으로 하는 핵산 분자 클론 추출 장치.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 14.06,
+      "chrf_sanitised": 14.06,
+      "words": 109,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 109
+      }
+    }
+  },
+  {
+    "record_id": "KR101506147B1_claim11",
+    "reference": "시료에 존재하는 표적 물질에 의해 활성화되는 효소 및 상기 활성화된 효소에 의해 반응이 촉매되는 적어도 하나의 기질을 포함하는 시약 1이 수용된 제1시약 챔버; 상기 표적 물질에 의해 활성화되는 효소, 상기 활성화된 효소에 의해 반응이 촉매되는 적어도 하나의 기질 및 상기 표적 물질을 특이적으로 포획하는 포획 물질을 포함하는 시약 2가 수용된 제2시약 챔버; 및 상기 시료가 주입되는 시료 주입구; 를 포함하는 미세유동장치.",
+    "train_prompt": {
+      "text": "시료를 수용하는 웰; 상기 시료와 혼합되어 반응 1을 일으키는 시약 1을 수용하는 웰; 상기 시료와 혼합되어 반응 2를 일으키는 시약 2를 수용하는 웰; 및 상기 반응 1 및 반응 2의 결과를 측정하는 측정부를 포함하는, 표적물질의 농도를 측정하는 키트.",
+      "numerals": true,
+      "numerals_after_sanitise": true,
+      "chrf": 12.19,
+      "chrf_sanitised": 11.44,
+      "words": 38,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": false,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 38
+      }
+    },
+    "with_system": {
+      "text": "시료를 수용하는 챔버; 및 상기 챔버에 포획물질을 포함하는 시약이 공급되는 시약 저장부를 포함하는 것을 특징으로 하는 바이오센서.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 13.37,
+      "chrf_sanitised": 13.37,
+      "words": 17,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 17
+      }
+    }
+  },
+  {
+    "record_id": "KR101508670B1_claim1",
+    "reference": "표적 핵산을 검출하기 위한 일회용 플랫폼으로서, 상기 일회용 플랫폼은 표적 핵산을 포함하는 시료를 수신하기 위한 시료 챔버; 제1 채널을 통하여 상기 시료 챔버로 연결되고 제2 채널을 통하여 제1 통기구 포켓 (vent pocket)으로 연결되는 증폭 챔버; 제3 채널을 통하여 상기 증폭 챔버와 연결되고 제4 채널을 통하여 제2 통기구 포켓으로 연결되는 표지 챔버; 제5 채널을 통하여 상기 표지 챔버로 연결되고 제6 채널을 통하여 제3 통기구 포켓으로 연결되는 검출 서브시스템; 상기 각각의 통기구 포켓들과 인접하여 위치하는 다수의 저항성 열 소자들; 및 상기 저항성 열 소자들 중 하나와 인접하여 위치하는 하나 이상의 온도 측정 장치; 를 포함하고, 상기 각각의 통기구 포켓들은 상기 저항성 열 소자들 중 하나와 인접하여 위치하는 열에 불안정한 멤브레인에 의하여 외기로부터 밀봉된 일회용 플랫폼.",
+    "train_prompt": {
+      "text": "생물학적 샘플을 분석하기 위한 장치로서, 상기 장치는, 상기 생물학적 샘플을 수용하도록 구성된 웰을 포함하는 샘플 준비 모듈; 상기 샘플 준비 모듈에 결합된 분석 모듈로서, 상기 분석 모듈은, 상기 생물학적 샘플을 수용하도록 구성된 웰을 포함하는 분석 웰을 포함하는, 상기 분석 모듈; 및 상기 샘플 준비 모듈 및 상기 분석 모듈에 결합된 검출 모듈로서, 상기 검출 모듈은, 상기 분석 웰 내의 상기 생물학적 샘플을 검출하도록 구성된 검출기를 포함하는, 상기 검출 모듈을 포함하는, 장치.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 8.53,
+      "chrf_sanitised": 8.53,
+      "words": 71,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 71
+      }
+    },
+    "with_system": {
+      "text": "내부에 복수의 샘플을 수용하도록 구성된 카트리지; 상기 카트리지에 수용된 샘플을 분석하기 위한 분석 장치; 및 상기 분석 장치에 장착된 상기 카트리지에 수용된 샘플을 분석하기 위한 분석 모듈을 포함하는 것을 특징으로 하는 분석 시스템.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 5.62,
+      "chrf_sanitised": 5.62,
+      "words": 33,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 33
+      }
+    }
+  },
+  {
+    "record_id": "KR101546826B1_claim1",
+    "reference": "유기화합물(organic compound)과, 혈액 샘플 내의 특정 물질과 결합하는 검출항체(detection antibody)를 구비하는 유기화합물 접합 항체(organic compound conjugated antibody); 및 상기 특정 물질과 결합하는 고정항체(immobilized antibody)를 구비하며, 상기 특정 물질을 분석하기 위한 분석 반응(reaction for assay)이 일어나는 반응부를 포함하며, 상기 유기화합물은 제1 및 제2 작용기(functional group)를 구비하되, 상기 제1 작용기를 통해 상기 검출항체에 결합되며, 상기 제2 작용기를 통해 상기 분석 반응에 참여하는 혈액 샘플 분석 카트리지(blood sample assay cartridge).",
+    "train_prompt": {
+      "text": "유입부를 통해 샘플을 유입시키고, 상기 샘플을 채널을 따라 반응부로 이동시키며, 상기 샘플 내 특정물질이 상기 반응부에 고정되고, 상기 특정물질과 반응시료의 반응이 일어나는 반응부; 상기 반응부의 반응에 따른 신호를 분석하는 분석부; 상기 반응부와 상기 분석부를 제어하는 제어부; 및 상기 제어부에 전원을 공급하는 전원부를 포함하는 카트리지 리더기.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 11.8,
+      "chrf_sanitised": 11.8,
+      "words": 45,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 45
+      }
+    },
+    "with_system": {
+      "text": "샘플을 유입시키는 유입부; 상기 유입부와 연결되고, 상기 샘플이 이동하는 채널을 포함하는 제1 유체부; 상기 제1 유체부와 연결되고, 상기 샘플 내의 특정물질이 고정되는 반응부; 상기 반응부와 연결되고, 상기 특정물질과 반응하는 유기화합물 결합 항체를 제공하는 제2 유체부; 상기 제1 유체부, 상기 반응부 및 상기 제2 유체부와 연결되고, 상기 반응부에서 상기 특정물질과 상기 유기화합물 결합 항체 간의 반응에 따른 신호를 분석하는 분석부; 상기 분석부와 연결되고, 상기 분석부에서 분석된 신호를 표시하는 디스플레이부; 상기 분석부와 연결되고, 상기 분석부에서 분석된 신호를 송신하는 통신부; 상기 분석부와 연결되고, 상기 분석부에 대한 제어 신호를 입력하는 입력부; 상기 분석부, 상기 디스플레이부, 상기 통신부 및 상기 입력부와 연결되고, 상기 분석부, 상기 디스플레이부, 상기 통신부 및 상기 입력부를 제어하는 제어부; 및 상기 제어부와 연결되고, 상기 제어부에 전원을 공급하는 전원부를 포함하는 것을 특징으로 하는 카트리지 리더기.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 15.45,
+      "chrf_sanitised": 15.45,
+      "words": 123,
+      "rep8": 0.009,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 123
+      }
+    }
+  },
+  {
+    "record_id": "KR101666978B1_claim15",
+    "reference": "생체시료 내 분석대상물질의 농도측정장치에 있어서, 상기 분석대상물질의 산화환원 반응을 촉매할 수 있는 산화환원 효소와 전자전달매개체가 고정되어 있으며 작동전극과 보조전극을 구비한 시료셀이 삽입되는 커넥터와, 상기 분석대상물질의 산화환원 반응을 개시하고 전자전달 반응을 진행시키기 위한 일정직류 전압과, 상기 일정직류 전압에 이어서 상기 시료셀의 전위를 요동시키기 위한 Λ 모양의 계단화된 사다리형 섭동전압를 인가하기 위한 디지털-아날로그컨버터 회로와, 상기 디지털-아날로그컨버터 회로를 제어하고, 상기 Λ 모양의 계단화된 사다리형 섭동전압을 이용하여 검정식으로부터 직접 상기 분석대상물질의 농도값을 구하는 마이크로콘트롤러를 포함하는 생체시료 내 분석대상물질의 농도측정장치.",
+    "train_prompt": {
+      "text": "혈액의 유입을 위한 스트립; 상기 스트립에 인가되는 일정전압을 제어하는 전압변환기; 상기 전압변환기에 의해 상기 스트립에 인가되는 일정전압을 제어하는 마이크로컨트롤러; 및 상기 스트립에 인가되는 일정전압에 의해 상기 스트립에서 발생하는 응답전류를 측정하는 전류측정기를 포함하는 혈당측정기.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 8.37,
+      "chrf_sanitised": 8.37,
+      "words": 33,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": false,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 33
+      }
+    },
+    "with_system": {
+      "text": "혈액 샘플을 수용하는 스트립; 상기 스트립에 인가되는 전압을 제어하는 전압 제어부; 및 상기 스트립에서 발생하는 전류를 측정하는 전류 측정부를 포함하는 것을 특징으로 하는 혈당 측정 장치.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 5.71,
+      "chrf_sanitised": 5.71,
+      "words": 26,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 26
+      }
+    }
+  },
+  {
+    "record_id": "KR101702117B1_claim1",
+    "reference": "광범위한 농도 범위에서 항원으로서 CRP(C-reactive protein) 또는 미오글로빈(myoglobin)의 농도를 측정하기 위한 측방 유동 분석 스트립 센서로서, 상기 측방 유동 분석 스트립 센서는 샘플 패드, 컨쥬게이트 패드, 멤브레인 및 흡수 패드가 순차적으로 연결된 구조를 포함하고, 상기 컨쥬게이트 패드에는 나노입자와 상기 항원에 결합하는 검출항체로서 모노클로날 항체가 연결된 나노입자-검출항체 컨쥬게이트가 포함되어 있고, 상기 멤브레인상에는 상기 컨쥬게이트 패드로부터 상기 흡수 패드 방향으로 테스트 라인, 항원 라인 및 콘트롤 라인이 순차적으로 형성되어 있고, 상기 테스트 라인에는 상기 항원에 결합하는 포획항체로서 폴리클로날 항체가 고정되어 있고, 상기 항원 라인에는 멤브레인상에 고정된 상기 항원에 결합하는 포획항체인 폴리클로날 포획항체를 매개로 하여 항원이 고정되어 있고, 상기 콘트롤 라인에는 상기 검출항체에 결합하는 2차 항체가 고정되어 있는 것을 특징으로 하는 측방 유동 분석 스트립 센서.",
+    "train_prompt": {
+      "text": "검출하고자 하는 항원과 특이적으로 결합하는 항원-항체 결합체를 포함하는 항원 라인; 및 검출하고자 하는 항원과 특이적으로 결합하는 항체-금 나노입자 결합체를 포함하는 테스트 라인을 포함하는 것을 특징으로 하는 측방 유동 면역 진단 키트.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 9.59,
+      "chrf_sanitised": 9.59,
+      "words": 31,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": false,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 31
+      }
+    },
+    "with_system": {
+      "text": "시료가 주입되는 샘플 패드; 금 나노입자와 항체가 결합된 금 나노입자-항체 접합체가 배치된 컨쥬게이트 패드; 상기 샘플 패드와 컨쥬게이트 패드에 연결되고, 검출하고자 하는 항원과 특이적으로 결합하는 항체가 고정된 테스트 라인, 검출하고자 하는 항원이 고정된 항원 라인, 및 상기 금 나노입자-항체 접합체와 특이적으로 결합하는 항체가 고정된 컨트롤 라인을 포함하는 NC 멤브레인; 및 상기 NC 멤브레인에 연결된 흡수 패드를 포함하는 것을 특징으로 하는 면역 크로마토그래피 장치.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 17.99,
+      "chrf_sanitised": 17.99,
+      "words": 63,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 63
+      }
+    }
+  },
+  {
+    "record_id": "KR101723025B1_claim1",
+    "reference": "당류 및 아질산 화합물을 포함하는 제1조성물; 당류, 아미노산, 당알코올 및 폴리아민으로 이루어지는 군으로부터 선택되는 1종 이상과, 단백질분해효소 및 산화제를 포함하는 제2조성물; 당류 및 유기 고분자로 이루어지는 군으로부터 선택되는 1종 이상과, FAOD(Fructosyl amino acid oxidase)를 포함하는 제3조성물; 및 당류 및 발색시약을 포함하는 제4조성물;을 포함하는 당화혈색소 정량분석용 키트에 있어서, 상기 당화혈색소 정량분석용 키트는 복수개의 시약 고정부를 포함하고, 상기 제1조성물, 제2조성물, 제3조성물 및 제4조성물은 각각 독립적으로 복수개의 시약 고정부에 고정되어 있는 것을 특징으로 하는 당화혈색소 정량분석용 키트.",
+    "train_prompt": {
+      "text": "시료 주입부; 상기 시료 주입부에 연결되고, 상기 시료 주입부로부터 주입된 시료를 수용하는 수용부; 상기 수용부의 하단에 위치하고, 상기 수용부에 수용된 시료를 흡수하는 흡수패드; 상기 수용부의 상단에 위치하고, 상기 수용부에 수용된 시료를 상기 수용부의 상단으로 이동시키는 챔버 이동툴; 상기 수용부의 상단에 위치하고, 상기 챔버 이동툴에 의해 상기 수용부의 상단으로 이동된 시료를 혼합하는 혼합부; 상기 혼합부의 상단에 위치하고, 상기 혼합부에서 혼합된 시료를 수용하는 측정부; 상기 측정부의 상단에 위치하고, 상기 측정부에서 수용된 시료를 배출하는 폐액처리부; 및 상기 측정부의 상단에 위치하고, 상기 측정부에서 수용된 시료를 배출하는 공기배출구를 포함하는 시료 카트리지; 및 상기 시료 카트리지에 삽입되고, 상기 시료 카트리지의 상기 수용부에 수용된 시료와 반응하는 반응액을 저장하는 반응액 저장 챔버; 및 상기 반응액 저장 챔버의 상단에 위치하고, 상기 반응액 저장 챔버의 상기 반응액을 상기 수용부로 이동시키는 커버테이프를 포함하는 반응 카트리지;를 포함하는 혈당 측정 장치.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 8.63,
+      "chrf_sanitised": 8.63,
+      "words": 128,
+      "rep8": 0.017,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 128
+      }
+    },
+    "with_system": {
+      "text": "시료 주입부, 시료 카트리지 손잡이, 고정처를 포함하는 시료 카트리지; 및 수용부, 커버테이프 과열부, 챔버 이동툴, 혼합부, 시약 고정부, 유로, 측정부, 패액처리부, 공기배출구를 포함하는 반응 카트리지를 포함하는 것을 특징으로 하는 혈당 측정 장치.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 9.01,
+      "chrf_sanitised": 9.01,
+      "words": 32,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 32
+      }
+    }
+  },
+  {
+    "record_id": "KR101760425B1_claim1",
+    "reference": "혈액 샘플 내의 특정 물질과 결합하는 적어도 하나의 검출항체(detection antibody), 상기 특정 물질을 분석하기 위한 분석 반응(reaction for assay)에 참여하는 복수개의 검출기능물질(detection functional substance), 및 상기 적어도 하나의 검출항체와 결합하고, 상기 복수개의 검출기능물질과 결합하는 매개물질(intermediate substance)을 구비하는 검출 구조체(detection structure); 및 상기 특정 물질과 결합하는 고정항체를 포함하며, 상기 분석 반응이 일어나는 반응부;를 포함하고, 상기 매개물질의 크기를 제어함으로써, 상기 검출 구조체에 포함되는 상기 복수개의 검출기능물질의 수를 제어하는 것을 특징으로 하는 혈액 샘플 분석 카트리지(blood sample assay cartridge).",
+    "train_prompt": {
+      "text": "생체시료를 유입받는 유입부; 상기 유입부와 연결되어 상기 생체시료를 이송하는 채널; 상기 채널과 연결되어 상기 생체시료 내의 특정물질과 반응하는 반응시료를 제공하는 반응부; 및 상기 반응부와 연결되어 상기 생체시료 내의 특정물질과 상기 반응시료의 반응에 따른 분석 반응을 수행하는 분석부;를 포함하는 것을 특징으로 하는 생체시료 분석장치.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 10.84,
+      "chrf_sanitised": 10.84,
+      "words": 43,
+      "rep8": 0.0,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 43
+      }
+    },
+    "with_system": {
+      "text": "검체를 유입하는 유입부; 상기 유입부와 연결되어 상기 검체를 이송하는 채널; 상기 채널과 연결되어 상기 검체 내의 특정물질과 반응시료의 반응을 통해 반응물을 생성하는 반응부; 상기 반응부와 연결되어 상기 반응물을 흡착하는 제1 흡착부; 상기 제1 흡착부와 연결되어 상기 반응물을 흡착하는 제2 흡착부; 상기 제2 흡착부와 연결되어 상기 반응물을 분석하는 분석부; 상기 분석부와 연결되어 상기 분석 결과를 표시하는 디스플레이부; 상기 분석부와 연결되어 상기 분석 결과를 전송하는 통신부; 상기 분석부와 연결되어 상기 분석을 위한 조작을 입력받는 입력부; 상기 분석부, 상기 디스플레이부, 상기 통신부 및 상기 입력부와 연결되어 상기 분석부, 상기 디스플레이부, 상기 통신부 및 상기 입력부를 제어하는 제어부; 및 상기 제어부에 전원을 공급하는 전원부를 포함하는 것을 특징으로 하는 바이오 센서.",
+      "numerals": false,
+      "numerals_after_sanitise": false,
+      "chrf": 11.74,
+      "chrf_sanitised": 11.74,
+      "words": 106,
+      "rep8": 0.01,
+      "well_formed": {
+        "lang": "ko",
+        "empty": false,
+        "starts_with_article": true,
+        "mentions_apparatus_noun": true,
+        "has_transition_phrase": true,
+        "looks_dependent": false,
+        "ends_with_period": true,
+        "repetition_10gram": 0.0,
+        "words": 106
+      }
+    }
+  }
+]

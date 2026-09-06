@@ -1,0 +1,37 @@
+{
+  "source": "hf:Mepeng22/gemma-claim-v2-approved-20260902",
+  "zip_sha256": null,
+  "zip_sha256_expected": null,
+  "zip_bytes": null,
+  "split_sha256_expected": {
+    "train": "69c780015eb37da06257cb33795963d77db5d8b60fd0602620ab18b792b561d3",
+    "validation": "69c28ae4b5205a9a13ed5cec2081231936e991a123100f8264c6b54e110d2db0",
+    "test": "db5533a8c06cd97fff8b953b15c2f5b9da36cff631947479d69182c0f366fe3c"
+  },
+  "package_root": "/workspace/data/v2",
+  "record_counts": {
+    "train": 554,
+    "validation": 65,
+    "test": 75
+  },
+  "dataset_version": "finetune_multilingual_approved_20260902",
+  "integrity_manifest": {
+    "hf_multimodal/train.jsonl": {
+      "bytes": 890230,
+      "sha256": "69c780015eb37da06257cb33795963d77db5d8b60fd0602620ab18b792b561d3"
+    },
+    "hf_multimodal/validation.jsonl": {
+      "bytes": 97949,
+      "sha256": "69c28ae4b5205a9a13ed5cec2081231936e991a123100f8264c6b54e110d2db0"
+    },
+    "hf_multimodal/test.jsonl": {
+      "bytes": 114259,
+      "sha256": "db5533a8c06cd97fff8b953b15c2f5b9da36cff631947479d69182c0f366fe3c"
+    },
+    "images/": {
+      "file_count": 3893,
+      "tree_sha256": "d2df94586c65ee4efe6422b34205bbd2b808afe08ae7a1a4d38efe2d3708a4d6"
+    }
+  },
+  "DATA_DOWNLOAD_VERIFIED": true
+}
