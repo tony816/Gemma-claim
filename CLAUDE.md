@@ -26,6 +26,22 @@ started.** It exercises the real pipeline against the real processor and a
 weightless model skeleton. It reports SKIP loudly for anything it could not
 check; a skip is not a pass.
 
+All of it runs on the laptop. The `WinError 4551` torch failure recorded in
+older notes was OneDrive; the venv now lives at `Projects\Gemma-claim\.venv`
+outside it and imports fine. Two local quirks: export `PYTHONIOENCODING=utf-8`
+or the console's cp949 kills `rehearse.py` on the em dash in its own banner, and
+`WORKSPACE` defaults to `/workspace`, which on Windows is `C:\workspace` — set
+`OUT_DIR` rather than discovering that later.
+
+**A gate that has never executed is not yet a gate.** On 2026-09-06
+`rehearse.py` ran for the first time and failed the assistant-only-loss gate.
+The pipeline was correct; the gate was wrong — it enumerated a `(1, seq)` labels
+tensor along the batch axis and concluded token 0 was supervised. A gate that
+can raise a false alarm can also return a false pass, so when a never-run check
+fires, verify the check before believing it. The same applies to
+`tests/make_synthetic.py`, which was still emitting the previous release's
+91/11/12 shape and a `metadata` key that the oracle-field whitelist rejects.
+
 ## Before training at all
 
 The last run's model was useless, and the run reported success. Loss fell
@@ -45,13 +61,64 @@ Two gates follow from that:
    with the same metrics training uses. If prompting already does the job,
    there is nothing to buy with a GPU. That was true last time and nobody
    checked.
-2. **Look at generations during training, not after.** Sample 3 free-running
-   generations at step 0 and again early in the run. Mode collapse is obvious
-   by eye long before the run ends. Never judge a run by loss alone.
+2. **Look at generations during training, not after.** `pipeline/train.py` has
+   a `GenerationSampler` callback that does this: three free-running
+   generations at step 0, at `SAMPLE_STEPS`, and at every epoch-end evaluation,
+   each logged with its chrF and its reference. `rehearse.py` checks the wiring
+   is still there. Step 0 arrives minutes into a run, when killing it is cheap.
+
+**Read those samples per record, never as a mean.** On 2026-09-06 the epoch-1
+mean chrF was 9.57 against a base of 8.42 — an improvement on paper. Underneath,
+one record had gone 4.63 -> 16.87 and two had collapsed below base into
+enumeration templates (`제1 유로 … 제15 유로`, a coined word repeated six times).
+The mean was the good record carrying the other two.
+
+**Write the stop criteria down before the run reaches them**, in the form "at
+epoch N, if X or Y then stop". Deciding what counts as bad while watching a
+$3.59/hr pod produce ambiguous samples is not a decision, it is a rationalisation.
+
+**Repetition metrics have a blind spot worth knowing.** N-gram duplication does
+not fire on `제1 유로에 연결된 제2 유로; 상기 제2 유로에 연결된 제3 유로; …`
+because the numeral makes every n-gram unique. That output is degenerate and the
+metric scores it 0.00. Normalise digits before counting, or read the text.
 
 Dataset size is the usual cause. 91 records against 410 LoRA modules over 60
 layers was far too strong an adaptation for the evidence available. If the next
 dataset is a similar size, expect the same outcome and prefer prompting.
+
+## Measuring, after the 694-record run (2026-09-06)
+
+**`baseline.py` and `evaluate.py` do not measure the same thing, and their
+numbers must not be put in one table.** `baseline.py` sends the engineered
+system prompt from `serving/claim_prompt.py`; that is "what prompting alone
+achieves", and on this dataset it is chrF 9.59 on the 59 Korean validation
+records, with 58 of 59 well-formed. `evaluate.py` uses the dataset's own
+messages with no system turn, the same input training saw, and switches the
+adapter off for its base numbers — that is a clean A/B of the adapter, and its
+base model rambles to 250-350 words because nothing constrains it.
+
+**A metric written for English will silently report catastrophe on Korean.**
+`claim_form_checks` keyed on `device|apparatus|comprising`, none of which occur
+in a Korean claim, so it reported `well_formed_rate` 0.09 and "59 of 59 missing
+an apparatus noun". With Korean rules the same predictions score 0.98. 612 of
+694 targets are Korean; check every metric against the language it will meet.
+
+**The training prompt is not the serving prompt.** Training records carry no
+system turn at all — one fixed sentence (Korean for Korean targets, English for
+English) plus the drawings. Sending the serving system prompt to a fine-tuned
+model is therefore an instruction it has never seen in training, and it can be
+ignored or can push the model off the distribution its LoRA deltas were fit on.
+`tools/prompt_probe.py` measures both conditions on the tuned model; run it
+while a pod holding the adapter is still alive, before deciding how to serve.
+
+**Anything in the target becomes model behaviour.** 97 of 694 targets carry
+drawing reference numerals (93 Korean, 15.2%), and the fine-tuned model writes
+them into claims, where they are never acceptable. The release is frozen; the
+fix is a dataset-side requirement for the next release, recorded in
+`patent-dataset-factory/governance/DECISION_LOG.md`. Meanwhile
+`serving/claim_prompt.py` strips them — that rule had never fired before,
+because the base model does not write numerals in Korean and the fine-tuned one
+does.
 
 ## Money
 
@@ -64,6 +131,18 @@ dataset is a similar size, expect the same outcome and prefer prompting.
   see the `BASE_PATH` trap below before you do.
 - `mcp__Runpod__get-billing` with `bucketSize: hour` is the ground truth.
   Do not estimate balances by arithmetic; that was got wrong twice.
+- **Evaluation costs more than training.** Measured on 2026-09-06: 417 optimiser
+  steps over 554 records took ~50 minutes, while scoring the 65 validation
+  records for base and tuned — 130 free-running generations — took longer than
+  the training did. `MAX_NEW_TOKENS` drives it, and the base model runs to the
+  limit because nothing stops it. Set `EVAL_SPLITS=validation` first and spend
+  the test split only on a run that survives it; `run_all.sh` takes both from the
+  environment now.
+- Set `MAX_NEW_TOKENS` from the eval splits, not from `token_audit`'s
+  recommendation. That number is derived from the longest *train* target, which
+  is never generated: it came out 2401 while the longest validation reference is
+  513 tokens and the longest test reference 894, so 1024 covers every reference
+  the evaluator can be asked to reproduce.
 
 ## Traps that cost hours
 
@@ -108,7 +187,14 @@ config and checkpoint are frozen.
 ## Secrets
 
 Never write a Hugging Face token, RunPod API key, or Google Drive credential
-into a file, a log, a commit, or a tool call that echoes it back. A RunPod key is
+into a file, a log, a commit, or a tool call that echoes it back.
+
+Passing them to a pod is the awkward case: RunPod stores and returns pod `env`
+in plaintext, so they cannot go there. Generate the env file locally and pipe it
+over stdin — `python make_pod_env.py | ssh POD 'umask 077 && cat > pod.env'` —
+which keeps the value out of every command line. Then do not `cat` or `tail`
+that file to check your work; on 2026-09-06 a `tail -3 pod.env` printed the
+Hugging Face token into the transcript and it had to be rotated. A RunPod key is
 account-wide: it can create and delete pods, not just call an endpoint. An
 endpoint's `env` is stored and returned in plaintext by the API — keep keys out
 of it where the model is public.

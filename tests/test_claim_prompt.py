@@ -63,6 +63,31 @@ def main() -> int:
     en_qty = "A device comprising a chamber holding 0.1 ml and a channel of 100 pL."
     check("English quantities survive", sanitise(en_qty), (en_qty, []))
 
+    # --- Parenthesised reference numerals ---------------------------------
+    # 8.3% of the Korean training targets carry them ('플랫폼(2)',
+    # '시료 전처리 장치(100)'), so the fine-tuned model writes them too and a
+    # claim must not. Everything else that lives in parentheses in the approved
+    # references has to survive: enumeration markers and English glosses.
+    for name, lang, text, should_change in [
+        ("ko glued numeral is cut",
+         "ko", "펌버주입구(131a, 141a)와 펌버배기구(131b)를 포함하는 장치.", True),
+        ("ko enumeration marker survives",
+         "ko", "(1) 멤브레인 패드; (2) 결합체; 를 포함하는 것을 특징으로 하는 키트.", False),
+        ("ko English gloss survives",
+         "ko", "버퍼 용액을 저장하는 챔버(chamber)와 유로(channel)를 포함하는 장치.", False),
+        ("en loose numeral is cut",
+         "en", "An apparatus comprising a housing (10) and a sensor (20a, 20b).", True),
+        ("en enumeration marker survives",
+         "en", "An apparatus comprising: (1) a housing; and (2) a sensor.", False),
+    ]:
+        check(name, sanitise(text, lang)[0] != text, should_change)
+
+    # The numeral sits between the noun and its particle, so cutting it changes
+    # which allomorph is correct: 플랫폼 has a final consonant, 유로 does not.
+    check("particle is re-picked after the numeral is cut",
+          sanitise("플랫폼(2)를 포함하고 유로(110)을 구비하는 장치.", "ko")[0],
+          "플랫폼을 포함하고 유로를 구비하는 장치.")
+
     # --- Language selection ----------------------------------------------
     check("Korean is detected", detect_lang(real), "ko")
     check("English is detected", detect_lang(en_qty), "en")

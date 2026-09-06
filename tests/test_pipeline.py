@@ -45,8 +45,8 @@ def main() -> int:
     root = find_package_root(pkg)
     check("find_package_root locates hf_multimodal", root == pkg, str(root))
     data = load_all(root)
-    check("split sizes 91/11/12",
-          {s: len(data[s]) for s in SPLITS} == {"train": 91, "validation": 11, "test": 12},
+    check("split sizes 554/65/75",
+          {s: len(data[s]) for s in SPLITS} == {"train": 554, "validation": 65, "test": 75},
           str({s: len(data[s]) for s in SPLITS}))
     r0 = data["train"][0]
     check("images resolved to existing files", all(p.is_file() for p in r0.images))

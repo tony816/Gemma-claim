@@ -1,4 +1,4 @@
-"""Build a synthetic package with the real shape (91/11/12, multi-image) for CI."""
+"""Build a synthetic package with the real shape (554/65/75, multi-image) for CI."""
 from __future__ import annotations
 
 import json
@@ -9,7 +9,7 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "/tmp/synthpkg")
-COUNTS = {"train": 91, "validation": 11, "test": 12}
+COUNTS = {"train": 554, "validation": 65, "test": 75}
 random.seed(0)
 
 (ROOT / "hf_multimodal").mkdir(parents=True, exist_ok=True)
@@ -34,8 +34,10 @@ for split, count in COUNTS.items():
                 rel = f"images/{fam}_p{j}.png"
                 Image.new("RGB", (64, 80), (240, 240, 240)).save(ROOT / rel)
                 imgs.append(rel)
-            # The frozen release carries images only in the top-level array and
-            # keeps message content as plain text, so mirror that exactly.
+            # The frozen release carries images only in the top-level array,
+            # keeps message content as plain text, and carries no key beyond
+            # {id, images, messages} -- anything else is oracle material that
+            # preflight rejects. Mirror that exactly.
             content = "Draft one independent apparatus claim from these pages."
             fh.write(json.dumps({
                 "id": f"{fam}__c1",
@@ -45,6 +47,5 @@ for split, count in COUNTS.items():
                     {"role": "assistant",
                      "content": [{"type": "text", "text": TARGET}]},
                 ],
-                "metadata": {"family": fam, "split": split},
             }, ensure_ascii=False) + "\n")
 print(f"synthetic package at {ROOT} ({n} records)")

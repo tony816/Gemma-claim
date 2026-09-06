@@ -41,8 +41,12 @@ run_stage() {
 
 setup() {
   python -m pip install -q --upgrade pip
-  # gemma4 needs a transformers that knows the architecture.
-  if ! python -m pip install -q "transformers>=5.5.0"; then
+  # gemma4 needs a transformers that knows the architecture. TRANSFORMERS_SPEC
+  # pins it to the release tools/rehearse.py was run against: an unpinned
+  # install picks up whatever shipped since, and a TrainingArguments signature
+  # change is one of the three bugs that cost the previous run a restart cycle
+  # on a paid GPU.
+  if ! python -m pip install -q "${TRANSFORMERS_SPEC:-transformers>=5.5.0}"; then
     echo "[setup] pinned transformers unavailable on PyPI; installing from git main"
     python -m pip install -q "git+https://github.com/huggingface/transformers.git"
   fi
@@ -50,6 +54,14 @@ setup() {
     "accelerate>=1.10.0" "peft>=0.17.0" "safetensors>=0.4.5" "sentencepiece>=0.2.0" \
     "pillow>=10.4.0" "huggingface_hub[hf_transfer]>=0.34.0" "gdown>=5.2.0" \
     "rouge-score>=0.1.2" "sacrebleu>=2.4.3" "pyyaml>=6.0.2" || return 1
+  # transformers imports torchvision inside Gemma4Processor, so a missing one
+  # is not a soft failure -- the processor cannot load at all. The image ships
+  # a torchvision matched to its torch; only install if that is not true, and
+  # never let pip drag a different torch in behind it.
+  python -c "import torchvision" 2>/dev/null || {
+    echo "[setup] torchvision missing; installing without touching torch"
+    python -m pip install -q --no-deps torchvision || return 1
+  }
   python - <<'PY'
 import transformers, torch
 print("transformers", transformers.__version__, "torch", torch.__version__)
@@ -110,10 +122,19 @@ main() {
   run_stage fetch     wait_for_dataset                             || return 1
   run_stage preflight python "$CODE_DIR/pipeline/preflight.py"      || return 1
   run_stage audit     python "$CODE_DIR/pipeline/token_audit.py"    || return 1
+  # The gates were run on the laptop, against a different transformers/torch
+  # build than the one just installed here. Re-running them costs a couple of
+  # minutes of GPU time and is the only thing that proves the environment that
+  # is about to train is the environment that was verified.
+  run_stage rehearse  python "$CODE_DIR/tools/rehearse.py"           || return 1
   run_stage train     python "$CODE_DIR/pipeline/train.py"          || return 1
 
   # Configuration and checkpoint are frozen by this point; test is scored once.
-  run_stage evaluate  env EVAL_SPLITS=validation,test \
+  # EVAL_SPLITS is overridable because generation, not training, is the bulk
+  # of the bill: 65+75 records scored for both base and tuned is 280
+  # generations. Scoring validation first, and spending test only on a run
+  # that survives it, costs one stage re-run rather than a second pod boot.
+  run_stage evaluate  env EVAL_SPLITS="${EVAL_SPLITS:-validation,test}" \
                       python "$CODE_DIR/pipeline/evaluate.py"       || return 1
 
   cp -f "$CODE_DIR/pipeline/inference.py" "$OUT_DIR/inference.py" 2>/dev/null || true

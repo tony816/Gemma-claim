@@ -215,6 +215,12 @@ def check_label_masking() -> str:
         raise Skip("needs the real tokenizer to align labels")
     enc = encode_record(processor, _sample_record())
     labels = enc["labels"]
+    # encode_record returns labels batched as (1, seq); take the row, or this
+    # gate iterates the batch axis and every sequence looks like one token.
+    if hasattr(labels, "dim") and labels.dim() == 2:
+        if labels.shape[0] != 1:
+            raise RuntimeError(f"expected one sequence, got {labels.shape[0]}")
+        labels = labels[0]
     labels = labels.tolist() if hasattr(labels, "tolist") else list(labels)
     supervised = [i for i, v in enumerate(labels) if v != -100]
     if not supervised:
@@ -224,6 +230,46 @@ def check_label_masking() -> str:
     if supervised[0] == 0:
         raise RuntimeError("supervision starts at token 0 — the prompt is being trained on")
     return f"{len(supervised)}/{len(labels)} tokens supervised, contiguous from {supervised[0]}"
+
+
+@gate("training samples free generations, not just loss")
+def check_generation_sampling() -> str:
+    """Static check: the run must look at generations while it can still be killed.
+
+    CLAUDE.md's second gate is "look at generations during training, not after",
+    because the previous run's falling loss hid a model generating claims about
+    the wrong apparatus. Nothing here can run the callback without a GPU, so
+    this asserts the wiring exists: the sampler is constructed, it is handed to
+    the Trainer, and it fires before the first optimiser step.
+    """
+    import ast
+
+    src = (Path(__file__).resolve().parent.parent / "pipeline" / "train.py")
+    tree = ast.parse(src.read_text(encoding="utf-8"))
+
+    classes = {n.name: n for n in ast.walk(tree) if isinstance(n, ast.ClassDef)}
+    sampler = classes.get("GenerationSampler")
+    if sampler is None:
+        raise RuntimeError("train.py defines no GenerationSampler callback")
+
+    hooks = {n.name for n in sampler.body if isinstance(n, ast.FunctionDef)}
+    if "on_train_begin" not in hooks:
+        raise RuntimeError("the sampler does not fire before the first step; "
+                           "a step-0 sample is what makes the later ones readable")
+
+    wired = False
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Call) and getattr(node.func, "id", "") == "Trainer"):
+            continue
+        for kw in node.keywords:
+            if kw.arg == "callbacks":
+                wired = any(getattr(getattr(e, "func", None), "id", "") == "GenerationSampler"
+                            for e in getattr(kw.value, "elts", []))
+    if not wired:
+        raise RuntimeError("GenerationSampler is defined but never passed to Trainer")
+
+    return (f"sampler wired into Trainer, hooks {sorted(hooks - {'__init__', '_sample'})}, "
+            "static check only — the generations themselves need the GPU")
 
 
 # --------------------------------------------------------------------------
@@ -398,6 +444,7 @@ def main() -> int:
     check_training_arguments()
     check_chat_template()
     check_label_masking()
+    check_generation_sampling()
     check_lora_targets()
     check_resume_adapter()
     check_dataset()

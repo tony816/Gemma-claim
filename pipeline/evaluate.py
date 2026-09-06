@@ -13,14 +13,28 @@ import json
 import math
 import os
 import re
+import sys
 from collections import Counter
 from pathlib import Path
 
 import torch
 
+# claim_prompt.py is the one definition of the prompt and the language rules;
+# tools/baseline.py reads its detect_lang too, and the two sets of numbers are
+# meant to be compared, so they must not each carry their own copy.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "serving"))
+
 from common import (OUT, SEED, SPLITS, die, find_package_root, load_all, load_vlm,
                     log, set_all_seeds, write_json)
 from dataset import Collator, RecordDataset, encode_prompt_only
+
+try:
+    from claim_prompt import detect_lang
+except ImportError:  # serving/ absent: a language split is better than nothing
+    _HANGUL = re.compile(r"[가-힣]")
+
+    def detect_lang(text: str) -> str:
+        return "ko" if _HANGUL.search(text) else "en"
 
 MODEL_ID = os.environ.get("BASE_MODEL", "google/gemma-4-31B-it")
 REVISION = os.environ.get("BASE_MODEL_REVISION", "main")
@@ -34,6 +48,19 @@ APPARATUS_RE = re.compile(
 )
 TRANSITION_RE = re.compile(r"\b(comprising|including|consisting of|configured to)\b", re.I)
 
+# The same three shape tests in Korean. Without them every Korean prediction
+# reports a missing apparatus noun and a missing transition phrase, because
+# neither English word appears in a Korean claim -- 59 of 59 on the baseline
+# run, which reads as total failure and is nothing of the kind. 612 of the 694
+# references are Korean, so an English-only check does not measure this dataset.
+DEPENDENT_RE_KO = re.compile(r"제\s*\d+\s*항(?:에\s*있어서|의|에\s*따른)")
+APPARATUS_RE_KO = re.compile(
+    r"(장치|장비|시스템|기기|모듈|조립체|유닛|카트리지|센서|디바이스|어셈블리|기구|설비)"
+)
+# A Korean claim closes on its transition, not on an article: the elements are
+# listed and the claim ends '...를 포함하는 것을 특징으로 하는 [명사].'
+TRANSITION_RE_KO = re.compile(r"(포함하는|구성되는|이루어진|특징으로\s*하는)")
+
 
 def repetition_score(text: str, n: int = 10) -> float:
     """Fraction of n-grams that are duplicates; ~0 is healthy, ->1 is a loop."""
@@ -46,13 +73,25 @@ def repetition_score(text: str, n: int = 10) -> float:
 
 
 def claim_form_checks(text: str) -> dict:
+    """Shape tests for one generated claim, in the language it was written in.
+
+    The ruleset follows the text, not the record: a Korean reference answered
+    in English is a language-drift failure worth seeing as such, and scoring it
+    against Korean rules would hide that behind a shape failure instead.
+    """
     t = text.strip()
+    lang = detect_lang(t) if t else "en"
+    ko = lang == "ko"
     return {
+        "lang": lang,
         "empty": not t,
-        "starts_with_article": bool(re.match(r"^(a|an)\s", t, re.I)),
-        "mentions_apparatus_noun": bool(APPARATUS_RE.search(t)),
-        "has_transition_phrase": bool(TRANSITION_RE.search(t)),
-        "looks_dependent": bool(DEPENDENT_RE.search(t)),
+        # A Korean claim does not open with an article; there is nothing to test.
+        "starts_with_article": True if ko else bool(re.match(r"^(a|an)\s", t, re.I)),
+        "mentions_apparatus_noun": bool(
+            (APPARATUS_RE_KO if ko else APPARATUS_RE).search(t)),
+        "has_transition_phrase": bool(
+            (TRANSITION_RE_KO if ko else TRANSITION_RE).search(t)),
+        "looks_dependent": bool((DEPENDENT_RE_KO if ko else DEPENDENT_RE).search(t)),
         "ends_with_period": t.endswith("."),
         "repetition_10gram": repetition_score(t),
         "words": len(t.split()),
@@ -208,10 +247,33 @@ def main() -> None:
         tuned_tm = text_metrics([r["prediction"] for r in tuned_rows],
                                 [r["reference"] for r in tuned_rows])
 
+        # 612 of the 694 references are Korean, so a single aggregate is the
+        # Korean number with the rest rounded away. The dataset handoff asks for
+        # the two reported separately, and tools/baseline.py already does it --
+        # these numbers only mean something next to each other.
+        langs = [detect_lang(r["reference"]) for r in tuned_rows]
+
+        def by_language(rows):
+            out = {}
+            for lang in sorted(set(langs)):
+                idx = [i for i, x in enumerate(langs) if x == lang]
+                out[lang] = {
+                    "n": len(idx),
+                    **text_metrics([rows[i]["prediction"] for i in idx],
+                                   [rows[i]["reference"] for i in idx]),
+                    "qualitative": qualitative_summary([rows[i] for i in idx]),
+                    "language_drift": sum(
+                        1 for i in idx
+                        if detect_lang(rows[i]["prediction"]) != langs[i]),
+                }
+            return out
+
         metrics["base"][split] = {**base_loss, **base_tm,
-                                  "qualitative": qualitative_summary(base_rows)}
+                                  "qualitative": qualitative_summary(base_rows),
+                                  "by_language": by_language(base_rows)}
         metrics["tuned"][split] = {**tuned_loss, **tuned_tm,
-                                   "qualitative": qualitative_summary(tuned_rows)}
+                                   "qualitative": qualitative_summary(tuned_rows),
+                                   "by_language": by_language(tuned_rows)}
 
         with (OUT / f"{split}_predictions.jsonl").open("w", encoding="utf-8") as fh:
             for b, t in zip(base_rows, tuned_rows):

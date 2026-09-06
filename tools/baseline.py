@@ -178,9 +178,14 @@ def main() -> int:
               "Install it — this is the metric that exposes mode collapse:\n"
               "    pip install sacrebleu rouge-score\n", file=sys.stderr)
 
-    Path(args.out).write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n")
+    # encoding is explicit: 612 of 694 references are Korean, and on Windows
+    # the default is cp949, which writes a file no UTF-8 reader can parse.
+    Path(args.out).write_text(
+        "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n",
+        encoding="utf-8")
     Path(args.out).with_suffix(".metrics.json").write_text(
-        json.dumps(metrics, ensure_ascii=False, indent=2) + "\n")
+        json.dumps(metrics, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8")
 
     print("\n" + json.dumps(metrics, ensure_ascii=False, indent=2))
     print(f"\npredictions → {args.out}")

@@ -25,7 +25,7 @@ import yaml
 
 from common import (OUT, SEED, die, find_package_root, load_all, load_vlm, log,
                     set_all_seeds, write_json)
-from dataset import Collator, RecordDataset
+from dataset import Collator, RecordDataset, encode_prompt_only
 
 MODEL_ID = os.environ.get("BASE_MODEL", "google/gemma-4-31B-it")
 REVISION = os.environ.get("BASE_MODEL_REVISION", "main")
@@ -71,6 +71,14 @@ CFG = {
     "best_checkpoint_metric": "eval_loss",
     "best_checkpoint_mode": "min",
     "early_stopping_patience": int(os.environ.get("PATIENCE", "3")),
+    # Free-running generation samples during the run. The previous run reported
+    # success on a falling loss while generating claims about the wrong
+    # apparatus in 12 of 12 test records; teacher-forced loss cannot see that
+    # and chrF was only computed at the end. These are the eyes on the run.
+    "sample_n": int(os.environ.get("SAMPLE_N", "3")),
+    "sample_max_new_tokens": int(os.environ.get("SAMPLE_MAX_NEW_TOKENS", "256")),
+    "sample_steps": [int(x) for x in
+                     os.environ.get("SAMPLE_STEPS", "0,25,50").split(",") if x.strip()],
     # Empty = start from a fresh LoRA on the base model. Set to a Hub repo id or
     # a local directory to continue training an existing adapter instead; the
     # adapter's own target_modules and rank are then authoritative and LORA_R /
@@ -276,6 +284,97 @@ def main() -> None:
                 if isinstance(v, float) and (math.isnan(v) or math.isinf(v)):
                     die("NAN_OR_INF_LOSS", f"{k}={v} at step {state.global_step}")
 
+    sample_jl = JsonlLogger(OUT / "generation_samples.jsonl")
+    sample_recs = data["validation"][:CFG["sample_n"]]
+
+    class GenerationSampler(TrainerCallback):
+        """Free-running generations at step 0 and early, printed into the log.
+
+        CLAUDE.md: "Look at generations during training, not after." Loss is
+        teacher-forced, so a model that has learned the unconditional
+        distribution of Korean claim text scores well on it while ignoring the
+        drawings entirely. Three greedy generations against their references
+        make that visible within minutes of the first optimiser step, when the
+        run can still be killed for the price of the time already spent.
+
+        A failure here is logged, never fatal: this is instrumentation, and it
+        must not take down a run that is otherwise training correctly.
+        """
+
+        def __init__(self):
+            self.done: set[str] = set()
+
+        def _sample(self, tag: str, state) -> None:
+            if tag in self.done or not sample_recs:
+                return
+            self.done.add(tag)
+            was_training = model.training
+            use_cache = model.config.use_cache
+            try:
+                model.eval()
+                model.config.use_cache = True
+                rows = []
+                for rec in sample_recs:
+                    enc = encode_prompt_only(processor, rec)
+                    enc = {k: (v.to(model.device) if hasattr(v, "to") else v)
+                           for k, v in enc.items() if not k.startswith("_")}
+                    plen = int(enc["input_ids"].shape[-1])
+                    with torch.inference_mode():
+                        out = model.generate(
+                            **enc,
+                            max_new_tokens=CFG["sample_max_new_tokens"],
+                            do_sample=False,
+                        )
+                    text = processor.tokenizer.decode(
+                        out[0][plen:], skip_special_tokens=True).strip()
+                    row = {
+                        "tag": tag,
+                        "step": int(state.global_step),
+                        "epoch": float(state.epoch or 0),
+                        "record_id": rec.record_id,
+                        "generated": text,
+                        "generated_words": len(text.split()),
+                        "reference_words": len(rec.target.split()),
+                        "reference_head": rec.target[:160],
+                    }
+                    try:
+                        import sacrebleu
+                        row["chrf"] = round(
+                            sacrebleu.sentence_chrf(text, [rec.target]).score, 2)
+                    except Exception as exc:  # noqa: BLE001
+                        row["chrf"] = None
+                        row["chrf_error"] = str(exc)
+                    rows.append(row)
+                    sample_jl.write(row)
+                    log(f"[sample {tag} step={row['step']}] {rec.record_id} "
+                        f"chrf={row['chrf']} words={row['generated_words']} "
+                        f"(ref {row['reference_words']})")
+                    log(f"  GEN: {text[:300]}")
+                    log(f"  REF: {row['reference_head']}")
+                chrfs = [r["chrf"] for r in rows if r["chrf"] is not None]
+                if chrfs:
+                    log(f"[sample {tag}] mean chrf={sum(chrfs)/len(chrfs):.2f} "
+                        f"over {len(chrfs)} generation(s)")
+            except Exception as exc:  # noqa: BLE001
+                log(f"[sample {tag}] GENERATION_SAMPLE_FAILED "
+                    f"{type(exc).__name__}: {exc}")
+                sample_jl.write({"tag": tag, "step": int(state.global_step),
+                                 "error": f"{type(exc).__name__}: {exc}"})
+            finally:
+                model.config.use_cache = use_cache
+                if was_training:
+                    model.train()
+
+        def on_train_begin(self, args, state, control, **kw):
+            self._sample("step0", state)
+
+        def on_step_end(self, args, state, control, **kw):
+            if state.global_step in CFG["sample_steps"]:
+                self._sample(f"step{state.global_step}", state)
+
+        def on_evaluate(self, args, state, control, **kw):
+            self._sample(f"eval-step{state.global_step}", state)
+
     wanted = dict(
         output_dir=str(CKPT_DIR),
         seed=SEED, data_seed=SEED,
@@ -352,7 +451,7 @@ def main() -> None:
         model=model, args=args,
         train_dataset=train_ds, eval_dataset=val_ds,
         data_collator=Collator(pad_token_id=pad_id),
-        callbacks=[LogAndGuard(),
+        callbacks=[LogAndGuard(), GenerationSampler(),
                    EarlyStoppingCallback(early_stopping_patience=CFG["early_stopping_patience"])],
     )
 

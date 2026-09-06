@@ -39,7 +39,21 @@ POLL="${GUARD_POLL_SECONDS:-60}"
 POD_ID="${RUNPOD_POD_ID:-}"
 
 started=$(date +%s)
-deadline=$(( started + $(printf '%.0f' "$(echo "$DEADLINE_HOURS * 3600" | bc -l 2>/dev/null || echo $((DEADLINE_HOURS * 3600)))") ))
+# The deadline is computed once, so a value that does not parse is not a
+# degraded guard -- it is a guard that stops the pod on its first poll. That
+# happened on 2026-09-06 with GUARD_DEADLINE_HOURS=4.5: bc was not installed,
+# the integer fallback rejected the '.5', and the deadline came out as 'now'.
+# awk handles fractions, and anything it cannot parse stops the guard loudly
+# instead of stopping the pod silently.
+deadline_seconds=$(awk -v h="$DEADLINE_HOURS" 'BEGIN{printf "%d", h*3600}' 2>/dev/null)
+case "$deadline_seconds" in ""|*[!0-9]*) deadline_seconds=0 ;; esac
+if [ "$deadline_seconds" -le 0 ]; then
+  echo "[pod_guard] GUARD_DEADLINE_HOURS=$DEADLINE_HOURS is not a positive number of hours."
+  echo "[pod_guard] Refusing to start: a zero deadline would terminate this pod immediately."
+  echo "[pod_guard] STILL BILLING - fix the value and restart the guard."
+  exit 2
+fi
+deadline=$(( started + deadline_seconds ))
 idle_needed=$(( IDLE_MINUTES * 60 ))
 idle_for=0
 

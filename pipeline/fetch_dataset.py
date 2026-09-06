@@ -1,7 +1,15 @@
-"""Download the frozen dataset ZIP, verify SHA-256, extract read-only.
+"""Fetch the frozen dataset onto the pod and verify it byte-for-byte.
 
-Refuses to extract or train on a hash mismatch (DATASET_ZIP_HASH_MISMATCH) and
-never retries a permission denial from Drive (DOWNLOAD_BLOCKED_BY_DRIVE_PERMISSION).
+Two sources, one discipline. Set DATASET_HF_REPO and the package is pulled from
+a private Hugging Face dataset repo and each split file is checked against the
+hash the conversion produced; leave it unset and the legacy Drive ZIP path runs
+instead. Either way a hash mismatch is fatal (DATASET_SPLIT_HASH_MISMATCH /
+DATASET_ZIP_HASH_MISMATCH), and a Drive permission denial is never retried
+(DOWNLOAD_BLOCKED_BY_DRIVE_PERMISSION).
+
+The HF path is what the 694-record release uses: the whitelisted package is
+already projected down to {id, images, messages}, so no oracle field can ride
+along, and the repo is private.
 """
 from __future__ import annotations
 
@@ -15,6 +23,15 @@ from pathlib import Path
 from common import DATA_ROOT, WORKSPACE, die, find_package_root, log, write_json, OUT
 
 EXPECTED_SHA256 = "1f5b301a7a340ac89620b9124b8df78f82928dbf422d69ffe227f55c1eb4c907"
+# The 694-record release, as tools/convert_release.py emitted it. These are the
+# hashes the local machine verified before anything was uploaded, so they are
+# what proves the pod is training on the same bytes.
+HF_DATASET_REPO = os.environ.get("DATASET_HF_REPO", "").strip()
+EXPECTED_SPLIT_SHA256 = {
+    "train": "69c780015eb37da06257cb33795963d77db5d8b60fd0602620ab18b792b561d3",
+    "validation": "69c28ae4b5205a9a13ed5cec2081231936e991a123100f8264c6b54e110d2db0",
+    "test": "db5533a8c06cd97fff8b953b15c2f5b9da36cff631947479d69182c0f366fe3c",
+}
 DRIVE_FILE_ID = os.environ.get("DRIVE_FILE_ID", "11sk-Ol6p01xT7eC-ktjaI0I4VXnFGedv")
 ZIP_PATH = WORKSPACE / "final_dataset_v112.zip"
 
@@ -125,10 +142,53 @@ def integrity_manifest(pkg: Path) -> dict:
     return entries
 
 
+def fetch_from_hf() -> Path:
+    """Pull the converted package from a private HF dataset repo, then verify.
+
+    snapshot_download resumes and de-duplicates, so a restarted container does
+    not re-transfer 1.1 GB. Verification is per split file rather than over an
+    archive: there is no ZIP here, and the split hashes are the thing the
+    conversion actually pinned.
+    """
+    from huggingface_hub import snapshot_download
+
+    DATA_ROOT.mkdir(parents=True, exist_ok=True)
+    log(f"Downloading dataset repo {HF_DATASET_REPO!r} into {DATA_ROOT}")
+    snapshot_download(
+        repo_id=HF_DATASET_REPO,
+        repo_type="dataset",
+        local_dir=str(DATA_ROOT),
+        max_workers=8,
+    )
+    pkg = find_package_root(DATA_ROOT)
+    log(f"Package root: {pkg}")
+
+    for split, expected in EXPECTED_SPLIT_SHA256.items():
+        f = pkg / "hf_multimodal" / f"{split}.jsonl"
+        if not f.is_file():
+            die("DATASET_SPLIT_MISSING", f"{f} is absent after download.")
+        actual = sha256(f)
+        log(f"{split}.jsonl sha256={actual}")
+        if actual != expected:
+            OUT.mkdir(parents=True, exist_ok=True)
+            (OUT / ".hash_mismatch").write_text(f"{split}:{actual}", encoding="utf-8")
+            detail = " ".join([
+                f"{split}.jsonl expected {expected} actual {actual}.",
+                "Refusing to train on bytes that are not the frozen release.",
+            ])
+            die("DATASET_SPLIT_HASH_MISMATCH", detail)
+    log("Every split file matches the hash the conversion produced.")
+    return pkg
+
+
 def main() -> None:
-    download()
-    digest = verify()
-    pkg = extract()
+    if HF_DATASET_REPO:
+        pkg = fetch_from_hf()
+        digest = None
+    else:
+        download()
+        digest = verify()
+        pkg = extract()
     counts = {}
     for split in ("train", "validation", "test"):
         p = pkg / "hf_multimodal" / f"{split}.jsonl"
@@ -136,12 +196,17 @@ def main() -> None:
     write_json(
         OUT / "dataset_download.json",
         {
+            "source": f"hf:{HF_DATASET_REPO}" if HF_DATASET_REPO else "drive-zip",
             "zip_sha256": digest,
-            "zip_sha256_expected": EXPECTED_SHA256,
-            "zip_bytes": ZIP_PATH.stat().st_size,
+            "zip_sha256_expected": None if HF_DATASET_REPO else EXPECTED_SHA256,
+            "zip_bytes": None if HF_DATASET_REPO else ZIP_PATH.stat().st_size,
+            "split_sha256_expected": EXPECTED_SPLIT_SHA256 if HF_DATASET_REPO else None,
             "package_root": str(pkg),
             "record_counts": counts,
-            "dataset_version": "v1.1.2-independent-oracle-clean",
+            "dataset_version": os.environ.get(
+                "DATASET_VERSION",
+                "finetune_multilingual_approved_20260902" if HF_DATASET_REPO
+                else "v1.1.2-independent-oracle-clean"),
             "integrity_manifest": integrity_manifest(pkg),
             "DATA_DOWNLOAD_VERIFIED": True,
         },

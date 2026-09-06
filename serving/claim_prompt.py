@@ -96,6 +96,21 @@ _NUMERAL_KO = re.compile(
     r"(?:(?P<part>은|는|이|가|을|를|과|와|의|및)|(?=\s*[;,.]))"
 )
 
+# 괄호형 도면 부호: 앞말에 붙어 있고 괄호 안이 숫자(와 첨자)뿐인 것만 지웁니다.
+# '(1) 시료첨가용 멤브레인 패드' 같은 열거 표지는 괄호 앞이 띄어져 있어 걸리지
+# 않고, '챔버(chamber)'나 '유로(channel)' 같은 영문 병기는 안이 숫자가 아니라
+# 남습니다. 둘 다 승인된 참조 청구항에 실제로 나오는 형태입니다.
+_PAREN_BODY = r"\(\s*\d{1,4}[a-zA-Z]?(?:\s*[,;]\s*\d{1,4}[a-zA-Z]?)*\s*\)"
+# 한국어는 부호가 명사와 조사 사이에 끼므로, 지우고 나면 앞말의 받침에 맞춰
+# 조사를 다시 골라야 합니다: '플랫폼(2)를' -> '플랫폼을'.
+_PAREN_NUMERAL_KO = re.compile(
+    r"(?P<prev>[가-힣])" + _PAREN_BODY
+    + r"(?:(?P<part>은|는|이|가|을|를|과|와|의|및))?"
+)
+_PAREN_NUMERAL = re.compile(
+    r"(?<=[0-9A-Za-z가-힣\)])[ \t]?" + _PAREN_BODY + r"(?!\s+(?:an?|the)\b)"
+)
+
 # 받침이 있으면 앞쪽, 없으면 뒤쪽. 숫자를 지우면 앞말의 받침이 달라지므로
 # '부재 20을' 은 '부재을' 이 아니라 '부재를' 이 되어야 합니다.
 _PARTICLE_PAIRS = {
@@ -192,9 +207,11 @@ def sanitise(text: str, lang: str = "auto") -> tuple[str, list[str]]:
     # can appear: directly before punctuation or a structural word. A real
     # quantity is followed by its unit ("100 pL") and is left alone.
     if lang == "ko":
-        stripped = _NUMERAL_KO.sub(_drop_numeral_ko, out)
+        stripped = _PAREN_NUMERAL_KO.sub(_drop_numeral_ko, out)
+        stripped = _PAREN_NUMERAL.sub("", stripped)
+        stripped = _NUMERAL_KO.sub(_drop_numeral_ko, stripped)
     else:
-        stripped = _NUMERAL.sub("", out)
+        stripped = _NUMERAL.sub("", _PAREN_NUMERAL.sub("", out))
     if stripped != out:
         out = stripped
         removed.append("reference numerals")

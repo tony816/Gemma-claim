@@ -1,0 +1,6 @@
+# The pod runs these scripts with bash. A Windows checkout hands them back with
+# CRLF, and bash reads the \r as part of the last token on every line: boot.sh
+# dies on "syntax error near unexpected token $'do\r'" and any variable set from
+# such a file carries a trailing \r into every path built from it. Both happened
+# on the 2026-09-06 pod bring-up. Keep them LF in the working tree too.
+*.sh text eol=lf
