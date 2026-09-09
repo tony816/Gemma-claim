@@ -1,4 +1,43 @@
-# Gemma 31B — independent patent claim generator
+# Gemma 31B — 청구항·판례 서버리스 클라이언트
+
+기존 v2에서 추가 강화학습한 **`claim-v3`**를 RunPod Serverless로 호출하는 로컬
+테스트 화면과 CLI입니다. 기본 엔드포인트는 `fdiltabt78bogm`입니다.
+추론은 RunPod에서 실행하며, PC에는 모델 가중치나 CUDA를 설치하지 않습니다.
+
+## 나중에 사용하기
+
+Python 3.12와 Git이 필요합니다. Windows에서는:
+
+```powershell
+git clone https://github.com/tony816/Gemma-claim.git
+cd Gemma-claim
+.\setup-test.cmd
+# 생성된 .env에 본인의 RUNPOD_API_KEY를 입력
+.\.venv\Scripts\python.exe serving/launch_test.py --check
+# 실제로 사용할 때만 화면 실행
+.\start-test.cmd
+```
+
+`http://127.0.0.1:7860/`에서 도면을 올리고 **청구항 생성**을 누르면 유료 요청을
+보냅니다. 설치, `--check`, 화면을 여는 동작에는 모델 호출이 없습니다.
+`--check`는 로컬 설정만 확인하며 서버의 가용성을 확인하지 않습니다.
+키와 비공개 모델에 대한 권한은 Git clone으로 제공되지 않습니다.
+
+[실행 방법·선택적 판례 자료 설치](serving/README.md) · [현재 상태와 한계](HANDOFF.md)
+
+## 모델과 검증 범위
+
+- 비공개 어댑터: `Mepeng22/gemma-4-31b-claim-rl-v3`
+- 고정 가중치 revision: `e5aac01e9fe0af54b17e7f52b66486112183035e`
+- 기존 v2는 별도 비공개 저장소에 보존됩니다.
+- HF 재다운로드 및 전체 GPU 로딩은 이전 실행에서 확인했습니다. 최근 서버리스
+  재배포는 설정 변경까지 확인했고, 워커 미배정으로 새 응답은 확인하지 못했습니다.
+- 파일럿에서 도면 근거·종속항·판례 어노테이션 오류가 남았습니다. 자동 점수를
+  법률적 정확도나 전반적인 품질 향상으로 해석하면 안 됩니다.
+
+아래는 원래 SFT 학습 파이프라인의 설명입니다. 서버리스 화면 설치에는 필요하지 않습니다.
+
+## Original training setup
 
 Vision-language fine-tuning of **`google/gemma-4-31B-it`** on a frozen, 114-record
 multi-image dataset of patent claim pages. Given one or more claim-page images in

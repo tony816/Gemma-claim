@@ -15,12 +15,14 @@ fi
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cp "$ROOT/serving/claim_prompt.py" "$ROOT/space/claim_prompt.py"
+cp "$ROOT/serving/claim_client.py" "$ROOT/space/claim_client.py"
+cp "$ROOT/serving/client_config.py" "$ROOT/space/client_config.py"
 
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
 git clone "https://huggingface.co/spaces/$TARGET" "$WORK/space"
-cp "$ROOT"/space/{app.py,claim_prompt.py,requirements.txt,README.md} "$WORK/space/"
+cp "$ROOT"/space/{app.py,test_ui.py,claim_client.py,client_config.py,claim_prompt.py,requirements.txt,README.md} "$WORK/space/"
 
 cd "$WORK/space"
 git add -A

@@ -1,0 +1,11 @@
+{
+  "paused": false,
+  "endpoint": "fdiltabt78bogm",
+  "active_model": "claim-v3",
+  "v3_saved_revision": "e5aac01e9fe0af54b17e7f52b66486112183035e",
+  "v3_operational_verification": "no_worker_allocated_current_test_cancelled",
+  "prior_quality_gate_passed": false,
+  "reason": "User-requested exact v3 redeployment retained. Current test cancelled after no worker allocation; no new inference response claimed. Previous quality failures remain.",
+  "v3_configuration_verified": true,
+  "prior_exact_model_runtime_verified": true
+}

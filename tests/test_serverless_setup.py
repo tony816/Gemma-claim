@@ -1,0 +1,72 @@
+"""Offline setup tests: no credentials, cloud calls, or private fixtures needed."""
+import contextlib
+import io
+import json
+import os
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'serving'))
+import client_config
+import claim_client
+import launch_test
+
+
+class SetupTests(unittest.TestCase):
+    def test_env_precedence_and_secret_allowlist(self):
+        with tempfile.TemporaryDirectory() as directory:
+            Path(directory, '.env').write_text(
+                '# comment\nRUNPOD_API_KEY="fixture-key"\n'
+                'RUNPOD_ENDPOINT_ID=file-endpoint\nHF_TOKEN=must-not-load\n'
+                'CLAIM_ENDPOINT_PAUSED=1\n', encoding='utf-8')
+            with patch.dict(os.environ, {'RUNPOD_ENDPOINT_ID': 'process-endpoint'}, clear=True):
+                client_config.load_local_env(directory)
+                self.assertEqual(os.environ['RUNPOD_ENDPOINT_ID'], 'process-endpoint')
+                self.assertEqual(os.environ['RUNPOD_API_KEY'], 'fixture-key')
+                self.assertEqual(os.environ['CLAIM_ENDPOINT_PAUSED'], '1')
+                self.assertNotIn('HF_TOKEN', os.environ)
+
+    def test_check_is_local_and_redacts_key(self):
+        stream = io.StringIO()
+        with patch.dict(os.environ, {'RUNPOD_API_KEY': 'fixture-secret',
+                                    'RUNPOD_ENDPOINT_ID': 'custom-endpoint'}, clear=True), \
+             patch.object(launch_test, 'load_local_env'), \
+             patch.object(sys, 'argv', ['launch_test.py', '--check']), \
+             patch.object(claim_client.urllib.request, 'urlopen',
+                          side_effect=AssertionError('Network forbidden')), \
+             contextlib.redirect_stdout(stream):
+            launch_test.main()
+        report = json.loads(stream.getvalue())
+        self.assertEqual(report['endpoint'], 'custom-endpoint')
+        self.assertEqual(report['model'], 'claim-v3')
+        self.assertTrue(report['api_key_configured'])
+        self.assertFalse(report['remote_status_checked'])
+        self.assertNotIn('fixture-secret', stream.getvalue())
+
+    def test_pause_blocks_cli_and_python_api_before_submission(self):
+        with patch.dict(os.environ, {'CLAIM_ENDPOINT_PAUSED': '1'}), \
+             patch.object(claim_client, 'post') as submit:
+            with self.assertRaisesRegex(RuntimeError, 'paused'):
+                next(claim_client.iter_job('endpoint', 'key', [], 256, 0))
+            submit.assert_not_called()
+
+    def test_default_python_api_routes_v3(self):
+        with patch.dict(os.environ, {'CLAIM_ENDPOINT_PAUSED': '0'}), \
+             patch.object(claim_client, 'post', return_value={'id': 'fixture-job'}) as submit:
+            generator = claim_client.iter_job('endpoint', 'key', [], 256, 0)
+            next(generator)
+            self.assertEqual(submit.call_args.args[1]['input']['openai_input']['model'], 'claim-v3')
+            generator.close()
+            self.assertTrue(submit.call_args.args[0].endswith('/cancel/fixture-job'))
+
+    def test_config_copies_match(self):
+        self.assertEqual((ROOT / 'serving/client_config.py').read_bytes(),
+                         (ROOT / 'space/client_config.py').read_bytes())
+
+
+if __name__ == '__main__':
+    unittest.main()

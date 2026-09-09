@@ -12,3 +12,14 @@ skills/*-workspace/report.html
 skills/*-workspace/*.out
 skills/*-workspace/[0-9]*_[0-9]*/
 .venv/
+/.superloopy/
+/run_artifacts/
+.env.*
+!.env.example
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+.pytest_cache/
+run_artifacts/**/ui.stdout.log
+run_artifacts/**/ui.stderr.log
