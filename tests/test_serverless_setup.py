@@ -3,10 +3,12 @@ import contextlib
 import io
 import json
 import os
+import socket
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+import urllib.request
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,6 +19,33 @@ import launch_test
 
 
 class SetupTests(unittest.TestCase):
+    def test_busy_port_starts_ui_on_another_port_without_inference(self):
+        sys.path.insert(0, str(ROOT / 'space'))
+        import test_ui
+        import gradio.http_server as http_server
+        real_launch = test_ui.demo.launch
+        with socket.socket() as occupied:
+            occupied.bind(('127.0.0.1', 0))
+            occupied.listen()
+            busy_port = occupied.getsockname()[1]
+            with patch.object(http_server, 'INITIAL_PORT_VALUE', busy_port), \
+                 patch.object(sys, 'argv', ['launch_test.py']), \
+                 patch.object(test_ui.demo, 'launch',
+                              side_effect=lambda **kw: real_launch(prevent_thread_lock=True, **kw)), \
+                 patch('webbrowser.open') as browser, \
+                 patch.object(claim_client, 'post', side_effect=AssertionError('Paid request forbidden')) as submit:
+                try:
+                    launch_test.main()
+                    self.assertNotEqual(test_ui.demo.server_port, busy_port)
+                    self.assertGreater(test_ui.demo.server_port, busy_port)
+                    self.assertTrue(browser.called)
+                    self.assertEqual(browser.call_args.args[0], test_ui.demo.local_url)
+                    with urllib.request.urlopen(test_ui.demo.local_url, timeout=10) as response:
+                        self.assertEqual(response.status, 200)
+                    submit.assert_not_called()
+                finally:
+                    test_ui.demo.close()
+
     def test_env_precedence_and_secret_allowlist(self):
         with tempfile.TemporaryDirectory() as directory:
             Path(directory, '.env').write_text(

@@ -13,7 +13,8 @@ from client_config import load_local_env
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true', help='local configuration only; no network')
-    parser.add_argument('--port', type=int, default=7860)
+    parser.add_argument('--port', type=int, default=None,
+                        help='fixed port; otherwise find a free port starting at 7860')
     args = parser.parse_args()
     load_local_env(ROOT)
     from claim_client import DEFAULT_ENDPOINT, TUNED_MODEL
@@ -29,7 +30,7 @@ def main():
     sys.path.insert(0, str(ROOT / 'space'))
     from test_ui import demo
     demo.queue(default_concurrency_limit=1).launch(
-        server_name='127.0.0.1', server_port=args.port, share=False,
+        server_name='127.0.0.1', server_port=args.port, share=False, inbrowser=True,
     )
 
 
