@@ -91,6 +91,9 @@ def generate(files, prompt, lang, model, use_system, compare, temperature, max_t
             else:
                 detail = type(exc).__name__
             note = f"{target} 호출 실패 ({detail}). RunPod의 모델 설정과 워커 로그를 확인하세요."
+            if isinstance(exc, urllib.error.HTTPError) and exc.code == 401:
+                note = (f'{target} 인증 실패 (HTTP 401). 프로젝트 .env의 RUNPOD_API_KEY를 '
+                        '확인하고 테스트 화면을 다시 실행하세요. 모델 생성 전에 인증이 거부되었습니다.')
             yield raw, clean, other_raw, other_clean, note, metadata
             return
     truncated = any(m.get("finish_reason") == "length" for m in metadata)

@@ -52,9 +52,9 @@ class SetupTests(unittest.TestCase):
                 '# comment\nRUNPOD_API_KEY="fixture-key"\n'
                 'RUNPOD_ENDPOINT_ID=file-endpoint\nHF_TOKEN=must-not-load\n'
                 'CLAIM_ENDPOINT_PAUSED=1\n', encoding='utf-8')
-            with patch.dict(os.environ, {'RUNPOD_ENDPOINT_ID': 'process-endpoint'}, clear=True):
+            with patch.dict(os.environ, {'RUNPOD_ENDPOINT_ID': 'process-endpoint', 'RUNPOD_API_KEY': 'stale-inherited-key'}, clear=True):
                 client_config.load_local_env(directory)
-                self.assertEqual(os.environ['RUNPOD_ENDPOINT_ID'], 'process-endpoint')
+                self.assertEqual(os.environ['RUNPOD_ENDPOINT_ID'], 'file-endpoint')
                 self.assertEqual(os.environ['RUNPOD_API_KEY'], 'fixture-key')
                 self.assertEqual(os.environ['CLAIM_ENDPOINT_PAUSED'], '1')
                 self.assertNotIn('HF_TOKEN', os.environ)
@@ -75,6 +75,15 @@ class SetupTests(unittest.TestCase):
         self.assertTrue(report['api_key_configured'])
         self.assertFalse(report['remote_status_checked'])
         self.assertNotIn('fixture-secret', stream.getvalue())
+
+    def test_missing_or_blank_file_uses_process_environment(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.dict(os.environ, {'RUNPOD_API_KEY': 'environment-key'}, clear=True):
+                client_config.load_local_env(directory)
+                self.assertEqual(os.environ['RUNPOD_API_KEY'], 'environment-key')
+                Path(directory, '.env').write_text('RUNPOD_API_KEY=\n', encoding='utf-8')
+                client_config.load_local_env(directory)
+                self.assertEqual(os.environ['RUNPOD_API_KEY'], 'environment-key')
 
     def test_pause_blocks_cli_and_python_api_before_submission(self):
         with patch.dict(os.environ, {'CLAIM_ENDPOINT_PAUSED': '1'}), \

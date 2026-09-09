@@ -14,5 +14,7 @@ def load_local_env(root=None):
             key, value = line.split('=', 1)
             key, value = key.strip(), value.strip().strip('\"\'')
             if key in allowed and value:
-                os.environ.setdefault(key, value)
+                # The project configuration is authoritative. A stale inherited
+                # Windows key must not silently replace the user's .env key.
+                os.environ[key] = value
     os.environ.setdefault('GRADIO_ANALYTICS_ENABLED', 'False')

@@ -24,8 +24,9 @@ cp .env.example .env  # 처음 설정할 때만
 .venv/bin/python serving/launch_test.py --check
 ```
 
-설치 스크립트는 기존 `.env`를 덮어쓰지 않습니다. 프로세스 환경변수가 `.env`보다
-우선합니다. `RUNPOD_ENDPOINT_ID`로 엔드포인트를 변경할 수 있습니다.
+설치 스크립트는 기존 `.env`를 덮어쓰지 않습니다. 프로젝트 `.env`에 입력한 값이
+Windows 등에서 상속한 환경변수보다 우선합니다. `.env`가 없거나 값이 비어 있으면
+환경변수를 사용합니다. `RUNPOD_ENDPOINT_ID`로 엔드포인트를 변경할 수 있습니다.
 `--check`는 키의 존재 여부만 표시하고 값은 출력하지 않으며, 외부 API에 접속하지 않습니다.
 로컬 PC에서 필요한 인증은 RunPod API 키뿐입니다. 비공개 HF 모델을 읽는 토큰은
 RunPod 워커 템플릿에 보관되어야 하며 Git에 넣지 않습니다.
