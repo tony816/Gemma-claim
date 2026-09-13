@@ -1,0 +1,71 @@
+{
+  "author": "/root",
+  "review_status": "author_complete_pending_review",
+  "purpose": "Bibliographic leakage audit only; never policy or reward answer input.",
+  "records": [
+    {
+      "patent_id": "US20260158464A1",
+      "source_url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/20260158464",
+      "source_path": "data/case_rl/families/official_unresolved/20260158464.pdf",
+      "source_sha256": "26128d1af916695b87cc62408455e99c800c762f45bea41f94002ab0317b1e62",
+      "pdf_page": 1,
+      "evidence_method": "Rendered first page visually read by /root; source has no extractable text.",
+      "application_numbers": ["US19/538,111", "US17/854,536", "US63/217,680", "US63/331,568"],
+      "priority_dates": ["2021-07-01", "2022-04-15"],
+      "related_publications": ["US20230011323A1"],
+      "relation_basis": "Front page states division of17/854,536. Linked publication metadata names that exact application and both provisional priorities.",
+      "title": "REACTOR SYSTEM AND METHODS FOR USING THEREOF"
+    },
+    {
+      "patent_id": "US20260199895A1",
+      "source_url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/20260199895",
+      "source_path": "data/case_rl/families/official_unresolved/20260199895.pdf",
+      "source_sha256": "134dc06727570cdc97e4498efd18d3715ff5119f44f78a8e3dc27d7d17f9e758",
+      "pdf_page": 1,
+      "evidence_method": "Rendered first page visually read by /root; source has no extractable text.",
+      "application_numbers": ["US19/132,164", "PCT/CN2023/134480", "CN202211487626.0"],
+      "priority_dates": ["2022-11-25"],
+      "related_publications": ["WO2024109953A1"],
+      "relation_basis": "Front page states PCT/CN2023/134480 and Chinese priority202211487626.0. WO metadata names both exactly.",
+      "title": "SMALL-SIZE CHIP FOR NUCLEIC ACID DETECTION AND USE THEREOF"
+    },
+    {
+      "patent_id": "US20260233218A1",
+      "source_url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/20260233218",
+      "source_path": "data/case_rl/families/official_unresolved/20260233218.pdf",
+      "source_sha256": "52c552283bd5e4565549b30031dfcc610a91f39afe9ac367bdfbd5a539eb2ce2",
+      "pdf_page": 1,
+      "evidence_method": "Rendered first page visually read by /root; source has no extractable text.",
+      "application_numbers": ["US19/053,195"],
+      "priority_dates": ["2025-02-13"],
+      "related_publications": [],
+      "relation_basis": "Front page identifies application19/053,195, filed2025-02-13, and lists no earlier priority or continuation. No claim of a certified exhaustive family search.",
+      "title": "SEMI-QUANTITATIVE ELECTROCHEMICAL BIOSENSOR SYSTEM AND METHOD FOR PATHOGENIC ORGANISM NUCLEIC ACID DETECTION"
+    },
+    {
+      "patent_id": "US20260249299A1",
+      "source_url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/20260249299",
+      "source_path": "data/case_rl/families/official_unresolved/20260249299.pdf",
+      "source_sha256": "106a9724f152828189712ef66667a9787edc85fd161b81b55737b54268210a75",
+      "pdf_page": 1,
+      "evidence_method": "Rendered first page visually read by /root; source has no extractable text.",
+      "application_numbers": ["US19/244,731", "US63/761,538"],
+      "priority_dates": ["2025-02-21"],
+      "related_publications": [],
+      "relation_basis": "Front page states provisional63/761,538 filed2025-02-21. This priority application is the grouping key; citations mentioned in the specification are not family links.",
+      "title": "MASTERMIX INTEGRATION INTO CARTRIDGE-BASED IN VITRO DIAGNOSTICS DEVICE"
+    }
+  ],
+  "case_identifier_resolutions": {
+    "KR-2007HEO9798": {
+      "publication_id": "KR0123403B1",
+      "basis": "Old-format Korean publication for registration123403; metadata filing1994-10-21 matches PDF page2. Do not assume every old registration used modern10 prefix."
+    },
+    "KR-2009HEO4742": {
+      "publication_id": "KR20060106861A",
+      "application_id": "KR1020067016756A",
+      "pdf_page": 2,
+      "basis": "PDF page2 lists application7016756, domestic filing2006-08-21, international2005-02-10 and priority2004-02-13; publication metadata must match application10-2006-7016756. KR20080069717A is a related divisional, not the litigated application."
+    }
+  }
+}
