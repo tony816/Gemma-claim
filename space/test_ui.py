@@ -57,7 +57,9 @@ def generate(files, prompt, lang, model, use_system, compare, temperature, max_t
             for result in iter_job(ENDPOINT, API_KEY, messages, int(max_tokens), float(temperature), target):
                 if result.get("status") != "COMPLETED":
                     elapsed = int(time.monotonic() - started)
-                    yield raw, clean, other_raw, other_clean, f"{target} · {result.get('status')} · {elapsed}초 경과", metadata
+                    state = ('연결 재시도 중 · 같은 요청을 계속 기다립니다' if result.get('status') == 'STATUS_RETRY'
+                             else result.get('status'))
+                    yield raw, clean, other_raw, other_clean, f"{target} · {state} · {elapsed}초 경과", metadata
                     continue
                 info = response_metadata(result, target)
                 answer = extract_text(result)
@@ -109,6 +111,7 @@ with gr.Blocks(title="Gemma 청구항 · 판례 테스트") as demo:
     gr.Markdown("기존 v2에서 추가 강화학습한 `claim-v3`에 연결됩니다. 비공개 확정 예제 자료가 설치된 환경에서는 판례 어노테이션과 자문 패널도 표시됩니다." if IS_RL else
                 ("추가 강화학습과 저장은 끝났고, 배포 검증 실패로 v2 복구 후 요청을 중지했습니다." if IS_PAUSED else "기존 파인튜닝 v2 모델에 연결됩니다."))
     gr.Markdown("매번 독립된 요청으로 테스트합니다. 판례 카드는 제공된 근거이며 모델 내부의 인과적 출처를 뜻하지 않습니다.")
+    gr.Markdown("응답이 올 때까지 시간 제한 없이 기다립니다. RunPod 자체의 요청 유지 한도는 제출 후 최대 7일입니다.")
     gr.Markdown("파일럿 평가에서 도면 근거, 종속항 인용과 판례 어노테이션 오류가 남아 있습니다. 생성된 원문과 제공 근거를 함께 확인하세요.", visible=IS_RL)
     with gr.Row():
         with gr.Column(scale=2):

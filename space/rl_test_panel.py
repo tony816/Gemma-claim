@@ -60,7 +60,9 @@ def add_panel():
             for result in iter_job(os.environ.get('RUNPOD_ENDPOINT_ID', DEFAULT_ENDPOINT), key, build_messages(request_policy),
                                    int(max_tokens), 0., TUNED_MODEL):
                 if result.get('status') != 'COMPLETED':
-                    yield '', None, None, f"{TUNED_MODEL} · {result.get('status')}", None
+                    state = ('연결 재시도 중 · 같은 요청을 계속 기다립니다' if result.get('status') == 'STATUS_RETRY'
+                             else result.get('status'))
+                    yield '', None, None, f"{TUNED_MODEL} · {state}", None
                     continue
                 metadata = response_metadata(result, TUNED_MODEL)
                 raw = extract_text(result)

@@ -46,6 +46,53 @@ class ServingTests(unittest.TestCase):
                 list(client.iter_job("endpoint", "key", [], 10, 0, timeout=0))
         self.assertTrue(post.call_args.args[0].endswith("/cancel/job-test"))
 
+    def test_default_wait_survives_old_deadline_and_transient_reads(self):
+        queued = MagicMock()
+        queued.__enter__.return_value.read.return_value = json.dumps(
+            {"id": "job-test", "status": "IN_QUEUE"}).encode()
+        done = MagicMock()
+        done.__enter__.return_value.read.return_value = json.dumps(completion()).encode()
+        elapsed = [0]
+        def advance(seconds):
+            elapsed[0] += 1000
+        errors = [TimeoutError(), client.urllib.error.URLError('offline'),
+                  client.urllib.error.HTTPError('https://example.invalid', 503, 'busy', {}, None)]
+        with patch.object(client, 'post', return_value={'id': 'job-test', 'status': 'IN_QUEUE'}) as post, \
+             patch.object(client.urllib.request, 'urlopen', side_effect=[queued, *errors, done]) as reads, \
+             patch.object(client.time, 'sleep', side_effect=advance), \
+             patch.object(client.time, 'monotonic', side_effect=lambda: elapsed[0]):
+            events = list(client.iter_job('endpoint', 'key', [], 10, 0))
+        self.assertGreater(elapsed[0], 760)
+        self.assertEqual(events[-1]['status'], 'COMPLETED')
+        self.assertEqual(sum(e['status'] == 'STATUS_RETRY' for e in events), 3)
+        self.assertEqual(post.call_count, 1)
+        self.assertEqual(post.call_args.args[1]['policy'],
+                         {'executionTimeout': 604800000, 'ttl': 604800000})
+        self.assertTrue(all(c.args[0].full_url.endswith('/status/job-test') for c in reads.call_args_list))
+
+    def test_provider_failure_ends_unlimited_wait(self):
+        for state in ('FAILED', 'CANCELLED', 'TIMED_OUT'):
+            with self.subTest(state=state):
+                response = MagicMock()
+                response.__enter__.return_value.read.return_value = json.dumps(
+                    {'id': 'job-test', 'status': state}).encode()
+                with patch.object(client, 'post', return_value={'id': 'job-test'}) as post, \
+                     patch.object(client.urllib.request, 'urlopen', return_value=response), \
+                     patch.object(client.time, 'sleep'):
+                    with self.assertRaisesRegex(RuntimeError, state):
+                        list(client.iter_job('endpoint', 'key', [], 10, 0))
+                self.assertEqual(post.call_count, 1)
+
+    def test_auth_failure_is_not_retried(self):
+        with patch.object(client, 'post', return_value={'id': 'job-test'}) as post, \
+             patch.object(client.urllib.request, 'urlopen', side_effect=
+                 client.urllib.error.HTTPError('https://example.invalid', 401, 'unauthorized', {}, None)) as reads, \
+             patch.object(client.time, 'sleep'):
+            with self.assertRaises(client.urllib.error.HTTPError):
+                list(client.iter_job('endpoint', 'key', [], 10, 0))
+        self.assertEqual(reads.call_count, 1)
+        self.assertTrue(post.call_args.args[0].endswith('/cancel/job-test'))
+
     def test_rejects_base_fallback(self):
         with self.assertRaises(RuntimeError):
             client.response_metadata(completion("gemma4-31b"), "claim-v2")

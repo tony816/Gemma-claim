@@ -1,5 +1,11 @@
 # HANDOFF — Git에서 claim-v3 서버리스 사용 (2026-09-09)
 
+2026-09-13 운영 설정 갱신: 사용자 요청으로 FlashBoot ON과 엔드포인트 실행 제한
+604800000ms(7일)를 API 재조회로 확인했습니다. UI/CLI 기본 응답 대기 제한은 없으며,
+새 요청의 실행 제한·TTL은 RunPod 최대값인 7일입니다. 일시적인 상태 조회 오류는
+같은 작업을 재조회합니다. min=0/max=1/idle=5초는 유지했습니다. 이 변경에서는
+추론 요청을 제출하지 않았습니다. 아래 9월 9일의 FlashBoot OFF는 과거 기록입니다.
+
 현재 프로젝트의 기본 UI/CLI는 RunPod `fdiltabt78bogm`의 **claim-v3**를 요청합니다.
 Windows 설치는 `setup-test.cmd`, 설정 확인은 `.venv/Scripts/python.exe serving/launch_test.py --check`,
 실제 사용 시 화면 실행은 `start-test.cmd`입니다. [실행 설명](serving/README.md)을 참고하세요.

@@ -21,6 +21,7 @@ import base64
 import json
 import mimetypes
 import os
+import http.client
 import sys
 import time
 import urllib.error
@@ -33,6 +34,9 @@ load_local_env()
 DEFAULT_ENDPOINT = "fdiltabt78bogm"
 SERVED_MODEL = "gemma4-31b"
 TUNED_MODEL = "claim-v3"
+# RunPod's hard maximum covers queueing and execution; clients impose no
+# shorter deadline by default. See the provider's execution-policy docs.
+MAX_JOB_LIFETIME_MS = 7 * 24 * 60 * 60 * 1000
 TRAINING_PROMPTS = {
     "ko": "제공된 발명 도면을 근거로 바이오·분자진단 분야의 독립된 물리적 장치·기기·시스템·카트리지 또는 조립체 청구항을 한국어로 작성하세요.",
     "en": "Draft an independent physical apparatus, device, system, cartridge, or assembly patent claim in the bio/molecular-diagnostics field based on the provided invention drawings.",
@@ -90,7 +94,12 @@ def post(url: str, payload: dict, api_key: str) -> dict:
 
 
 def iter_job(endpoint: str, api_key: str, messages: list[dict], max_tokens: int,
-             temperature: float, model: str = TUNED_MODEL, timeout: float = 760):
+             temperature: float, model: str = TUNED_MODEL, timeout: float | None = None):
+    """Wait for a terminal result; None disables the local elapsed-time limit.
+
+    Retry transient status reads for the same job, never resubmit inference.
+    Explicit deadlines and generator closure still cancel the submitted job.
+    """
     if os.environ.get('CLAIM_ENDPOINT_PAUSED') == '1':
         raise RuntimeError('Requests are paused by CLAIM_ENDPOINT_PAUSED=1')
     # worker-vllm accepts three input shapes. This is the OpenAI passthrough:
@@ -107,25 +116,37 @@ def iter_job(endpoint: str, api_key: str, messages: list[dict], max_tokens: int,
                 "temperature": temperature,
             },
         },
-        "policy": {"executionTimeout": int(timeout * 1000),
-                   "ttl": int((timeout + 60) * 1000)},
+        "policy": {"executionTimeout": MAX_JOB_LIFETIME_MS if timeout is None else
+                   min(MAX_JOB_LIFETIME_MS, max(5000, int(timeout * 1000))),
+                   "ttl": MAX_JOB_LIFETIME_MS if timeout is None else
+                   min(MAX_JOB_LIFETIME_MS, max(10000, int((timeout + 60) * 1000)))},
     }
 
     base = f"https://api.runpod.ai/v2/{endpoint}"
     job = post(f"{base}/run", payload, api_key)
     job_id = job["id"]
-    deadline = time.monotonic() + timeout
+    deadline = None if timeout is None else time.monotonic() + timeout
     delay = 2
     completed = False
     try:
         yield job
-        while time.monotonic() < deadline:
-            time.sleep(min(delay, max(0, deadline - time.monotonic())))
+        while deadline is None or time.monotonic() < deadline:
+            time.sleep(delay if deadline is None else min(delay, max(0, deadline - time.monotonic())))
             req = urllib.request.Request(
                 f"{base}/status/{job_id}", headers={"Authorization": f"Bearer {api_key}"}
             )
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                status = json.loads(resp.read())
+            try:
+                # A single connection remains bounded so a stalled read can
+                # reconnect without imposing a deadline on the inference job.
+                with urllib.request.urlopen(req, timeout=60) as resp:
+                    status = json.loads(resp.read())
+            except urllib.error.HTTPError as exc:
+                if exc.code not in (408, 429, 500, 502, 503, 504):
+                    raise
+                status = {"id": job_id, "status": "STATUS_RETRY"}
+            except (urllib.error.URLError, TimeoutError, ConnectionError,
+                    http.client.HTTPException):
+                status = {"id": job_id, "status": "STATUS_RETRY"}
 
             state = status.get("status")
             if state == "COMPLETED":
